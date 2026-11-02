@@ -5,19 +5,30 @@ import { etiquetas } from "@/lib/api/etiquetas";
 import { apiFetch } from "@/lib/api/http";
 import { conRespaldo } from "@/lib/api/respaldo";
 import { paginaVacia, type Pagina } from "@/lib/api/tipos";
-import type { Noticia, NoticiaResumen } from "./types";
+import type { Categoria, Noticia, NoticiaResumen } from "./types";
 
 // Lecturas públicas: en caché hasta que Django avise que algo cambió
 // (POST /api/revalidar con la etiqueta). cacheLife es solo la red de seguridad.
 
-export async function listarNoticias(pagina = 1): Promise<Pagina<NoticiaResumen>> {
+export async function listarNoticias({
+  pagina = 1,
+  categoria,
+}: { pagina?: number; categoria?: string } = {}): Promise<Pagina<NoticiaResumen>> {
   "use cache";
   cacheTag(etiquetas.noticias);
   cacheLife("hours");
+  const consulta = new URLSearchParams({ page: String(pagina), ...(categoria && { categoria }) });
   return conRespaldo(
-    () => apiFetch<Pagina<NoticiaResumen>>(`/api/noticias/?page=${pagina}`),
+    () => apiFetch<Pagina<NoticiaResumen>>(`/api/noticias/?${consulta}`),
     paginaVacia<NoticiaResumen>(),
   );
+}
+
+export async function listarCategorias(): Promise<Categoria[]> {
+  "use cache";
+  cacheTag(etiquetas.noticias);
+  cacheLife("hours");
+  return conRespaldo(() => apiFetch<Categoria[]>("/api/noticias/categorias/"), []);
 }
 
 export async function obtenerNoticia(slug: string): Promise<Noticia | null> {

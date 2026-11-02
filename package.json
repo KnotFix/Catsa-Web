@@ -10,7 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "api:tipos": "openapi-typescript ${API_URL:-http://localhost:8000}/api/schema/ -o src/types/api.d.ts"
+    "api:tipos": "openapi-typescript http://localhost:8000/api/schema/ -o src/types/api.d.ts"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

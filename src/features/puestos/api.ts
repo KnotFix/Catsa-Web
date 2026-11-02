@@ -5,19 +5,39 @@ import { etiquetas } from "@/lib/api/etiquetas";
 import { apiFetch } from "@/lib/api/http";
 import { conRespaldo } from "@/lib/api/respaldo";
 import { paginaVacia, type Pagina } from "@/lib/api/tipos";
-import type { Puesto, PuestoResumen } from "./types";
+import type { FiltrosElegidos, FiltrosPuestos, Puesto, PuestoResumen } from "./types";
 
-export async function listarPuestos(): Promise<Pagina<PuestoResumen>> {
+// Un puesto sale solo del listado cuando vence su fecha de cierre, sin que
+// Django avise. Por eso la caché dura minutos y no horas.
+
+export async function listarPuestos({ area, ubicacion }: FiltrosElegidos = {}): Promise<
+  Pagina<PuestoResumen>
+> {
   "use cache";
   cacheTag(etiquetas.puestos);
-  cacheLife("hours");
-  return conRespaldo(() => apiFetch<Pagina<PuestoResumen>>("/api/puestos/"), paginaVacia<PuestoResumen>());
+  cacheLife("minutes");
+  const consulta = new URLSearchParams({
+    por_pagina: "100",
+    ...(area && { area }),
+    ...(ubicacion && { ubicacion }),
+  });
+  return conRespaldo(
+    () => apiFetch<Pagina<PuestoResumen>>(`/api/puestos/?${consulta}`),
+    paginaVacia<PuestoResumen>(),
+  );
+}
+
+export async function obtenerFiltros(): Promise<FiltrosPuestos> {
+  "use cache";
+  cacheTag(etiquetas.puestos);
+  cacheLife("minutes");
+  return conRespaldo(() => apiFetch<FiltrosPuestos>("/api/puestos/filtros/"), { areas: [], ubicaciones: [] });
 }
 
 export async function obtenerPuesto(slug: string): Promise<Puesto | null> {
   "use cache";
   cacheTag(etiquetas.puestos, etiquetas.puesto(slug));
-  cacheLife("hours");
+  cacheLife("minutes");
   try {
     return await apiFetch<Puesto>(`/api/puestos/${encodeURIComponent(slug)}/`);
   } catch (error) {

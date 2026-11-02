@@ -29,7 +29,7 @@ export default function InicioPage() {
         <Contenedor>
           <h2 className="mb-8 text-3xl text-catsa-ink">Últimas noticias</h2>
           <Suspense fallback={<CargandoNoticias />}>
-            <ListaNoticias />
+            <ListaNoticias limite={3} />
           </Suspense>
         </Contenedor>
       </section>

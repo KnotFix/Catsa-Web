@@ -1,16 +1,17 @@
-import type { Imagen } from "@/lib/api/tipos";
+import type { Esquemas, Imagen } from "@/lib/api/tipos";
 
-// Provisional, escrito a mano. Cuando Catsa-Api publique el endpoint se
-// reemplaza por el tipo generado del OpenAPI (npm run api:tipos).
-export type NoticiaResumen = {
-  slug: string;
-  titulo: string;
-  resumen: string;
-  portada: Imagen | null;
-  publicada_en: string;
-};
+export type NoticiaResumen = Esquemas["NoticiaResumen"];
+export type Categoria = Esquemas["CategoriaPublica"];
 
-export type Noticia = NoticiaResumen & {
-  /** HTML ya sanitizado por Django. */
-  cuerpo: string;
-};
+/**
+ * Bloques de contenido (bitácora D-013). El OpenAPI solo documenta `tipo`;
+ * la forma de cada uno está en Catsa-Api: apps/noticias/bloques.py.
+ */
+export type Bloque =
+  /** HTML ya limpio en Django (nh3). */
+  | { tipo: "texto"; html: string }
+  | { tipo: "cita"; texto: string; autor: string }
+  | { tipo: "cifras"; items: { valor: string; etiqueta: string }[] }
+  | { tipo: "imagen"; imagen: Imagen; pie: string };
+
+export type Noticia = Omit<Esquemas["NoticiaPublica"], "bloques"> & { bloques: Bloque[] };

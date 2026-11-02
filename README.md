@@ -21,14 +21,14 @@ npm run dev
 Abre http://localhost:3000. El panel está en `/admin` y necesita Catsa-Api corriendo en `API_URL`.
 Sin la API, el sitio público carga igual con estados vacíos y los textos por defecto.
 
-| Script              | Para qué                                               |
-| ------------------- | ------------------------------------------------------ |
-| `npm run dev`       | Servidor de desarrollo                                 |
-| `npm run build`     | Build de producción (salida `standalone` para Docker)  |
-| `npm run lint`      | ESLint                                                 |
-| `npm run typecheck` | Tipos de rutas + `tsc`                                 |
-| `npm run format`    | Prettier (ordena también las clases de Tailwind)       |
-| `npm run api:tipos` | Genera `src/types/api.d.ts` desde el OpenAPI de Django |
+| Script              | Para qué                                                                    |
+| ------------------- | --------------------------------------------------------------------------- |
+| `npm run dev`       | Servidor de desarrollo                                                      |
+| `npm run build`     | Build de producción (salida `standalone` para Docker)                       |
+| `npm run lint`      | ESLint                                                                      |
+| `npm run typecheck` | Tipos de rutas + `tsc`                                                      |
+| `npm run format`    | Prettier (ordena también las clases de Tailwind)                            |
+| `npm run api:tipos` | Genera `src/types/api.d.ts` desde el OpenAPI de Django (corriendo en :8000) |
 
 ## Arquitectura
 
@@ -51,6 +51,7 @@ src/
     layout/sitio|panel/   Encabezado, pie, barra lateral.
     shared/               Piezas reutilizables sin dominio.
   config/                 Navegación del sitio y módulos del panel.
+  types/api.d.ts          Tipos generados del OpenAPI de Catsa-Api. Se versiona; no se edita a mano.
   lib/
     api/                  Único cliente HTTP hacia Django, errores, etiquetas de caché.
     env.ts                Variables de entorno validadas (solo servidor).
@@ -72,6 +73,9 @@ src/
 - Si la API no responde, `conRespaldo` devuelve un valor vacío de vida corta: la página no se rompe y se
   vuelve a intentar en segundos.
 - Los espacios editables se validan con zod. Si el dato no calza, se usa el texto por defecto del diseño.
+- Los tipos de las respuestas salen de `src/types/api.d.ts`. Si cambia un serializer en Django, se corre
+  `npm run api:tipos` y `npm run typecheck` señala lo que hay que ajustar.
+- Puestos tiene caché de minutos y no de horas: uno sale solo del listado al vencer su fecha de cierre, sin aviso.
 
 ### Acceso al panel (BFF)
 

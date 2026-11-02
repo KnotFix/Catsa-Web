@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Etiqueta } from "@/components/shared/etiqueta";
 import { formatearFecha } from "@/lib/formato";
 import type { NoticiaResumen } from "../types";
 
@@ -19,12 +20,17 @@ export function TarjetaNoticia({ noticia }: { noticia: NoticiaResumen }) {
           )}
         </div>
         <div className="p-5">
-          <time
-            dateTime={noticia.publicada_en}
-            className="text-xs font-semibold tracking-wider text-catsa-brown uppercase"
-          >
-            {formatearFecha(noticia.publicada_en)}
-          </time>
+          <div className="flex flex-wrap items-center gap-3">
+            {noticia.categoria && (
+              <Etiqueta color={noticia.categoria.color}>{noticia.categoria.nombre}</Etiqueta>
+            )}
+            <time
+              dateTime={noticia.publicada_en}
+              className="text-xs font-semibold tracking-wider text-catsa-brown uppercase"
+            >
+              {formatearFecha(noticia.publicada_en)}
+            </time>
+          </div>
           <h3 className="mt-2 text-lg text-catsa-ink group-hover:text-catsa-green">{noticia.titulo}</h3>
           <p className="mt-2 line-clamp-3 text-sm text-catsa-body">{noticia.resumen}</p>
         </div>

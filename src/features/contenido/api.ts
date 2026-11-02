@@ -1,6 +1,7 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import type { z } from "zod";
+import { ApiError } from "@/lib/api/errores";
 import { etiquetas } from "@/lib/api/etiquetas";
 import { apiFetch } from "@/lib/api/http";
 import { conRespaldo } from "@/lib/api/respaldo";
@@ -8,7 +9,7 @@ import { conRespaldo } from "@/lib/api/respaldo";
 type Espacio<T> = { clave: string; esquema: z.ZodType<T>; porDefecto: T };
 
 /**
- * Espacios editables (bitácora D-012): textos e imágenes en lugares fijos del
+ * Espacios editables (bitácora D-007): textos e imágenes en lugares fijos del
  * diseño. Django guarda cada espacio validado contra su esquema; aquí se vuelve
  * a validar con zod y, si algo no calza o la API no responde, se usa el texto
  * por defecto del diseño. Así un espacio nunca rompe la página.
@@ -23,8 +24,14 @@ async function leerEspacio(clave: string): Promise<unknown> {
   "use cache";
   cacheTag(etiquetas.espacio(clave));
   cacheLife("days");
-  return conRespaldo(
-    () => apiFetch<{ datos: unknown }>(`/api/contenido/espacios/${clave}/`).then((r) => r.datos),
-    null,
-  );
+  return conRespaldo(async () => {
+    try {
+      const { datos } = await apiFetch<{ datos: unknown }>(`/api/contenido/espacios/${clave}/`);
+      return datos;
+    } catch (error) {
+      // 404: nunca se editó desde el panel. Es lo normal al inicio, no un fallo.
+      if (error instanceof ApiError && error.noEncontrado) return null;
+      throw error;
+    }
+  }, null);
 }

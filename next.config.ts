@@ -20,6 +20,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     remotePatterns: [new URL(`${MEDIA_URL}/**`)],
+    // En desarrollo las imágenes vienen de Django en localhost, que Next bloquea
+    // por defecto (protección SSRF). En producción vienen de un dominio público.
+    dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",
   },
   async headers() {
     return [{ source: "/:path*", headers: cabecerasSeguridad }];
