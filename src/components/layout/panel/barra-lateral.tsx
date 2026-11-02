@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { navegacionPanel } from "@/config/modulos";
-import { obtenerUsuario } from "@/features/auth/server/dal";
+import { exigirPanel } from "@/features/auth/server/dal";
 import { EnlacePanel } from "./enlace-panel";
 import { MenuUsuario } from "./menu-usuario";
 
@@ -22,7 +22,7 @@ export function BarraLateral() {
 }
 
 async function ModulosDelUsuario() {
-  const usuario = await obtenerUsuario();
+  const usuario = await exigirPanel();
   const visibles = navegacionPanel.filter((e) => !e.modulo || usuario.modulos.includes(e.modulo));
 
   return (

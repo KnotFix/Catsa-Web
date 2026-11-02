@@ -80,7 +80,9 @@ Navegador ──(cookie httpOnly)──▶ Next (Server Actions / RSC) ──(X-
 ```
 
 - El navegador nunca ve el token de sesión. Next lo guarda en una cookie `httpOnly` y lo reenvía a Django.
-- Login en dos pasos: contraseña → código TOTP. El token pendiente vive 5 minutos.
+- Login en dos pasos: contraseña → código TOTP (o un código de respaldo). El token pendiente vive 5 minutos.
+- Usuario sin 2FA: tras la contraseña va a `/admin/configurar-2fa` (QR generado en el servidor, código, códigos de
+  respaldo). `exigirPanel()` no deja entrar a ninguna página del panel sin 2FA.
 - `proxy.ts` solo revisa que exista la cookie. La validación real es `obtenerUsuario()` en `features/auth/server/dal.ts`.
 - Cada página del panel se envuelve en `<Protegido modulo="...">`, que exige el permiso del módulo.
 

@@ -1,7 +1,14 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { autenticar2fa, cerrarSesionRemota, login } from "./server/allauth";
+import {
+  activarTotp,
+  autenticar2fa,
+  cerrarSesionRemota,
+  codigosDeRespaldo,
+  login,
+  reautenticar,
+} from "./server/allauth";
 import {
   borrarSesion,
   guardarPendiente,
@@ -9,8 +16,8 @@ import {
   leerTokenPendiente,
   leerTokenSesion,
 } from "./server/cookies";
-import { esquemaCodigo, esquemaLogin } from "./schemas";
-import type { EstadoFormulario } from "./types";
+import { esquemaCodigo, esquemaCodigoApp, esquemaLogin } from "./schemas";
+import type { EstadoActivacion, EstadoFormulario } from "./types";
 
 const SIN_CONEXION = "No pudimos conectar con el servidor. Intente de nuevo.";
 
@@ -26,9 +33,12 @@ export async function iniciarSesion(_: EstadoFormulario, datos: FormData): Promi
     await guardarPendiente(resultado.token);
     redirect("/admin/verificar");
   }
-  // Usuario sin 2FA configurada: entra, y la API solo le permite configurarla.
+
+  // Entró sin pedir código: todavía no tiene 2FA. Se reconfirma la contraseña
+  // ahora (allauth lo exige para activarla) y va directo a configurarla.
+  await reautenticar(resultado.token, campos.data.password).catch(() => false);
   await guardarSesion(resultado.token);
-  redirect("/admin");
+  redirect("/admin/configurar-2fa");
 }
 
 export async function verificarCodigo(_: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
@@ -44,6 +54,28 @@ export async function verificarCodigo(_: EstadoFormulario, datos: FormData): Pro
 
   await guardarSesion(resultado.token);
   redirect("/admin");
+}
+
+export async function activarDosPasos(_: EstadoActivacion, datos: FormData): Promise<EstadoActivacion> {
+  const campos = esquemaCodigoApp.safeParse(Object.fromEntries(datos));
+  if (!campos.success) return { error: campos.error.issues[0].message };
+
+  const token = await leerTokenSesion();
+  if (!token) redirect("/admin/login");
+
+  const resultado = await activarTotp(token, campos.data.codigo).catch(() => null);
+  if (!resultado) return { error: SIN_CONEXION };
+  if (resultado.tipo === "codigo_invalido") {
+    return { error: "El código no coincide. Revise que la hora del teléfono esté bien y pruebe de nuevo." };
+  }
+  if (resultado.tipo === "requiere_reautenticar") {
+    // Pasaron más de 5 minutos desde el login: se vuelve a entrar para reconfirmar la contraseña.
+    await cerrarSesionRemota(token);
+    await borrarSesion();
+    redirect("/admin/login?motivo=reingresar");
+  }
+
+  return { codigos: await codigosDeRespaldo(token).catch(() => []) };
 }
 
 export async function cerrarSesion() {

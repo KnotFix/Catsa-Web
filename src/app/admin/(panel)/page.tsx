@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { EncabezadoPagina } from "@/components/shared/encabezado-pagina";
 import { Skeleton } from "@/components/ui/skeleton";
-import { obtenerUsuario } from "@/features/auth/server/dal";
+import { exigirPanel } from "@/features/auth/server/dal";
 
 export default function PanelInicioPage() {
   return (
@@ -12,7 +12,7 @@ export default function PanelInicioPage() {
 }
 
 async function Bienvenida() {
-  const usuario = await obtenerUsuario();
+  const usuario = await exigirPanel();
   return (
     <EncabezadoPagina
       titulo={`Hola, ${usuario.nombre}`}

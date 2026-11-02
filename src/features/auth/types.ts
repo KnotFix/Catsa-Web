@@ -11,3 +11,6 @@ export type Usuario = {
 
 /** Estado que devuelven las acciones de los formularios de acceso. */
 export type EstadoFormulario = { error?: string } | undefined;
+
+/** Al activar la 2FA: los códigos de respaldo, que se muestran una sola vez. */
+export type EstadoActivacion = { error?: string; codigos?: string[] } | undefined;
