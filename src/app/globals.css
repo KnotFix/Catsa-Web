@@ -164,6 +164,10 @@
   .prosa {
     @apply text-lg leading-relaxed text-catsa-body;
   }
+  /* Dentro del editor del panel: mismo formato que el sitio, a tamaño de formulario. */
+  .prosa-panel {
+    @apply text-base;
+  }
   .prosa > * + * {
     @apply mt-5;
   }

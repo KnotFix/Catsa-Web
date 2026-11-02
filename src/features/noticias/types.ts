@@ -15,3 +15,29 @@ export type Bloque =
   | { tipo: "imagen"; imagen: Imagen; pie: string };
 
 export type Noticia = Omit<Esquemas["NoticiaPublica"], "bloques"> & { bloques: Bloque[] };
+
+// --- Panel ------------------------------------------------------------------
+
+export type EstadoNoticia = Esquemas["EstadoNoticia"];
+export type NoticiaPanel = Esquemas["NoticiaPanel"];
+export type CategoriaPanel = Esquemas["Categoria"];
+/** Lo que guarda el panel. Las imágenes van como id del medio (apps/noticias/bloques.py). */
+export type BloqueEntrada =
+  Extract<Bloque, { tipo: "texto" | "cita" | "cifras" }> | { tipo: "imagen"; medio: number; pie: string };
+export type NoticiaDetallePanel = Omit<Esquemas["NoticiaDetallePanel"], "bloques"> & {
+  bloques: BloqueEntrada[];
+};
+export type NoticiaEntrada = {
+  titulo: string;
+  resumen: string;
+  autor: string;
+  categoria: number | null;
+  portada: number | null;
+  bloques: BloqueEntrada[];
+};
+
+export const estadosNoticia: Record<EstadoNoticia, string> = {
+  borrador: "Borrador",
+  publicada: "Publicada",
+  archivada: "Archivada",
+};

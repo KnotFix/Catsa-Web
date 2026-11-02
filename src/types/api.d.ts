@@ -578,8 +578,7 @@ export interface components {
         };
         Medio: {
             readonly id: number;
-            /** Format: uri */
-            readonly url: string | null;
+            readonly url: string;
             readonly tipo: components["schemas"]["TipoMedio"];
             /** Nombre original */
             readonly nombre: string;
@@ -594,8 +593,7 @@ export interface components {
         };
         MedioDetalle: {
             readonly id: number;
-            /** Format: uri */
-            readonly url: string | null;
+            readonly url: string;
             readonly tipo: components["schemas"]["TipoMedio"];
             /** Nombre original */
             readonly nombre: string;

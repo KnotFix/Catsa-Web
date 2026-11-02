@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
   // Imagen de Docker mínima: solo lo necesario para correr `node server.js`.
   output: "standalone",
   poweredByHeader: false,
+  experimental: {
+    // La biblioteca acepta archivos de hasta 10 MB; el resto es margen del multipart.
+    serverActions: { bodySizeLimit: "11mb" },
+  },
   images: {
     remotePatterns: [new URL(`${MEDIA_URL}/**`)],
     // En desarrollo las imágenes vienen de Django en localhost, que Next bloquea

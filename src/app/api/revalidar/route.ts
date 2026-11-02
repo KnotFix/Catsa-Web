@@ -20,7 +20,9 @@ export async function POST(request: Request) {
     return Response.json({ error: "Cuerpo inválido" }, { status: 400 });
   }
 
-  for (const etiqueta of datos.data.etiquetas) revalidateTag(etiqueta, "max");
+  // Vence ya, sin servir la versión vieja mientras se refresca: quien publica
+  // en el panel y abre el sitio tiene que ver su cambio en la primera visita.
+  for (const etiqueta of datos.data.etiquetas) revalidateTag(etiqueta, { expire: 0 });
   return Response.json({ revalidadas: datos.data.etiquetas });
 }
 

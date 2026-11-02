@@ -3,7 +3,7 @@ import { env } from "@/lib/env";
 import { ApiError } from "./errores";
 
 type Opciones = Omit<RequestInit, "body"> & {
-  /** Se serializa como JSON. */
+  /** Se serializa como JSON, salvo FormData (subida de archivos), que va tal cual. */
   body?: unknown;
   /** Token de sesión de allauth; se manda como X-Session-Token. */
   token?: string;
@@ -19,15 +19,16 @@ export async function apiFetch<T>(
   ruta: string,
   { body, token, timeoutMs = 8000, headers, ...init }: Opciones = {},
 ): Promise<T> {
+  const esJson = body !== undefined && !(body instanceof FormData);
   const respuesta = await fetch(new URL(ruta, env.API_URL), {
     ...init,
     headers: {
       Accept: "application/json",
-      ...(body !== undefined && { "Content-Type": "application/json" }),
+      ...(esJson && { "Content-Type": "application/json" }),
       ...(token && { "X-Session-Token": token }),
       ...headers,
     },
-    body: body === undefined ? undefined : JSON.stringify(body),
+    body: esJson ? JSON.stringify(body) : (body as FormData | undefined),
     signal: AbortSignal.timeout(timeoutMs),
   });
 

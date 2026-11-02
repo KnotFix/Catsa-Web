@@ -9,13 +9,15 @@ import { POR_PAGINA } from "@/lib/api/tipos";
 export function Paginacion({
   total,
   pagina,
+  porPagina = POR_PAGINA,
   enlace,
 }: {
   total: number;
   pagina: number;
+  porPagina?: number;
   enlace: (pagina: number) => Route;
 }) {
-  const paginas = Math.ceil(total / POR_PAGINA);
+  const paginas = Math.ceil(total / porPagina);
   if (paginas <= 1) return null;
 
   const clase = "rounded-lg border px-4 py-2 text-sm font-semibold transition-colors hover:bg-catsa-cream";

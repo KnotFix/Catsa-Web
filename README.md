@@ -44,7 +44,9 @@ src/
       server/             Solo servidor: cookies, cliente allauth, DAL.
       components/         Formularios de acceso, <Protegido>.
       actions.ts          Server Actions (login, código, salir).
-    noticias/  puestos/   api.ts (lecturas en caché), types.ts, components/
+    noticias/  puestos/   api.ts (lecturas públicas en caché), server/panel.ts (lecturas del panel),
+                          actions.ts (escrituras), types.ts, components/ y components/panel/
+    medios/               Biblioteca: galería, subida y <SelectorMedio> para los formularios.
     contenido/            Espacios editables con esquema zod y texto por defecto.
   components/
     ui/                   shadcn. Se agregan con `npx shadcn@latest add`.
@@ -63,7 +65,8 @@ src/
 1. **`app/` no tiene lógica.** Una página importa de `features/*` y arma la vista.
 2. **Toda llamada a Django pasa por `lib/api/http.ts`.** Nada de `fetch` sueltos.
 3. **Lo que es solo servidor importa `server-only`.** Tokens, cookies y `env` nunca llegan al navegador.
-4. **Una feature no importa de otra**, salvo `auth` (permisos). Lo compartido va a `components/shared` o `lib`.
+4. **Una feature no importa de otra**, salvo `auth` (sesión y cliente del panel) y `medios` (el selector de archivos
+   lo usan todos los formularios). Lo compartido va a `components/shared` o `lib`.
 5. **Datos con `Suspense`.** Cada bloque que lee datos va en su `<Suspense>` con esqueleto. Así la página sale estática y solo el bloque que falla espera.
 
 ### Datos y caché
@@ -89,6 +92,18 @@ Navegador ──(cookie httpOnly)──▶ Next (Server Actions / RSC) ──(X-
   respaldo). `exigirPanel()` no deja entrar a ninguna página del panel sin 2FA.
 - `proxy.ts` solo revisa que exista la cookie. La validación real es `obtenerUsuario()` en `features/auth/server/dal.ts`.
 - Cada página del panel se envuelve en `<Protegido modulo="...">`, que exige el permiso del módulo.
+
+### Panel
+
+- Cada lectura del panel pasa por `apiPanel()` (`features/auth/server/panel.ts`): lleva el token de la sesión, sin
+  sesión vuelve al login y sin permiso al inicio. Nunca va dentro de `"use cache"`.
+- Las Server Actions devuelven un `Resultado` (`lib/api/resultado.ts`) con el error de cada campo tal como lo nombra
+  Django. `intentar()` hace esa conversión; después de escribir, `refresh()` actualiza la página.
+- Django es quien valida y decide permisos. Tras publicar, él avisa a `/api/revalidar` y la etiqueta vence en el
+  acto (`{ expire: 0 }`): quien publica ve el cambio en la primera visita al sitio.
+- Las noticias en borrador se guardan solas mientras se escribe. Lo publicado se guarda a mano, porque cada guardado
+  cambia el sitio.
+- Texto con formato: `<EditorTexto>` (Tiptap) solo ofrece lo que Django deja pasar en `apps/core/html.py`.
 
 ## Convenciones
 

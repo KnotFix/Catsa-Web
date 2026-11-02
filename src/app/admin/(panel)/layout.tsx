@@ -1,4 +1,5 @@
 import { BarraLateral } from "@/components/layout/panel/barra-lateral";
+import { Toaster } from "@/components/ui/sonner";
 
 // Todo lo que está dentro de (panel) exige sesión: el proxy redirige sin
 // cookie y cada página valida su módulo con <Protegido>.
@@ -9,6 +10,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <main id="contenido" className="flex-1 p-8">
         {children}
       </main>
+      <Toaster position="bottom-right" richColors />
     </div>
   );
 }
