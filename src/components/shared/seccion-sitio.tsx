@@ -1,25 +1,26 @@
 import type { ReactNode } from "react";
-import { Contenedor } from "./contenedor";
+import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 
-/** Bloque de página pública con antetítulo y título, como en la demo. */
+/** Página de listado del sitio: encabezado del boceto y el contenido debajo. */
 export function SeccionSitio({
   antetitulo,
   titulo,
+  bajada,
+  icono,
   children,
 }: {
-  antetitulo?: string;
+  antetitulo: string;
   titulo: string;
+  bajada?: string;
+  icono: ReactNode;
   children: ReactNode;
 }) {
   return (
-    <section className="py-16 tablet:py-24">
-      <Contenedor>
-        {antetitulo && (
-          <p className="text-xs font-semibold tracking-[0.16em] text-catsa-green uppercase">{antetitulo}</p>
-        )}
-        <h1 className="mt-3 text-3xl text-catsa-ink tablet:text-4xl">{titulo}</h1>
-        <div className="mt-10">{children}</div>
-      </Contenedor>
-    </section>
+    <>
+      <CabeceraPagina antetitulo={antetitulo} titulo={titulo} bajada={bajada} icono={icono} />
+      <section className="pb-24">
+        <div className="wrap">{children}</div>
+      </section>
+    </>
   );
 }

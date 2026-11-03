@@ -1,0 +1,324 @@
+.pg-sobre {
+  /* Intro editorial. El respiro de arriba lo pone `.ph + section`. */
+  .sn-lead {
+    padding-bottom: 88px;
+  }
+  .sn-lead .grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .sn-lead h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(24px, 3vw, 32px);
+    color: var(--catsa-green);
+    line-height: 1.25;
+    position: sticky;
+    top: 110px;
+  }
+  .sn-lead p {
+    font-size: 17px;
+    color: var(--catsa-muted);
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 26px;
+  }
+  .metric {
+    background: var(--catsa-cream-2);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .metric .n {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--catsa-green);
+    line-height: 1;
+  }
+  .metric .l {
+    font-size: 13px;
+    color: var(--catsa-muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  /* Historia · timeline animada */
+  /* clip: en móvil las tarjetas entran desde la derecha y desbordarían la página. */
+  .hist {
+    padding: 40px 0 96px;
+    overflow-x: clip;
+  }
+  .hist-head {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 44px;
+    padding: 0 28px;
+  }
+  .hist-head .eyebrow {
+    color: var(--catsa-brown);
+  }
+  .hist-head h2 {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: clamp(28px, 3.6vw, 40px);
+    color: var(--catsa-green);
+    margin-top: 10px;
+  }
+  .timeline {
+    position: relative;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .tl-rail {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    background: var(--catsa-line);
+    border-radius: 3px;
+    transform: translateX(-50%);
+  }
+  .tl-fill {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(var(--catsa-sprout), var(--catsa-green));
+    transform: translateX(-50%);
+    height: 0;
+    box-shadow: 0 0 12px rgba(159, 216, 174, 0.55);
+  }
+  .tl-item {
+    position: relative;
+    width: 50%;
+    padding: 26px 46px;
+    box-sizing: border-box;
+  }
+  .tl-item.left {
+    left: 0;
+  }
+  .tl-item.right {
+    left: 50%;
+  }
+  .tl-node {
+    position: absolute;
+    top: 44px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--catsa-paper);
+    border: 3px solid var(--catsa-line);
+    z-index: 3;
+    transition: 0.35s ease;
+  }
+  .tl-item.left .tl-node {
+    right: -10px;
+  }
+  .tl-item.right .tl-node {
+    left: -10px;
+  }
+  .tl-item.on .tl-node {
+    border-color: var(--catsa-green);
+    background: var(--catsa-sprout);
+    box-shadow: 0 0 0 7px rgba(159, 216, 174, 0.25);
+    transform: scale(1.12);
+  }
+  .tl-card {
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(28, 27, 24, 0.07);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
+  }
+  /* Las tarjetas entran de lado al encenderse su nodo. Sin JavaScript se ven. */
+  @media (scripting: enabled) {
+    .tl-item:not(.on) .tl-card {
+      opacity: 0;
+    }
+    .tl-item.left:not(.on) .tl-card {
+      transform: translateX(44px);
+    }
+    .tl-item.right:not(.on) .tl-card {
+      transform: translateX(-44px);
+    }
+  }
+  .tl-card .cimg {
+    position: relative;
+    height: 154px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--catsa-sprout-bg);
+  }
+  .tl-card .cimg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 38%, rgba(15, 22, 17, 0.68));
+  }
+  .tl-card .cy {
+    position: absolute;
+    z-index: 2;
+    left: 16px;
+    bottom: 12px;
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: clamp(24px, 3vw, 34px);
+    color: var(--catsa-cream);
+    line-height: 1;
+  }
+  .tl-card .cbody {
+    padding: 20px 24px 24px;
+  }
+  .tl-ey {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--catsa-brown);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tl-card h3 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--catsa-green);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .tl-card p {
+    font-size: 14.5px;
+    color: var(--catsa-muted);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) {
+    .tl-rail,
+    .tl-fill {
+      left: 22px;
+    }
+    .tl-item {
+      width: 100%;
+      left: 0 !important;
+      padding: 16px 0 16px 54px;
+    }
+    .tl-item .tl-node {
+      left: 13px !important;
+      right: auto !important;
+      top: 38px;
+    }
+    @media (scripting: enabled) {
+      .tl-item:is(.left, .right):not(.on) .tl-card {
+        transform: translateX(30px);
+      }
+    }
+  }
+  /* Misión / Visión */
+  .mv {
+    position: relative;
+    overflow: hidden;
+    background: var(--catsa-green-d);
+    color: var(--catsa-cream);
+    padding: 90px 0;
+  }
+  .mv .mbg {
+    position: absolute;
+    inset: -20% 0;
+    z-index: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.16;
+    will-change: transform;
+  }
+  .mv .wrap {
+    position: relative;
+    z-index: 2;
+  }
+  .mv .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .mv .card {
+    border: 1px solid rgba(159, 216, 174, 0.28);
+    border-radius: 18px;
+    padding: 36px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .mv .card .lab {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--catsa-sprout);
+    margin-bottom: 12px;
+  }
+  .mv .card p {
+    font-family: var(--font-poppins);
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--catsa-cream);
+    line-height: 1.5;
+  }
+  /* Valores · estilo línea (como RSE, sin cajas) */
+  .vals {
+    padding: 88px 0;
+  }
+  .vgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 36px;
+  }
+  .vitem {
+    border-top: 2px solid var(--catsa-brown);
+    padding-top: 20px;
+  }
+  .vitem .vn {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--catsa-brown);
+    margin-bottom: 10px;
+  }
+  .vitem h3 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--catsa-green);
+    margin-bottom: 8px;
+  }
+  .vitem p {
+    font-size: 15px;
+    color: var(--catsa-muted);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) {
+    .sn-lead .grid,
+    .mv .grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .sn-lead h2 {
+      position: static;
+    }
+    .metrics {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-px] {
+      transform: none !important;
+    }
+  }
+}

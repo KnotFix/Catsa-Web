@@ -35,7 +35,7 @@ Sin la API, el sitio público carga igual con estados vacíos y los textos por d
 ```
 src/
   app/                    Solo rutas: páginas delgadas que componen features.
-    (sitio)/              Sitio público. El grupo no aparece en la URL.
+    (sitio)/              Sitio público. El grupo no aparece en la URL. sitio.css + estilos.css por página.
     admin/(acceso)/       Login y verificación 2FA (sin barra lateral).
     admin/(panel)/        Panel. Una carpeta por módulo de permisos.
     api/revalidar/        Webhook que llama Django al publicar.
@@ -48,9 +48,11 @@ src/
                           actions.ts (escrituras), types.ts, components/ y components/panel/
     medios/               Biblioteca: galería, subida y <SelectorMedio> para los formularios.
     contenido/            Espacios editables (esquema zod y texto por defecto) y ajustes del sitio.
+    sitio/                Contenido fijo del sitio: fotos, catálogo de productos, piezas interactivas.
   components/
     ui/                   shadcn. Se agregan con `npx shadcn@latest add`.
     layout/sitio|panel/   Encabezado, pie, barra lateral.
+    sitio/                Piezas del boceto: encabezado de página, titular por palabras, cierre, movimiento.
     shared/               Piezas reutilizables sin dominio.
   config/                 Navegación del sitio y módulos del panel.
   types/api.d.ts          Tipos generados del OpenAPI de Catsa-Api. Se versiona; no se edita a mano.
@@ -68,6 +70,22 @@ src/
 4. **Una feature no importa de otra**, salvo `auth` (sesión y cliente del panel) y `medios` (el selector de archivos
    lo usan todos los formularios). Lo compartido va a `components/shared` o `lib`.
 5. **Datos con `Suspense`.** Cada bloque que lee datos va en su `<Suspense>` con esqueleto. Así la página sale estática y solo el bloque que falla espera.
+
+### Sitio público: diseño
+
+El sitio sigue el boceto aprobado (`demo-catsa-live`, dirección "Institucional Sólida"). Su CSS se portó tal cual,
+no en Tailwind, para no perder detalle:
+
+- `app/(sitio)/sitio.css`: lo compartido (barra, encabezado `.ph`, costura, cierre `.cta-final`, pie, botones).
+  Las variables del boceto se renombraron a `--catsa-*`: `--muted` de shadcn es otra cosa.
+- `estilos.css` junto a cada página, anidado bajo una clase raíz (`.pg-sobre`, `.pg-areas`…) para que nombres
+  como `.grid` o `.card` no choquen entre páginas.
+- El movimiento lo pone `<Movimiento>` (`components/sitio`). Lo que entra al hacer scroll solo se esconde con
+  `@media (scripting: enabled)`: sin JavaScript o con movimiento reducido, todo se ve. Los titulares por palabra
+  se parten en el servidor (`<Titular>`), no en el navegador.
+- Las fotos son por ahora las del sitio actual de catsa.net (`features/sitio/imagenes.ts`). Si el sitio nuevo
+  reemplaza a ese dominio, hay que copiarlas antes de publicar.
+- Catálogo, certificaciones, áreas y RSE son contenido fijo (alcance): se cambian en código.
 
 ### Datos y caché
 

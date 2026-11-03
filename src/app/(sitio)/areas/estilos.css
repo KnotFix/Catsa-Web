@@ -1,0 +1,195 @@
+.pg-areas {
+  /* Sin padding-top: el respiro tras el encabezado lo pone `.ph + section` en
+       sitio.css, que además ganaba siempre por especificidad. */
+  .ct-intro {
+    padding-bottom: 40px;
+    text-align: center;
+  }
+  .ct-intro h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 38px);
+    color: var(--catsa-green);
+    max-width: 22ch;
+    margin: 14px auto 0;
+    line-height: 1.2;
+  }
+  /* ÁREAS — lista + foto */
+  .ar-sec {
+    padding: 30px 0 90px;
+  }
+  .ar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.08fr;
+    grid-template-areas: "list photo" "panel photo";
+    gap: 0 clamp(30px, 4.5vw, 64px);
+    align-items: start;
+  }
+  .ar-list {
+    grid-area: list;
+    border-top: 1px solid var(--catsa-line);
+    margin-bottom: 36px;
+  }
+  .ar-tab {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--catsa-line);
+    padding: 17px 14px;
+    cursor: pointer;
+    font-family: var(--font-poppins);
+    transition: background 0.22s;
+  }
+  .ar-tab .n {
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: var(--catsa-brown);
+    flex-shrink: 0;
+  }
+  .ar-tab .t {
+    font-weight: 600;
+    font-size: clamp(19px, 2.2vw, 26px);
+    color: var(--catsa-muted);
+    line-height: 1.2;
+    transition: color 0.22s;
+  }
+  .ar-tab::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--catsa-green);
+    transform: scaleY(0);
+    transition: transform 0.25s;
+  }
+  .ar-tab:hover .t {
+    color: var(--catsa-green);
+  }
+  .ar-tab[aria-selected="true"] {
+    background: var(--catsa-sprout-bg);
+  }
+  .ar-tab[aria-selected="true"] .t {
+    color: var(--catsa-green);
+  }
+  .ar-tab[aria-selected="true"]::before {
+    transform: scaleY(1);
+  }
+  .ar-tab:focus-visible {
+    outline: 2px solid var(--catsa-green);
+    outline-offset: -2px;
+  }
+  .ar-panels {
+    grid-area: panel;
+  }
+  .ar-body {
+    display: none;
+  }
+  .ar-body.on {
+    display: block;
+    animation: arIn 0.34s ease both;
+  }
+  .ar-body .tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--catsa-green-d);
+    background: var(--catsa-sprout);
+    padding: 5px 12px;
+    border-radius: 14px;
+    margin-bottom: 15px;
+  }
+  .ar-body p {
+    font-size: 16.5px;
+    color: var(--catsa-muted);
+    line-height: 1.7;
+    max-width: 48ch;
+  }
+  .ar-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .ar-body li {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--catsa-green);
+    background: var(--catsa-sprout-bg);
+    border: 1px solid rgba(30, 86, 49, 0.14);
+    padding: 6px 13px;
+    border-radius: 14px;
+  }
+  /* La foto se muestra sin velo encima: el texto ya no vive sobre ella.
+       Relación 5/4 para acercarse al origen (450x400) y no estirarla. */
+  .ar-photo {
+    grid-area: photo;
+    position: relative;
+    aspect-ratio: 5/4;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--catsa-sprout-bg);
+    box-shadow: 0 30px 66px rgba(22, 63, 36, 0.2);
+  }
+  .ar-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.05);
+    transition:
+      opacity 0.5s ease,
+      transform 1.2s ease;
+  }
+  .ar-photo img.on {
+    opacity: 1;
+    transform: scale(1);
+  }
+  /* .ct-close borrado: era una tercera versión del CTA de cierre que esta
+       página no usaba —usa el .cta-final compartido—. */
+  @media (max-width: 900px) {
+    .ar-grid {
+      grid-template-columns: 1fr;
+      grid-template-areas: "list" "photo" "panel";
+      gap: 26px;
+    }
+    .ar-list {
+      margin-bottom: 0;
+    }
+    .ar-photo {
+      aspect-ratio: 4/3;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ar-body.on {
+      animation: none;
+    }
+    .ar-photo img {
+      transition: opacity 0.01s;
+    }
+  }
+}
+
+@keyframes arIn {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

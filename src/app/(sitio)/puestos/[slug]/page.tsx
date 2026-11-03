@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/puestos/[slug]">)
 
 export default function PuestoPage({ params }: PageProps<"/puestos/[slug]">) {
   return (
-    <Contenedor className="max-w-3xl py-16 tablet:py-24">
+    <Contenedor className="max-w-3xl pt-32 pb-16 tablet:pt-36 tablet:pb-24">
       <Suspense fallback={<Skeleton className="h-96 w-full" />}>
         <Detalle params={params} />
       </Suspense>

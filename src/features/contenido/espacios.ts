@@ -14,8 +14,9 @@ export const espacioInicioHero = {
   }),
   porDefecto: {
     antetitulo: "Central Azucarera Tempisque",
-    titulo: "Sitio en construcción",
-    texto: "Base del nuevo sitio de CATSA. Las secciones se arman a partir de la API y del diseño aprobado.",
+    titulo: "Cultivamos Guanacaste desde 1975.",
+    texto:
+      "Empresa agroindustrial guanacasteca dedicada al cultivo y procesamiento de caña de azúcar y a la producción de azúcares y alcoholes.",
   },
 };
 

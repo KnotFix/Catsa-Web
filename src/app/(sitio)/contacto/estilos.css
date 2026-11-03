@@ -1,0 +1,174 @@
+.pg-contacto {
+  /* .cx-grid y no .cbody: `cbody` ya significa el cuerpo del CTA final
+       (sitio.css) y el de la tarjeta de la línea de tiempo. Al añadir el
+       .cta-final a esta página, esta rejilla 1.2fr/1fr se le habría aplicado
+       dentro y lo habría partido en dos columnas. */
+  .cx-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+  }
+  .cx-grid h2 {
+    font-size: 26px;
+    color: var(--catsa-green);
+    margin-bottom: 20px;
+  }
+  .cx-info h2 {
+    font-size: 22px;
+    margin-bottom: 22px;
+  }
+  .form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--catsa-ink);
+    margin: 0 0 6px;
+  }
+  .form .req {
+    color: var(--catsa-brown);
+  }
+  .form input,
+  .form textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--catsa-line);
+    border-radius: 10px;
+    background: var(--catsa-field);
+    margin-bottom: 4px;
+    color: var(--catsa-ink);
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+  }
+  .form input:hover,
+  .form textarea:hover {
+    border-color: #cfc9bb;
+  }
+  .form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  /* El campo en error se marca con borde y con texto: el color por sí solo no
+       comunica nada a quien no lo distingue. */
+  .form [aria-invalid="true"] {
+    border-color: #b3392f;
+    background: #fbebea;
+  }
+  .form .err {
+    font-size: 12.5px;
+    color: #8f2d24;
+    font-weight: 600;
+    min-height: 18px;
+    margin-bottom: 10px;
+  }
+  .form .err:empty {
+    min-height: 10px;
+  }
+  .form .hint {
+    font-size: 12.5px;
+    color: var(--catsa-muted);
+    margin: -2px 0 18px;
+  }
+  /* Aviso de envío. aria-live="polite" para que el lector de pantalla lo
+       anuncie sin interrumpir lo que el usuario esté haciendo. */
+  .form .aviso {
+    display: none;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+  }
+  .form .aviso.on {
+    display: flex;
+  }
+  .form .aviso.ok {
+    background: var(--catsa-sprout-bg);
+    border: 1px solid rgba(30, 86, 49, 0.2);
+    color: var(--catsa-green-d);
+  }
+  .form .aviso.bad {
+    background: #fbebea;
+    border: 1px solid rgba(179, 57, 47, 0.25);
+    color: #8f2d24;
+  }
+  .form .aviso b {
+    display: block;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .info-item {
+    margin-bottom: 20px;
+  }
+  .info-item .lbl {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--catsa-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .info-item .val {
+    font-size: 16px;
+    color: var(--catsa-ink);
+  }
+  .info-item a.val {
+    border-bottom: 1px solid var(--catsa-line);
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .info-item a.val:hover {
+    color: var(--catsa-green);
+    border-color: var(--catsa-green);
+  }
+  /* Mientras CATSA decide el formulario (bitácora, pendiente 3): una tarjeta
+     que lleva al correo y a WhatsApp. Los estilos de .form quedan listos. */
+  .cx-card {
+    background: var(--catsa-cream-2);
+    border-radius: 20px;
+    padding: 36px;
+  }
+  .cx-card p {
+    font-size: 16.5px;
+    color: var(--catsa-muted);
+    line-height: 1.7;
+    margin-bottom: 22px;
+    max-width: 46ch;
+  }
+  .cx-card .acciones {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cx-card .vacio {
+    font-size: 14px;
+    color: var(--catsa-muted);
+  }
+  .mapa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--catsa-green);
+    margin-top: 6px;
+  }
+  .mapa .arw {
+    transition: transform 0.2s;
+  }
+  .mapa:hover .arw {
+    transform: translateX(5px);
+  }
+  @media (max-width: 900px) {
+    .cx-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+}

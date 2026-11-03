@@ -12,7 +12,17 @@ export const metadata: Metadata = {
 
 export default function PuestosPage({ searchParams }: PageProps<"/puestos">) {
   return (
-    <SeccionSitio antetitulo="Trabaje con nosotros" titulo="Puestos abiertos">
+    <SeccionSitio
+      antetitulo="Trabaje con nosotros"
+      titulo="Puestos disponibles"
+      bajada="Las mismas vacantes que compartimos en redes, con toda la información en un solo lugar."
+      icono={
+        <>
+          <path pathLength={1} d="M4 7h16v13H4z" />
+          <path pathLength={1} d="M9 7V4h6v3" />
+        </>
+      }
+    >
       <Suspense fallback={<Skeleton className="h-64 rounded-xl" />}>
         <Listado searchParams={searchParams} />
       </Suspense>

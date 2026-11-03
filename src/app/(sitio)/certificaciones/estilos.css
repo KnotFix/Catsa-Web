@@ -1,0 +1,113 @@
+.pg-cert {
+  /* El respiro de arriba lo pone `.ph + section`. Antes esta regla declaraba
+       80px arriba y, por vivir en un div hijo y no en el section, era la única
+       del sitio que sobrevivía a `.ph + section`: esta página arrancaba 80px más
+       abajo que sus hermanas. */
+  .clist {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 0 0 80px;
+  }
+  .crow {
+    position: relative;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 20px;
+    overflow: hidden;
+    transition:
+      transform 0.22s,
+      box-shadow 0.22s;
+  }
+  .crow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    background: linear-gradient(var(--catsa-sprout), var(--catsa-green));
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s;
+  }
+  .crow:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(28, 27, 24, 0.12);
+  }
+  .crow:hover::before {
+    transform: scaleY(1);
+  }
+  .crow .logo {
+    background: var(--catsa-sprout-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .crow .logo img {
+    max-height: 120px;
+    max-width: 200px;
+    width: auto;
+    height: auto;
+  }
+  .crow .cb {
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .crow .num {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--catsa-brown);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  /* h2 y no h3: son los apartados de primer nivel de la página y saltar de h1
+       a h3 dejaba un hueco en la jerarquía. */
+  .crow h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--catsa-green);
+    margin-bottom: 12px;
+  }
+  .crow p {
+    font-size: 16px;
+    color: var(--catsa-muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    max-width: 70ch;
+  }
+  .cert-link {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--catsa-green);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+  }
+  .cert-link .arw {
+    transition: transform 0.2s;
+  }
+  .cert-link:hover .arw {
+    transform: translateX(5px);
+  }
+  @media (max-width: 900px) {
+    .crow {
+      grid-template-columns: 1fr;
+    }
+    .crow .logo {
+      padding: 32px;
+      min-height: 150px;
+    }
+    .crow .cb {
+      padding: 28px;
+    }
+  }
+}

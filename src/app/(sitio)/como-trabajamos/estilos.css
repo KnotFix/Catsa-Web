@@ -1,0 +1,238 @@
+.pg-como {
+  /* --amber y --amber-bg están en sitio.css: aquí se redeclaraban con un
+       fondo distinto al del panel bajo el mismo nombre.
+       Las fases usan el prefijo .fase-: `ph-` es el del encabezado de página y
+       tener .fase-step junto a .ph-copy invitaba a confundirlos. */
+  .cw-intro {
+    padding-bottom: 20px;
+    text-align: center;
+  }
+  .cw-intro h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(28px, 3.6vw, 42px);
+    color: var(--catsa-green);
+    max-width: 22ch;
+    margin: 14px auto 0;
+    line-height: 1.18;
+  }
+  /* Índice lateral */
+  .fase-idx {
+    position: fixed;
+    top: 50%;
+    right: 28px;
+    transform: translateY(-50%);
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s;
+  }
+  .fase-idx.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .fase-idx a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    justify-content: flex-end;
+    color: var(--catsa-muted);
+    font-family: var(--font-poppins);
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.25s;
+  }
+  .fase-idx a .ln {
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.25s;
+    opacity: 0.5;
+  }
+  .fase-idx a.on {
+    color: var(--catsa-green);
+  }
+  .fase-idx a.on .ln {
+    width: 42px;
+    opacity: 1;
+  }
+  @media (max-width: 900px) {
+    .fase-idx {
+      display: none;
+    }
+  }
+  /* FASES · sticky sobre fondo claro */
+  .phases {
+    background: var(--catsa-paper);
+  }
+  .phases .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+  .fase-visual {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .fase-visual::before {
+    content: "";
+    position: absolute;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 55% 40%, var(--catsa-amber-bg), transparent 68%);
+    z-index: 0;
+  }
+  .stage {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+  }
+  .ghost-num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -58%);
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: clamp(150px, 22vw, 300px);
+    line-height: 1;
+    color: rgba(30, 86, 49, 0.06);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .ring {
+    position: relative;
+    z-index: 1;
+    width: min(340px, 58vw);
+    height: min(340px, 58vw);
+    border-radius: 50%;
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    box-shadow: 0 30px 70px rgba(138, 90, 43, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .ring::after {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    border: 2px dashed rgba(239, 159, 39, 0.4);
+    border-radius: 50%;
+  }
+  .ic {
+    position: absolute;
+    color: var(--catsa-green);
+    opacity: 0;
+    transform: scale(0.86) rotate(-4deg);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+  .ic.on {
+    opacity: 1;
+    transform: none;
+  }
+  .ic svg {
+    width: clamp(120px, 17vw, 168px);
+    height: auto;
+  }
+  .ic .amber {
+    color: var(--catsa-amber);
+  }
+  .vlabel {
+    position: relative;
+    z-index: 2;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--catsa-amber-ink);
+    font-weight: 700;
+    margin-top: 34px;
+  }
+  .vname {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(21px, 2.4vw, 30px);
+    color: var(--catsa-green);
+    margin-top: 6px;
+  }
+  .fase-steps {
+    padding: 14vh 0;
+  }
+  .fase-step {
+    min-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px clamp(40px, 6vw, 84px);
+  }
+  .fase-badge {
+    display: none;
+  }
+  .fase-step .st-num {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--catsa-amber-ink);
+    margin-bottom: 14px;
+    letter-spacing: 0.08em;
+  }
+  .fase-step h3 {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: clamp(30px, 4vw, 50px);
+    color: var(--catsa-green);
+    margin-bottom: 20px;
+    line-height: 1.02;
+  }
+  .fase-step p {
+    font-size: 18px;
+    color: var(--catsa-muted);
+    line-height: 1.75;
+    max-width: 44ch;
+  }
+  /* .cw-close borrado: otra versión más del CTA de cierre, sin uso. */
+  @media (max-width: 900px) {
+    .phases .grid {
+      grid-template-columns: 1fr;
+    }
+    .fase-visual {
+      display: none;
+    }
+    .fase-step {
+      min-height: auto;
+      padding: 36px 28px;
+      border-bottom: 1px solid var(--catsa-line);
+    }
+    .fase-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--catsa-amber-bg);
+      border: 2px dashed rgba(239, 159, 39, 0.5);
+      color: var(--catsa-green);
+      margin-bottom: 18px;
+    }
+    .fase-badge svg {
+      width: 34px;
+      height: 34px;
+    }
+  }
+}

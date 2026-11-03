@@ -12,7 +12,16 @@ export const metadata: Metadata = {
 
 export default function NoticiasPage({ searchParams }: PageProps<"/noticias">) {
   return (
-    <SeccionSitio antetitulo="Sala de prensa" titulo="Noticias">
+    <SeccionSitio
+      antetitulo="Noticias"
+      titulo="Lo último de CATSA"
+      icono={
+        <>
+          <path pathLength={1} d="M4 5h16v14H4z" />
+          <path pathLength={1} d="M8 9h8M8 13h5" />
+        </>
+      }
+    >
       <Suspense fallback={<CargandoNoticias />}>
         <Listado searchParams={searchParams} />
       </Suspense>

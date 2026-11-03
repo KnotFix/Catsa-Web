@@ -1,0 +1,297 @@
+.pg-ficha {
+  /* Esta página usa el encabezado .ph como el resto de las interiores. Antes
+       era un hero propio a dos columnas sobre verde oscuro (.pf-hero), con su
+       propio tamaño de h1 y la única miga de pan del sitio: se llega a ella
+       desde /productos, que sí usa .ph. La miga y el código de producto
+       ahora viven dentro de .ph-copy. */
+  .code-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--catsa-sprout-bg);
+    border: 1px solid rgba(30, 86, 49, 0.16);
+    color: var(--catsa-green);
+    padding: 8px 16px;
+    border-radius: 10px;
+    margin-top: 18px;
+  }
+  .code-badge span {
+    opacity: 0.7;
+    font-weight: 400;
+    font-size: 12px;
+  }
+  .aka {
+    font-size: 14.5px;
+    color: var(--catsa-muted);
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+  .aka b {
+    color: var(--catsa-ink);
+    font-weight: 600;
+  }
+  .pf-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+  }
+  /* Strip de claves */
+  .keystrip {
+    background: var(--catsa-green);
+    color: var(--catsa-cream);
+  }
+  /* El respiro de `.ph + section` (72px) es para secciones sobre papel; aquí
+       la siguiente sección es una franja verde a sangre y esos 72px se verían
+       como una banda vacía. Mismo peso de selector, declarado después: gana. */
+  .ph + .keystrip {
+    padding-top: 0;
+  }
+  .keystrip .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .keystrip .k {
+    padding: 30px 28px;
+    border-left: 1px solid rgba(247, 243, 234, 0.16);
+  }
+  .keystrip .k:first-child {
+    border-left: none;
+  }
+  .keystrip .kn {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--catsa-cream);
+  }
+  .keystrip .kn small {
+    font-size: 15px;
+    color: var(--catsa-sprout);
+    font-weight: 600;
+    margin-left: 3px;
+  }
+  .keystrip .kl {
+    font-size: 13px;
+    color: rgba(247, 243, 234, 0.75);
+    margin-top: 8px;
+  }
+  .sec {
+    padding: 80px 0;
+  }
+  .sec.alt {
+    background: var(--catsa-cream-2);
+  }
+  .sec-h {
+    margin-bottom: 34px;
+  }
+  .sec-h .eyebrow {
+    color: var(--catsa-brown);
+  }
+  .sec-h h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(24px, 3vw, 32px);
+    color: var(--catsa-green);
+    margin-top: 8px;
+  }
+  /* Organolépticas */
+  .org {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .ocard {
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 16px;
+    padding: 30px 28px;
+  }
+  .ocard .ic {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--catsa-sprout-bg);
+    color: var(--catsa-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .ocard .ol {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--catsa-brown);
+    margin-bottom: 8px;
+  }
+  .ocard p {
+    font-size: 17px;
+    color: var(--catsa-ink);
+    font-weight: 600;
+    line-height: 1.4;
+    font-family: var(--font-poppins);
+  }
+  /* Tabla técnica */
+  .spec-wrap {
+    border: 1px solid var(--catsa-line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--catsa-paper);
+  }
+  table.spec {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  table.spec thead th {
+    background: var(--catsa-green);
+    color: var(--catsa-cream);
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    text-align: left;
+  }
+  table.spec thead th.num {
+    text-align: center;
+  }
+  table.spec tbody td {
+    padding: 14px 18px;
+    border-top: 1px solid var(--catsa-line);
+    color: var(--catsa-ink);
+  }
+  table.spec tbody tr:nth-child(even) {
+    background: var(--catsa-cream-2);
+  }
+  table.spec .desc {
+    font-weight: 600;
+  }
+  table.spec .unit,
+  table.spec .val,
+  table.spec .met {
+    font-family: var(--font-source-sans);
+  }
+  table.spec .val {
+    text-align: center;
+    font-weight: 600;
+    color: var(--catsa-green);
+  }
+  table.spec .met {
+    color: var(--catsa-muted);
+    font-size: 13px;
+  }
+  table.spec .neg {
+    color: var(--catsa-brown);
+    font-weight: 600;
+  }
+  .spec-note {
+    font-size: 12.5px;
+    color: var(--catsa-muted);
+    margin-top: 12px;
+  }
+  /* Presentación / logística */
+  .pres {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .pres .lead p {
+    font-size: 16.5px;
+    color: var(--catsa-muted);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .pres .cist {
+    background: var(--catsa-green-d);
+    color: var(--catsa-cream);
+    border-radius: 16px;
+    padding: 26px;
+  }
+  .pres .cist .cl {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--catsa-sprout);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .pres .cist .cn {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 26px;
+  }
+  .tanks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .tank {
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .tank .tn {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--catsa-green);
+    line-height: 1;
+  }
+  .tank .tn small {
+    font-size: 14px;
+    color: var(--catsa-brown);
+  }
+  .tank .tl {
+    font-size: 13px;
+    color: var(--catsa-muted);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  .tank.total {
+    background: var(--catsa-green);
+    grid-column: 1 / -1;
+  }
+  .tank.total .tn {
+    color: var(--catsa-cream);
+  }
+  .tank.total .tn small {
+    color: var(--catsa-sprout);
+  }
+  .tank.total .tl {
+    color: rgba(247, 243, 234, 0.8);
+  }
+  /* .pf-cta borrado: era la cuarta versión del CTA de cierre. Usa .cta-final. */
+  @media (max-width: 900px) {
+    .keystrip .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .keystrip .k {
+      border-left: none;
+      border-top: 1px solid rgba(247, 243, 234, 0.16);
+    }
+    .org {
+      grid-template-columns: 1fr;
+    }
+    .pres {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    table.spec {
+      font-size: 13px;
+    }
+    table.spec thead th,
+    table.spec tbody td {
+      padding: 11px 12px;
+    }
+  }
+}
