@@ -19,3 +19,5 @@ export function estadoCuenta(u: UsuarioPanel): { texto: string; tono: "ok" | "av
   if (!u.tiene_2fa) return { texto: "Sin verificación", tono: "aviso" };
   return { texto: "Activa", tono: "ok" };
 }
+
+export type Cambio = Esquemas["Cambio"];

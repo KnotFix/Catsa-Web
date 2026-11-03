@@ -126,6 +126,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/panel/cambios/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Quién publicó, editó o borró qué (módulo Administración). Solo lectura. */
+        get: operations["panel_cambios_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/panel/contenido/ajustes/": {
         parameters: {
             query?: never;
@@ -612,6 +629,22 @@ export interface components {
             /** Format: date-time */
             readonly fecha: string;
         };
+        /**
+         * @description * `crear` - Creó
+         *     * `editar` - Editó
+         *     * `publicar` - Publicó
+         *     * `archivar` - Archivó
+         *     * `abrir` - Abrió
+         *     * `cerrar` - Cerró
+         *     * `eliminar` - Eliminó
+         *     * `subir` - Subió
+         *     * `invitar` - Invitó
+         *     * `desactivar` - Desactivó
+         *     * `activar` - Reactivó
+         *     * `restablecer_2fa` - Restableció la verificación de
+         * @enum {string}
+         */
+        AccionCambio: "crear" | "editar" | "publicar" | "archivar" | "abrir" | "cerrar" | "eliminar" | "subir" | "invitar" | "desactivar" | "activar" | "restablecer_2fa";
         /** @description Para editar: `imagen_compartir` es el id del medio; `vista_imagen`, la imagen resuelta. */
         AjustesPanel: {
             /** Teléfono */
@@ -691,6 +724,19 @@ export interface components {
         /** @description Valida un bloque según su tipo y devuelve solo los campos conocidos. */
         BloqueRequest: {
             tipo: components["schemas"]["TipoBloque"];
+        };
+        Cambio: {
+            readonly id: number;
+            /** Format: date-time */
+            readonly fecha: string;
+            readonly nombre_usuario: string;
+            readonly accion: components["schemas"]["AccionCambio"];
+            readonly accion_texto: string;
+            readonly modulo: components["schemas"]["Modulo"];
+            readonly tipo: string;
+            readonly elemento: string;
+            readonly objeto_id: number | null;
+            readonly detalle: string;
         };
         Campo: {
             clave: string;
@@ -809,7 +855,7 @@ export interface components {
             last_name: string;
             /** @default  */
             departamento: string;
-            modulos: components["schemas"]["ModulosEnum"][];
+            modulos: components["schemas"]["Modulo"][];
         };
         Medio: {
             readonly id: number;
@@ -850,7 +896,7 @@ export interface components {
          *     * `administracion` - Administración
          * @enum {string}
          */
-        ModulosEnum: "contenido" | "noticias" | "puestos" | "medios" | "administracion";
+        Modulo: "contenido" | "noticias" | "puestos" | "medios" | "administracion";
         NoticiaDetallePanel: {
             readonly id: number;
             /** Título */
@@ -866,6 +912,7 @@ export interface components {
             readonly resumen: string;
             /** Autor visible */
             readonly autor: string;
+            /** Contenido */
             readonly bloques: unknown;
         };
         NoticiaEntradaRequest: {
@@ -934,7 +981,7 @@ export interface components {
             first_name?: string;
             last_name?: string;
             departamento?: string;
-            modulos?: components["schemas"]["ModulosEnum"][];
+            modulos?: components["schemas"]["Modulo"][];
         };
         PatchedNoticiaEntradaRequest: {
             titulo?: string;
@@ -986,6 +1033,7 @@ export interface components {
             readonly publicado_en: string | null;
             /** Format: date-time */
             readonly actualizado_en: string;
+            /** Tipo de contrato */
             readonly tipo_contrato: components["schemas"]["TipoContratoEnum"];
             readonly resumen: string;
             /** Descripción */
@@ -994,7 +1042,10 @@ export interface components {
             /** Qué ofrecemos */
             readonly ofrecemos: string;
             ficha: components["schemas"]["Medio"] | null;
-            /** Format: email */
+            /**
+             * Correo de contacto
+             * Format: email
+             */
             readonly correo_contacto: string;
         };
         PuestoEntradaRequest: {
@@ -1052,7 +1103,10 @@ export interface components {
             /** Qué ofrecemos */
             readonly ofrecemos: string;
             readonly ficha: components["schemas"]["Pdf"] | null;
-            /** Format: email */
+            /**
+             * Correo de contacto
+             * Format: email
+             */
             readonly correo_contacto: string;
             readonly recibe_postulaciones: boolean;
             /** Format: date-time */
@@ -1125,7 +1179,7 @@ export interface components {
              * Format: email
              */
             email: string;
-            readonly modulos: components["schemas"]["ModulosEnum"][];
+            readonly modulos: components["schemas"]["Modulo"][];
             readonly tiene_2fa: boolean;
         };
         UsuarioPanel: {
@@ -1141,7 +1195,7 @@ export interface components {
             /** Apellidos */
             readonly last_name: string;
             readonly departamento: string;
-            readonly modulos: components["schemas"]["ModulosEnum"][];
+            readonly modulos: components["schemas"]["Modulo"][];
             readonly activo: boolean;
             readonly tiene_2fa: boolean;
             readonly invitacion_pendiente: boolean;
@@ -1300,6 +1354,50 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Acceso"][];
+                };
+            };
+        };
+    };
+    panel_cambios_list: {
+        parameters: {
+            query?: {
+                /**
+                 * @description * `crear` - Creó
+                 *     * `editar` - Editó
+                 *     * `publicar` - Publicó
+                 *     * `archivar` - Archivó
+                 *     * `abrir` - Abrió
+                 *     * `cerrar` - Cerró
+                 *     * `eliminar` - Eliminó
+                 *     * `subir` - Subió
+                 *     * `invitar` - Invitó
+                 *     * `desactivar` - Desactivó
+                 *     * `activar` - Reactivó
+                 *     * `restablecer_2fa` - Restableció la verificación de
+                 */
+                accion?: "crear" | "editar" | "publicar" | "archivar" | "abrir" | "cerrar" | "eliminar" | "subir" | "invitar" | "desactivar" | "activar" | "restablecer_2fa";
+                buscar?: string;
+                /**
+                 * @description * `contenido` - Contenido del sitio
+                 *     * `noticias` - Noticias
+                 *     * `puestos` - Puestos
+                 *     * `medios` - Biblioteca de medios
+                 *     * `administracion` - Administración
+                 */
+                modulo?: "contenido" | "noticias" | "puestos" | "medios" | "administracion";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Cambio"][];
                 };
             };
         };
