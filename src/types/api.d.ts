@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/api/contenido/ajustes/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Base de las lecturas del sitio: sin sesión. Solo devuelve lo publicado. */
+        get: operations["contenido_ajustes_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/contenido/espacios/{clave}/": {
         parameters: {
             query?: never;
@@ -102,6 +119,24 @@ export interface paths {
         /** @description Registro de accesos al panel (módulo Administración). Solo lectura. */
         get: operations["panel_accesos_list"];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/panel/contenido/ajustes/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Ajustes del sitio: los edita quien tiene Administración (bitácora, permisos por módulo). */
+        get: operations["panel_contenido_ajustes_retrieve"];
+        /** @description Ajustes del sitio: los edita quien tiene Administración (bitácora, permisos por módulo). */
+        put: operations["panel_contenido_ajustes_update"];
         post?: never;
         delete?: never;
         options?: never;
@@ -577,6 +612,61 @@ export interface components {
             /** Format: date-time */
             readonly fecha: string;
         };
+        /** @description Para editar: `imagen_compartir` es el id del medio; `vista_imagen`, la imagen resuelta. */
+        AjustesPanel: {
+            /** Teléfono */
+            telefono?: string;
+            whatsapp?: string;
+            correo?: string;
+            /** Dirección */
+            direccion?: string;
+            horario?: string;
+            facebook?: string;
+            linkedin?: string;
+            instagram?: string;
+            youtube?: string;
+            imagen_compartir?: number | null;
+            readonly vista_imagen: components["schemas"]["Imagen"] | null;
+            /** Format: date-time */
+            readonly actualizado_en: string;
+            readonly actualizado_por: string | null;
+        };
+        /** @description Para editar: `imagen_compartir` es el id del medio; `vista_imagen`, la imagen resuelta. */
+        AjustesPanelRequest: {
+            /** Teléfono */
+            telefono?: string;
+            whatsapp?: string;
+            correo?: string;
+            /** Dirección */
+            direccion?: string;
+            horario?: string;
+            facebook?: string;
+            linkedin?: string;
+            instagram?: string;
+            youtube?: string;
+            imagen_compartir?: number | null;
+        };
+        /** @description Catsa-Web: src/features/contenido/ajustes.ts. Los vacíos llegan como "" y no se muestran. */
+        AjustesPublico: {
+            /** Teléfono */
+            readonly telefono: string;
+            /** @description Número con código de país, solo dígitos. */
+            readonly whatsapp: string;
+            /** Format: email */
+            readonly correo: string;
+            /** Dirección */
+            readonly direccion: string;
+            readonly horario: string;
+            /** Format: uri */
+            readonly facebook: string;
+            /** Format: uri */
+            readonly linkedin: string;
+            /** Format: uri */
+            readonly instagram: string;
+            /** Format: uri */
+            readonly youtube: string;
+            readonly imagen_compartir: components["schemas"]["Imagen"] | null;
+        };
         Area: {
             readonly id: number;
             nombre: string;
@@ -706,6 +796,10 @@ export interface components {
             readonly alt: string;
             readonly ancho: number | null;
             readonly alto: number | null;
+        };
+        ImagenRequest: {
+            /** Format: binary */
+            url: string;
         };
         InvitarRequest: {
             /** Format: email */
@@ -1063,6 +1157,25 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    contenido_ajustes_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AjustesPublico"];
+                };
+            };
+        };
+    };
     contenido_espacios_retrieve: {
         parameters: {
             query?: never;
@@ -1187,6 +1300,50 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Acceso"][];
+                };
+            };
+        };
+    };
+    panel_contenido_ajustes_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AjustesPanel"];
+                };
+            };
+        };
+    };
+    panel_contenido_ajustes_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["AjustesPanelRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["AjustesPanelRequest"];
+                "multipart/form-data": components["schemas"]["AjustesPanelRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AjustesPanel"];
                 };
             };
         };

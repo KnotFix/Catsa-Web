@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Contenedor } from "@/components/shared/contenedor";
 import { Skeleton } from "@/components/ui/skeleton";
+import { openGraphSitio } from "@/features/contenido/ajustes";
 import { obtenerNoticia } from "@/features/noticias/api";
 import { ArticuloNoticia } from "@/features/noticias/components/articulo-noticia";
 
@@ -12,12 +13,12 @@ export async function generateMetadata({ params }: PageProps<"/noticias/[slug]">
   return {
     title: noticia.titulo,
     description: noticia.resumen,
-    openGraph: {
+    openGraph: await openGraphSitio({
       type: "article",
       publishedTime: noticia.publicada_en,
       authors: noticia.autor ? [noticia.autor] : undefined,
       images: noticia.portada ? [{ url: noticia.portada.url, alt: noticia.portada.alt }] : undefined,
-    },
+    }),
   };
 }
 

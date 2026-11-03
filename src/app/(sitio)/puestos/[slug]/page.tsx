@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Contenedor } from "@/components/shared/contenedor";
 import { Skeleton } from "@/components/ui/skeleton";
+import { openGraphSitio } from "@/features/contenido/ajustes";
 import { obtenerPuesto } from "@/features/puestos/api";
 import { DetallePuesto } from "@/features/puestos/components/detalle-puesto";
 
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: PageProps<"/puestos/[slug]">)
   return {
     title: puesto.titulo,
     description: puesto.resumen,
-    openGraph: { title: `${puesto.titulo} · CATSA`, description: puesto.resumen },
+    openGraph: await openGraphSitio({ title: `${puesto.titulo} · CATSA`, description: puesto.resumen }),
   };
 }
 

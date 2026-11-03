@@ -9,4 +9,5 @@ export const etiquetas = {
   puestos: "puestos",
   puesto: (slug: string) => `puesto:${slug}`,
   espacio: (clave: string) => `espacio:${clave}`,
+  ajustes: "ajustes",
 } as const;

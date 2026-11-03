@@ -47,7 +47,7 @@ src/
     noticias/  puestos/   api.ts (lecturas públicas en caché), server/panel.ts (lecturas del panel),
                           actions.ts (escrituras), types.ts, components/ y components/panel/
     medios/               Biblioteca: galería, subida y <SelectorMedio> para los formularios.
-    contenido/            Espacios editables con esquema zod y texto por defecto.
+    contenido/            Espacios editables (esquema zod y texto por defecto) y ajustes del sitio.
   components/
     ui/                   shadcn. Se agregan con `npx shadcn@latest add`.
     layout/sitio|panel/   Encabezado, pie, barra lateral.
@@ -76,6 +76,9 @@ src/
 - Si la API no responde, `conRespaldo` devuelve un valor vacío de vida corta: la página no se rompe y se
   vuelve a intentar en segundos.
 - Los espacios editables se validan con zod. Si el dato no calza, se usa el texto por defecto del diseño.
+- Contacto, horario, redes e imagen para compartir salen de los ajustes del sitio (`features/contenido/ajustes.ts`):
+  el pie los muestra y lo vacío no aparece. Cada página arma su `openGraph` con `openGraphSitio()`, porque Next
+  reemplaza el `openGraph` del layout entero y se perdería la imagen por defecto.
 - Los tipos de las respuestas salen de `src/types/api.d.ts`. Si cambia un serializer en Django, se corre
   `npm run api:tipos` y `npm run typecheck` señala lo que hay que ajustar.
 - Puestos tiene caché de minutos y no de horas: uno sale solo del listado al vencer su fecha de cierre, sin aviso.
