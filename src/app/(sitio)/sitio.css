@@ -815,6 +815,33 @@
     opacity: 0;
     transform: translateY(18px);
   }
+  /* Al apagarse (quedó otra vez por debajo de la pantalla) se va sin cascada
+     y rápido: así está listo para entrar de nuevo cuando se vuelva a bajar. */
+  [data-reveal]:not(.on),
+  [data-reveal="foto"]:not(.on) img {
+    transition-duration: 0.25s;
+    transition-delay: 0s;
+  }
+
+  /* --- Fotos: se destapan de abajo arriba ---
+     El recorte sube y la imagen se asienta (de 1.08 a 1): se lee como una
+     foto que se revela, no como un bloque más que flota hacia arriba. El
+     recorte va en la imagen y no en el contenedor: Chrome no avisa al
+     IntersectionObserver de un elemento recortado entero. */
+  [data-reveal="foto"]:not(.on) {
+    transform: none;
+    opacity: 1;
+  }
+  [data-reveal="foto"] img {
+    transition:
+      clip-path 0.9s var(--catsa-ease),
+      transform 1.2s var(--catsa-ease);
+    transition-delay: var(--rd, 0s);
+  }
+  [data-reveal="foto"]:not(.on) img {
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.08);
+  }
 }
 
 /* --- La caja de palabra ---
@@ -1610,5 +1637,54 @@
   .fgrid {
     grid-template-columns: 1fr;
     gap: 26px;
+  }
+}
+
+/* ============================================================
+   ENTRE PÁGINAS (View Transitions, ver template.tsx)
+   ============================================================
+   La que se va sale rápido y apenas sube, para no competir; la que llega
+   espera a que la otra se vaya y sube con calma. La barra no se mueve: es el
+   punto fijo que dice que cambió el contenido, no la ventana. */
+.nav-sitio {
+  view-transition-name: barra-sitio;
+}
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(barra-sitio) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(barra-sitio) {
+  display: none;
+}
+::view-transition-new(barra-sitio) {
+  animation: none;
+}
+::view-transition-old(.pagina-sale) {
+  animation: paginaSale 0.18s ease-in both;
+}
+::view-transition-new(.pagina-entra) {
+  animation: paginaEntra 0.5s var(--catsa-ease) 0.12s both;
+}
+@keyframes paginaSale {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+@keyframes paginaEntra {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }

@@ -95,57 +95,6 @@
   .dots button.on {
     background: #f7f3ea;
   }
-  /* Cifras integradas en el hero */
-  .hero-stats {
-    position: relative;
-    z-index: 2;
-    border-top: 1px solid rgba(247, 243, 234, 0.18);
-    background: rgba(15, 22, 17, 0.24);
-    backdrop-filter: blur(3px);
-  }
-  .hero-stats .wrap {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .hs {
-    padding: 24px 26px;
-    border-left: 1px solid rgba(247, 243, 234, 0.14);
-  }
-  .hs:first-child {
-    border-left: none;
-  }
-  .hs .n {
-    font-family: var(--font-poppins);
-    font-weight: 700;
-    font-size: clamp(24px, 2.6vw, 38px);
-    line-height: 1;
-    color: #f7f3ea;
-  }
-  .hs .n i {
-    font-style: normal;
-    font-size: 0.52em;
-    color: var(--catsa-sprout);
-    margin-left: 2px;
-  }
-  .hs .l {
-    font-size: 12.5px;
-    color: rgba(247, 243, 234, 0.72);
-    margin-top: 7px;
-    line-height: 1.4;
-  }
-  @media (max-width: 900px) {
-    .hero-stats .wrap {
-      grid-template-columns: 1fr 1fr;
-    }
-    .hs {
-      border-left: none;
-      border-top: 1px solid rgba(247, 243, 234, 0.12);
-    }
-    .hs:first-child,
-    .hs:nth-child(2) {
-      border-top: none;
-    }
-  }
   /* Áreas · mosaico bento */
   .bento {
     display: grid;

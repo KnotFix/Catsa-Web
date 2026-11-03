@@ -119,10 +119,10 @@ export default function RsePage() {
               evitar la cacería ilegal.
             </p>
           </div>
-          <div className="fauna" data-reveal>
+          <div className="fauna">
             {FAUNA.map((f) => (
-              <figure key={f.src}>
-                <div className="ff">
+              <figure key={f.src} data-reveal>
+                <div className="ff" data-reveal="foto">
                   <Image src={f.src} alt={f.alt} fill sizes="(max-width: 900px) 50vw, 25vw" />
                 </div>
                 <figcaption>{f.alt}</figcaption>

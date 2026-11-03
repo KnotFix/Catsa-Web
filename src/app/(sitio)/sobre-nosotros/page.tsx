@@ -13,12 +13,18 @@ export const metadata: Metadata = {
     "CATSA, Central Azucarera Tempisque: desde 1975 cultivando y procesando caña en Guardia de Liberia, Guanacaste, con más de 450 colaboradores permanentes.",
 };
 
+// Las cifras que antes iban en la portada: aquí cuentan la historia de la empresa.
+// Suben desde cero al aparecer ([data-count], en <Movimiento>).
 const CIFRAS = [
-  { valor: "14.500", texto: "Bultos de 50 kg de azúcar al día" },
-  { valor: "250.000 L", texto: "De alcohol anhidro al día" },
-  { valor: "10.551 ha", texto: "Propias, más ~400 productores" },
-  { valor: "450+", texto: "Colaboradores permanentes" },
+  { valor: 450, sufijo: "+", texto: "Colaboradores permanentes" },
+  { valor: 1000, sufijo: "+", texto: "Personas más en época de zafra" },
+  { valor: 10551, sufijo: " ha", texto: "De caña propia, más la de unos 400 productores" },
+  { valor: 7500, sufijo: " t", texto: "De caña molida cada día" },
+  { valor: 14500, texto: "Bultos de 50 kg de azúcar al día" },
+  { valor: 250000, sufijo: " L", texto: "De alcohol al día en la destilería" },
 ];
+
+const miles = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 const HITOS: Hito[] = [
   {
@@ -97,15 +103,26 @@ export default function SobreNosotrosPage() {
               de comunicación, llevamos un plan de responsabilidad social en educación, salud, ambiente y
               desarrollo comunal.
             </p>
-            <div className="metrics">
-              {CIFRAS.map((c, i) => (
-                <div key={c.texto} className="metric" data-reveal>
-                  <Titular como="div" className="n" texto={c.valor} retardo={60 * (i + 1)} />
-                  <div className="l">{c.texto}</div>
-                </div>
-              ))}
-            </div>
           </div>
+        </div>
+      </section>
+
+      <section className="cifras" aria-labelledby="cifras-titulo">
+        <div className="wrap">
+          <p className="eyebrow" id="cifras-titulo" data-reveal>
+            CATSA en cifras
+          </p>
+          <dl className="cgrid">
+            {CIFRAS.map((c) => (
+              <div key={c.texto} className="cifra" data-reveal>
+                <dt className="l">{c.texto}</dt>
+                <dd className="n">
+                  <span data-count={c.valor}>{miles(c.valor)}</span>
+                  {c.sufijo && <i>{c.sufijo}</i>}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
@@ -179,9 +196,9 @@ export default function SobreNosotrosPage() {
               provincia, y desarrollamos actividades de proyección comunal que dan valor a su cultura.
             </p>
           </div>
-          <div className="gq-fotos" data-reveal>
+          <div className="gq-fotos">
             {[fotos.comida, fotos.baile, fotos.tope].map((f) => (
-              <div key={f.src} className="gq-foto">
+              <div key={f.src} className="gq-foto" data-reveal="foto">
                 <Image src={f.src} alt={f.alt} fill sizes="(max-width: 900px) 100vw, 33vw" />
               </div>
             ))}

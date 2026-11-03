@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 /**
  * El movimiento del boceto (nav.js), para todo el sitio público:
  *
- *   [data-reveal]  entra al aparecer (la cascada entre hermanos la pone el CSS)
- *   .words         titulares palabra por palabra (los parte <Titular>)
+ *   [data-reveal]  entra al aparecer y vuelve a entrar si se regresa a él bajando
+ *                  (la cascada entre hermanos la pone el CSS; ="foto" se destapa)
+ *   .words         titulares palabra por palabra (los parte <Titular>), igual
  *   .divider       la costura entre secciones
  *   [data-count]   cifra que sube hasta su valor
  *   [data-px]      capa con parallax respecto al centro de la pantalla
@@ -35,8 +36,20 @@ export function Movimiento() {
           }),
         { threshold: umbral },
       );
-    const ioReveal = encender(0.16, (el) => el.classList.add("on"));
-    const ioPalabras = encender(0.3, (el) => el.classList.add("on"));
+    // Los bloques y titulares entran cada vez que se llega a ellos bajando: al
+    // volver a quedar por debajo de la pantalla se apagan, para entrar de nuevo.
+    // Los que salen por arriba se quedan encendidos, así subir no los hace parpadear.
+    const alternar = (umbral: number) =>
+      new IntersectionObserver(
+        (entradas) =>
+          entradas.forEach((e) => {
+            if (e.isIntersecting && e.intersectionRatio >= umbral) e.target.classList.add("on");
+            else if (!e.isIntersecting && e.boundingClientRect.top > 0) e.target.classList.remove("on");
+          }),
+        { threshold: [0, umbral] },
+      );
+    const ioReveal = alternar(0.16);
+    const ioPalabras = alternar(0.3);
     const ioDivisor = encender(0.6, (el) => el.classList.add("on"));
     const ioCifra = encender(0.5, (el) => subir(el as HTMLElement, reducido));
     limpiezas.push(() => [ioReveal, ioPalabras, ioDivisor, ioCifra].forEach((io) => io.disconnect()));

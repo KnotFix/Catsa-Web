@@ -24,30 +24,6 @@
     line-height: 1.8;
     margin-bottom: 18px;
   }
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-top: 26px;
-  }
-  .metric {
-    background: var(--catsa-cream-2);
-    border-radius: 14px;
-    padding: 20px;
-  }
-  .metric .n {
-    font-family: var(--font-poppins);
-    font-weight: 700;
-    font-size: 26px;
-    color: var(--catsa-green);
-    line-height: 1;
-  }
-  .metric .l {
-    font-size: 13px;
-    color: var(--catsa-muted);
-    margin-top: 6px;
-    line-height: 1.4;
-  }
   /* Historia · timeline animada */
   /* clip: en móvil las tarjetas entran desde la derecha y desbordarían la página. */
   .hist {
@@ -312,9 +288,6 @@
     .sn-lead h2 {
       position: static;
     }
-    .metrics {
-      grid-template-columns: 1fr 1fr;
-    }
   }
   @media (prefers-reduced-motion: reduce) {
     [data-px] {
@@ -366,6 +339,79 @@
     }
     .gq-fotos {
       grid-template-columns: 1fr;
+    }
+  }
+  /* CATSA en cifras: franja verde a sangre entre la presentación y la historia.
+     El número manda; la etiqueta va arriba, chica y clara. */
+  .cifras {
+    background: var(--catsa-green);
+    color: var(--catsa-cream);
+    padding: 72px 0;
+  }
+  .cifras .eyebrow {
+    color: var(--catsa-sprout);
+    margin-bottom: 32px;
+  }
+  .cgrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+  }
+  .cifra {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 28px 32px 28px 0;
+    border-top: 1px solid rgba(247, 243, 234, 0.16);
+  }
+  .cifra:not(:nth-child(3n + 1)) {
+    padding-left: 32px;
+    border-left: 1px solid rgba(247, 243, 234, 0.16);
+  }
+  .cifra .n {
+    margin: 0;
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .cifra .n i {
+    font-style: normal;
+    font-size: 0.45em;
+    font-weight: 600;
+    color: var(--catsa-sprout);
+    margin-left: 4px;
+    letter-spacing: 0;
+  }
+  .cifra .l {
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(247, 243, 234, 0.78);
+    max-width: 30ch;
+  }
+  @media (max-width: 900px) {
+    .cifras {
+      padding: 56px 0;
+    }
+    .cgrid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cifra,
+    .cifra:not(:nth-child(3n + 1)) {
+      padding: 22px 16px 22px 0;
+      border-left: none;
+    }
+    .cifra:nth-child(even) {
+      padding-left: 16px;
+      border-left: 1px solid rgba(247, 243, 234, 0.16);
+    }
+    /* Dos columnas en 375px: "250.000 L" tiene que caber en una línea. */
+    .cifra .n {
+      font-size: clamp(24px, 7.4vw, 36px);
     }
   }
 }

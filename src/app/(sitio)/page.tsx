@@ -10,12 +10,6 @@ import { Escaparate, Portada } from "@/features/sitio/components/portada";
 import { fondo, fotos, sellos } from "@/features/sitio/imagenes";
 import "./inicio.css";
 
-const CIFRAS = [
-  { valor: 450, sufijo: "+", texto: "Colaboradores permanentes" },
-  { valor: 1000, sufijo: "+", texto: "Colaboradores en zafra" },
-  { valor: 10551, sufijo: " ha", texto: "Hectáreas propias, más ~400 productores" },
-];
-
 const AREAS = [
   {
     clase: "b-big",
@@ -96,23 +90,6 @@ export default function InicioPage() {
         <Suspense fallback={<Portada {...espacioInicioHero.porDefecto} />}>
           <PortadaEditable />
         </Suspense>
-        <div className="hero-stats">
-          <div className="wrap">
-            {CIFRAS.map((c) => (
-              <div key={c.texto} className="hs">
-                <div className="n">
-                  <span data-count={c.valor}>{c.valor.toLocaleString("de-DE")}</span>
-                  <i>{c.sufijo}</i>
-                </div>
-                <div className="l">{c.texto}</div>
-              </div>
-            ))}
-            <div className="hs">
-              <div className="n">1975</div>
-              <div className="l">Año de fundación en Guardia de Liberia</div>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section className="certsec">
@@ -176,7 +153,7 @@ export default function InicioPage() {
       </section>
 
       <section className="split-sec">
-        <div data-reveal className="overflow-hidden rounded-[14px]">
+        <div data-reveal="foto" className="overflow-hidden rounded-[14px]">
           <Image
             src={fotos.comida.src}
             alt={fotos.comida.alt}
