@@ -101,7 +101,7 @@
   /* Organolépticas */
   .org {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
   }
   .ocard {
@@ -140,7 +140,7 @@
   .spec-wrap {
     border: 1px solid var(--catsa-line);
     border-radius: 16px;
-    overflow: hidden;
+    overflow-x: auto;
     background: var(--catsa-paper);
   }
   table.spec {
@@ -202,6 +202,9 @@
     grid-template-columns: 1fr 1.3fr;
     gap: 40px;
     align-items: start;
+  }
+  .pres.solo {
+    grid-template-columns: minmax(0, 720px);
   }
   .pres .lead p {
     font-size: 16.5px;
@@ -269,6 +272,66 @@
   .tank.total .tl {
     color: rgba(247, 243, 234, 0.8);
   }
+  .tabla + .tabla {
+    margin-top: 40px;
+  }
+  .tabla h3 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--catsa-green);
+  }
+  .tabla .frec {
+    font-size: 13.5px;
+    color: var(--catsa-muted);
+    margin: 4px 0 14px;
+  }
+  .notas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .nota {
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  .nota .nt {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--catsa-brown);
+    margin-bottom: 6px;
+  }
+  .nota p {
+    font-size: 15px;
+    color: var(--catsa-ink);
+    line-height: 1.5;
+  }
+  .pres-lista {
+    display: grid;
+    gap: 12px;
+  }
+  .pres-lista li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 16.5px;
+    color: var(--catsa-ink);
+    line-height: 1.6;
+  }
+  .pres-lista li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--catsa-sprout);
+  }
   /* .pf-cta borrado: era la cuarta versión del CTA de cierre. Usa .cta-final. */
   @media (max-width: 900px) {
     .keystrip .grid {
@@ -277,9 +340,6 @@
     .keystrip .k {
       border-left: none;
       border-top: 1px solid rgba(247, 243, 234, 0.16);
-    }
-    .org {
-      grid-template-columns: 1fr;
     }
     .pres {
       grid-template-columns: 1fr;

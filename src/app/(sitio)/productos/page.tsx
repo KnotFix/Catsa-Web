@@ -10,8 +10,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Productos",
     description:
-      "Catálogo de CATSA: azúcar crudo, blanco, refinado, alcohol etílico neutro y miel de caña, con ficha técnica y certificaciones.",
-    openGraph: await openGraphSitio({ images: [{ url: fotos.azucar.src, alt: fotos.azucar.alt }] }),
+      "Catálogo de CATSA: azúcar crudo, blanco, especial y refino, alcohol etílico neutro y anhidro, miel y arroz, con la ficha técnica de cada producto.",
+    openGraph: await openGraphSitio({
+      images: [{ url: fotos.refinadoNacional.src, alt: fotos.refinadoNacional.alt }],
+    }),
   };
 }
 
@@ -20,8 +22,8 @@ export default function ProductosPage() {
     <div className="pg-productos">
       <CabeceraPagina
         antetitulo="Productos"
-        titulo="Azúcares, alcoholes y miel para el mercado nacional y de exportación."
-        bajada="Certificados bajo ISO 9001, FSSC 22000, Kosher, ISCC y Esencial Costa Rica. Explore cada producto y su ficha técnica sin salir de la página."
+        titulo="Azúcar, alcohol, miel y arroz para el mercado nacional e internacional."
+        bajada="El azúcar se comercializa por medio de LAICA. Explore cada producto con su código y su ficha técnica."
         icono={
           <>
             <path pathLength={1} d="M3 8l9-5 9 5v8l-9 5-9-5V8z" />
@@ -39,7 +41,7 @@ export default function ProductosPage() {
 
       <Cierre
         antetitulo="Cotizaciones"
-        titulo="¿Necesita azúcar, alcohol o miel para su operación?"
+        titulo="¿Necesita alcohol, miel o información de nuestros azúcares?"
         texto="Solicite la ficha técnica de cualquier producto o una cotización a la medida de su industria."
         principal={{ titulo: "Solicitar cotización", href: "/contacto" }}
         secundario={{ titulo: "Ver certificaciones", href: "/certificaciones" }}

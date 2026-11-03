@@ -21,18 +21,18 @@ const AREAS = [
     clase: "b-big",
     nombre: "Industrial",
     etiqueta: "Producción",
-    foto: fotos.industrial.src,
-    texto: "Alta capacidad de producción diaria de azúcar y destilería de alcohol.",
+    foto: fotos.refineria.src,
+    texto: "7.500 toneladas de caña al día, refinería y destilería de alcohol.",
   },
   {
     clase: "b-wide",
     nombre: "Agrícola",
     etiqueta: "Campo",
-    foto: fotos.agricola.src,
-    texto: "Manejo de la siembra y coordinación de la producción de caña.",
+    foto: fotos.maquinaria.src,
+    texto: "Siembra y cosecha de la caña, coordinada con cerca de 400 productores independientes.",
   },
-  { clase: "b-s1", nombre: "Administración", foto: fotos.administracion.src },
-  { clase: "b-s2", nombre: "Taller", foto: fotos.taller.src },
+  { clase: "b-s1", nombre: "Administración", foto: fotos.rotulo.src },
+  { clase: "b-s2", nombre: "Taller", foto: fotos.camion.src },
 ];
 
 const PUENTES = [
@@ -56,7 +56,7 @@ const PUENTES = [
     ),
   },
   {
-    titulo: "Por el bienestar de la comunidad",
+    titulo: "Puente de apoyo",
     programa: "Programa de Desarrollo Comunal",
     texto: "Facilitamos proyectos de infraestructura, cultura y valores guanacastecos.",
     icono: (
@@ -178,10 +178,10 @@ export default function InicioPage() {
       <section className="split-sec">
         <div data-reveal className="overflow-hidden rounded-[14px]">
           <Image
-            src={fotos.comunidad.src}
-            alt={fotos.comunidad.alt}
-            width={1024}
-            height={407}
+            src={fotos.comida.src}
+            alt={fotos.comida.alt}
+            width={fotos.comida.ancho}
+            height={fotos.comida.alto}
             sizes="(max-width: 900px) 100vw, 560px"
           />
         </div>
@@ -189,14 +189,15 @@ export default function InicioPage() {
           <p className="lead-lab">Nuestra guanacastequidad</p>
           <Titular
             className="h2 mb-4 max-w-[20ch]"
-            texto="Somos parte de la historia y las tradiciones de Guanacaste."
+            texto="Lo mejor de Guanacaste es su gente y su cultura."
           />
           <p className="mb-5 max-w-[60ch] text-[17px] leading-relaxed text-catsa-body">
-            Desde 1975 damos trabajo a más de 450 colaboradores permanentes y, en zafra, a más de 1.000
-            personas de las comunidades cercanas a Liberia.
+            Guanacaste nos vio nacer como empresa en 1975 y vio nacer a gran parte de quienes trabajan con
+            nosotros. Celebramos el Día de la Anexión con sus comidas, bailes y tradiciones, y damos trabajo a
+            más de 450 colaboradores permanentes y a más de 1.000 personas en zafra.
           </p>
-          <Link href="/sobre-nosotros" className="text-[15px] font-bold text-catsa-green">
-            Conozca nuestra historia →
+          <Link href="/sobre-nosotros#guanacastequidad" className="text-[15px] font-bold text-catsa-green">
+            Conozca nuestra guanacastequidad →
           </Link>
         </div>
       </section>
@@ -259,7 +260,7 @@ export default function InicioPage() {
 
       <Cierre
         antetitulo="Hablemos"
-        titulo="Llevemos el azúcar de Guanacaste a su industria."
+        titulo="Hablemos de lo que produce Guanacaste."
         texto="Solicite información sobre nuestros productos, certificaciones u oportunidades comerciales. Le respondemos con gusto."
         principal={{ titulo: "Solicitar información", href: "/contacto" }}
         secundario={{ titulo: "Ver catálogo", href: "/productos" }}

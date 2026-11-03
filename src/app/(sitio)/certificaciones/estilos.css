@@ -110,4 +110,39 @@
       padding: 28px;
     }
   }
+  .crow .alcance {
+    font-size: 14.5px;
+    color: var(--catsa-ink);
+    margin-top: 10px;
+  }
+  .crow .alcance b {
+    color: var(--catsa-green);
+  }
+  /* Política de calidad e inocuidad, tal como la publica CATSA. */
+  .politica {
+    background: var(--catsa-cream-2);
+    padding: 88px 0;
+  }
+  .politica .wrap {
+    max-width: 860px;
+  }
+  .politica h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 40px);
+    color: var(--catsa-green);
+    margin: 10px 0 20px;
+    line-height: 1.15;
+  }
+  .politica p:not(.lead-lab) {
+    font-size: 17px;
+    color: var(--catsa-body);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 900px) {
+    .politica {
+      padding: 64px 0;
+    }
+  }
 }

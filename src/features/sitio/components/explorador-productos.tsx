@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { anclaDe, CERTIFICACIONES, PRODUCTOS, type Producto } from "../productos";
+import { anclaDe, PRODUCTOS, type Producto } from "../productos";
+import { TablaEspecificaciones } from "./tabla-especificaciones";
 
 type Pestana = "resumen" | "especificaciones" | "logistica";
 const PESTANAS: { clave: Pestana; titulo: string }[] = [
@@ -97,7 +99,7 @@ export function ExploradorProductos() {
         <div className="exp-info" key={`info-${i}`}>
           <div className="cat">{p.categoria}</div>
           <h2>{p.nombre}</h2>
-          <div className="code">Código {p.codigo}</div>
+          {p.codigo && <div className="code">Código {p.codigo}</div>}
           {p.otrosNombres && (
             <div className="aka">
               <b className="text-catsa-ink">Otros nombres:</b> {p.otrosNombres}
@@ -114,7 +116,7 @@ export function ExploradorProductos() {
               Solicitar información
             </Link>
             {p.ficha && (
-              <Link className="btn btn-line" href={p.ficha.href}>
+              <Link className="btn btn-line" href={`/productos/${p.slug}` as Route}>
                 Ver ficha técnica completa
               </Link>
             )}
@@ -128,7 +130,7 @@ export function ExploradorProductos() {
             fill
             sizes="(max-width: 900px) 100vw, 560px"
           />
-          <span className="badge">{p.codigo}</span>
+          {p.codigo && <span className="badge">{p.codigo}</span>}
         </div>
       </div>
 
@@ -166,10 +168,18 @@ function Detalle({ producto: p, pestana }: { producto: Producto; pestana: Pestan
     return (
       <>
         <p className="ptab-p">{p.descripcion}</p>
-        <p className="ptab-p mb-0">
-          <b className="font-heading text-catsa-green">Usos principales:</b> {p.usos}
-        </p>
-        <p className="ptab-p mt-3.5 text-[13.5px]">Certificados bajo {CERTIFICACIONES}</p>
+        {p.certificaciones.length > 0 && (
+          <>
+            <p className="ptab-p mb-0">
+              <b className="font-heading text-catsa-green">Certificaciones que lo cubren:</b>
+            </p>
+            <div className="certs">
+              {p.certificaciones.map((c) => (
+                <span key={c}>{c}</span>
+              ))}
+            </div>
+          </>
+        )}
       </>
     );
 
@@ -184,85 +194,57 @@ function Detalle({ producto: p, pestana }: { producto: Producto; pestana: Pestan
             </div>
           ))}
         </div>
-        <TablaEspecificaciones especificaciones={p.ficha.especificaciones} />
+        <TablaEspecificaciones filas={p.ficha.tablas[0].filas} />
+        {p.ficha.tablas.length > 1 && (
+          <p className="ptab-p mt-4 text-[14px]">
+            Los análisis microbiológicos y de metales pesados están en la{" "}
+            <Link className="font-semibold text-catsa-green underline" href={`/productos/${p.slug}` as Route}>
+              ficha técnica completa
+            </Link>
+            .
+          </p>
+        )}
       </>
     ) : (
       <div className="note-box">
-        <b>Ficha técnica completa disponible bajo solicitud.</b>
+        <b>Este programa no tiene ficha técnica publicada.</b>
         <br />
-        Este producto cumple con nuestros estándares certificados: {CERTIFICACIONES}.
+        Escríbanos si necesita más información.
       </div>
     );
 
   return p.ficha ? (
     <>
-      <p className="ptab-p">
-        Este producto se despacha a granel en cisternas, sobre transportes adecuados para tal fin, con
-        trazabilidad desde el tanque hasta el cliente.
-      </p>
-      <div className="cist">
-        <span className="cl">Capacidad por cisterna</span>
-        <span className="cn">{p.ficha.cisterna}</span>
-      </div>
-      <div className="tanks">
-        {p.ficha.tanques.map((t) => (
-          <div key={t.nombre} className="tank">
-            <div className="tn">
-              {t.millones}
-              <small> M L</small>
-            </div>
-            <div className="tl">{t.nombre}</div>
-          </div>
+      <ul className="pres-lista">
+        {p.ficha.presentacion.map((t) => (
+          <li key={t}>{t}</li>
         ))}
-      </div>
+      </ul>
+      {p.ficha.granel && (
+        <>
+          <div className="cist">
+            <span className="cl">Capacidad por cisterna</span>
+            <span className="cn">{p.ficha.granel.cisterna}</span>
+          </div>
+          <div className="tanks">
+            {p.ficha.granel.tanques.map((t) => (
+              <div key={t.nombre} className="tank">
+                <div className="tn">
+                  {t.millones}
+                  <small> M L</small>
+                </div>
+                <div className="tl">{t.nombre}</div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </>
   ) : (
     <div className="note-box">
-      <b>Presentación según requerimiento.</b>
+      <b>Programa agrícola.</b>
       <br />
-      Consulte las presentaciones y formatos de despacho disponibles para este producto.
-    </div>
-  );
-}
-
-/** La comparten el explorador y la ficha técnica. */
-export function TablaEspecificaciones({
-  especificaciones,
-}: {
-  especificaciones: NonNullable<Producto["ficha"]>["especificaciones"];
-}) {
-  return (
-    <div className="spec-wrap">
-      <table className="spec">
-        <thead>
-          <tr>
-            <th>Descripción</th>
-            <th>Unidad</th>
-            <th className="num">Mínimo</th>
-            <th className="num">Máximo</th>
-            <th>Método</th>
-          </tr>
-        </thead>
-        <tbody>
-          {especificaciones.map((s) => (
-            <tr key={s.descripcion}>
-              <td className="desc">{s.descripcion}</td>
-              <td className="unit">{s.unidad}</td>
-              {s.minimo === "Negativo" ? (
-                <td className="val neg" colSpan={2}>
-                  Negativo
-                </td>
-              ) : (
-                <>
-                  <td className="val">{s.minimo}</td>
-                  <td className="val">{s.maximo}</td>
-                </>
-              )}
-              <td className="met">{s.metodo}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      Consúltenos por disponibilidad y formatos.
     </div>
   );
 }

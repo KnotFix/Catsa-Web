@@ -11,32 +11,37 @@ const AREAS = [
     etiqueta: "Soporte",
     foto: fotos.administracion,
     texto:
-      "El área que mantiene todo en marcha: gestión financiera, recursos humanos y logística que permiten a producción concentrarse en lo suyo.",
-    temas: ["Finanzas", "Recursos humanos", "Compras y logística"],
+      "La plataforma de soporte de toda la organización. Reclutamos al personal idóneo, administramos los recursos de la empresa y cuidamos la relación con proveedores, organizaciones e instituciones públicas.",
+    temas: ["Reclutamiento y talento", "Administración de recursos", "Proveedores e instituciones"],
   },
   {
     nombre: "Agrícola",
     etiqueta: "Campo",
     foto: fotos.agricola,
     texto:
-      "Donde empieza todo. Siembra, riego y cosecha de la caña, coordinando nuestras hectáreas y las de más de 400 productores independientes.",
-    temas: ["Siembra y riego", "Cosecha", "Productores"],
+      "Maneja nuestras plantaciones y coordina la producción de los productores independientes de la zona. La zafra va de diciembre a principios de abril y el 95 % de la cosecha es mecánica.",
+    temas: [
+      "Preparación del terreno",
+      "Siembra y ciclos de planta y soca",
+      "Cosecha mecánica",
+      "Investigación de variedades",
+    ],
   },
   {
     nombre: "Industrial",
     etiqueta: "Producción",
     foto: fotos.industrial,
     texto:
-      "El corazón de la transformación. Convertimos la caña en azúcares de distintos grados y en alcohol a través de nuestra destilería.",
-    temas: ["Molienda", "Refinación", "Destilería"],
+      "Molemos 7.500 toneladas de caña al día en un tándem de seis molinos. La refinería produce 3.600 bultos de 50 kg de azúcar refino al día y la destilería, 250.000 litros de alcohol.",
+    temas: ["Fabricación de azúcar", "Refinería", "Destilería", "Vapor y energía con bagazo"],
   },
   {
     nombre: "Taller y Mantenimiento",
     etiqueta: "Soporte técnico",
     foto: fotos.taller,
     texto:
-      "La garantía de continuidad. Soporte técnico a las áreas agrícola e industrial para que todo opere sin interrupciones durante la zafra.",
-    temas: ["Mantenimiento", "Reparación", "Fabricación"],
+      "Mantenimiento preventivo y correctivo de la maquinaria agrícola, las cosechadoras, la maquinaria industrial, el equipo de riego y los vehículos. Al terminar la zafra, cada equipo recibe mantenimiento total.",
+    temas: ["Sección Mecánica", "Sección Soldadura", "Sección Mantenimiento", "Sección Administrativa"],
   },
 ];
 

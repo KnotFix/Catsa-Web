@@ -10,36 +10,42 @@ import "./estilos.css";
 export const metadata: Metadata = {
   title: "Certificaciones",
   description:
-    "ISO 9001, FSSC 22000, Kosher, ISCC EU y Esencial Costa Rica: los sellos que auditan la calidad e inocuidad de cada producto de CATSA.",
+    "ISO 9001, FSSC 22000, Kosher, ISCC y Esencial Costa Rica: los sellos que auditan la calidad e inocuidad de cada producto de CATSA.",
 };
 
-const TEXTOS: Record<(typeof sellos)[number]["clave"], { titulo: string; texto: string }> = {
-  "iso-9001": {
-    titulo: "ISO 9001",
-    texto:
-      "ICONTEC certifica que nuestro Sistema de Gestión de la Calidad cumple los requisitos de la norma internacional, garantizando procesos consistentes y mejora continua.",
-  },
-  "fssc-22000": {
-    titulo: "FSSC 22000",
-    texto:
-      "Certificación de inocuidad alimentaria reconocida mundialmente, basada en ISO 22000, que respalda la seguridad de nuestros productos para la industria de alimentos.",
-  },
-  kosher: {
-    titulo: "Kosher",
-    texto:
-      "Certifica que los productos elaborados por CATSA cumplen las normas dietéticas judías, abriendo las puertas a clientes del mercado internacional.",
-  },
-  iscc: {
-    titulo: "ISCC EU",
-    texto:
-      "Sistema de certificación de sostenibilidad y trazabilidad de la materia prima, cumpliendo los requisitos del ISCC EU para toda la cadena de valor.",
-  },
-  esencial: {
-    titulo: "Esencial Costa Rica",
-    texto:
-      "Marca país que respalda la calidad, la sostenibilidad y el origen costarricense de nuestros productos ante el mundo.",
-  },
-};
+// Textos y alcances tomados de Gestión de Calidad, en catsa.net.
+const TEXTOS: Record<(typeof sellos)[number]["clave"], { titulo: string; texto: string; alcance?: string }> =
+  {
+    "iso-9001": {
+      titulo: "ISO 9001",
+      texto:
+        "ICONTEC certifica que nuestro Sistema de Gestión de la Calidad cumple la norma ISO 9001:2015, la referencia internacional para asegurar que los procesos satisfagan las necesidades de los clientes.",
+      alcance:
+        "Azúcar refino, blanco especial, blanco de plantación y crudo; alcohol etílico para bebidas y alcohol etílico anhidro.",
+    },
+    "fssc-22000": {
+      titulo: "FSSC 22000",
+      texto:
+        "LSQA certifica nuestro Sistema de Gestión de Inocuidad de los Alimentos según ISO 22000, ISO/TS 22002-1 y los requisitos adicionales de FSSC 22000, un esquema reconocido por la Global Food Safety Initiative (GFSI).",
+      alcance: "Azúcar blanco especial, blanco y crudo.",
+    },
+    kosher: {
+      titulo: "Kosher",
+      texto:
+        "Certifica que nuestros azúcares cumplen las normas de kashrut, la ley dietética judía, para clientes que exigen alimentos aptos.",
+      alcance: "Azúcar refino, azúcar especial 150 y azúcar blanco de plantación.",
+    },
+    iscc: {
+      titulo: "ISCC",
+      texto:
+        "Control Union certifica que cumplimos el sistema ISCC de sostenibilidad y emisiones de gases de efecto invernadero: la biomasa no viene de tierras de alta biodiversidad, aplicamos buenas prácticas agrícolas y respetamos los derechos humanos, laborales y de tierras.",
+    },
+    esencial: {
+      titulo: "Esencial Costa Rica",
+      texto:
+        "Licencia de la marca país, que reconoce a las empresas costarricenses por su excelencia, sostenibilidad, innovación y vínculo con el desarrollo del país.",
+    },
+  };
 
 export default function CertificacionesPage() {
   return (
@@ -67,12 +73,37 @@ export default function CertificacionesPage() {
                 <div className="num">{String(i + 1).padStart(2, "0")}</div>
                 <Titular texto={TEXTOS[s.clave].titulo} />
                 <p>{TEXTOS[s.clave].texto}</p>
+                {TEXTOS[s.clave].alcance && (
+                  <p className="alcance">
+                    <b>Alcance:</b> {TEXTOS[s.clave].alcance}
+                  </p>
+                )}
                 <Link className="cert-link" href="/contacto">
                   Solicitar el certificado <span className="arw">→</span>
                 </Link>
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="politica">
+        <div className="wrap" data-reveal>
+          <p className="lead-lab">Política de calidad e inocuidad</p>
+          <Titular texto="Nuestro compromiso con cada cliente." />
+          <p>
+            Nuestro compromiso es producir caña de azúcar y fabricar los productos derivados apegándonos a los
+            acuerdos establecidos con nuestros clientes, cumpliendo con los requisitos legales y
+            reglamentarios, aplicando las normas de calidad e inocuidad según nuestro alcance y promoviendo el
+            cumplimiento de los objetivos del Sistema de Gestión de Calidad e Inocuidad, para así satisfacer
+            de acuerdo con nuestros recursos sus requerimientos.
+          </p>
+          <p>
+            Para cumplir con lo anterior desde el contexto de la organización, buscaremos la mejora continua
+            de nuestros procesos y productos, promoviendo el trabajo en equipo, la comunicación integral, el
+            desarrollo de las competencias de nuestros colaboradores y la actualización del sistema de gestión
+            de calidad e inocuidad alimentaria.
+          </p>
         </div>
       </section>
 

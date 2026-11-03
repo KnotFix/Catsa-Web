@@ -165,10 +165,67 @@
   .mapa:hover .arw {
     transform: translateX(5px);
   }
+  .sedes-sec {
+    background: var(--catsa-cream-2);
+    padding: 80px 0;
+  }
+  .sedes-sec h2 {
+    font-size: 26px;
+    color: var(--catsa-green);
+    margin: 8px 0 28px;
+  }
+  .sedes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .sede {
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 18px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .sede h3 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--catsa-green);
+    margin-bottom: 6px;
+  }
+  .sede p {
+    font-size: 16px;
+    color: var(--catsa-ink);
+    line-height: 1.55;
+  }
+  .sede .apdo {
+    font-size: 14px;
+    color: var(--catsa-muted);
+  }
+  .sede .tel {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--catsa-ink);
+    border-bottom: 1px solid var(--catsa-line);
+    margin: 6px 0 4px;
+  }
+  .sede .tel:hover {
+    color: var(--catsa-green);
+    border-color: var(--catsa-green);
+  }
   @media (max-width: 900px) {
     .cx-grid {
       grid-template-columns: 1fr;
       gap: 32px;
+    }
+    .sedes-sec {
+      padding: 64px 0;
+    }
+    .sedes {
+      grid-template-columns: 1fr;
     }
   }
 }

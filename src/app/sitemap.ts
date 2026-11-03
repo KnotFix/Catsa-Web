@@ -1,16 +1,17 @@
 import type { MetadataRoute } from "next";
 import { listarNoticias } from "@/features/noticias/api";
 import { listarPuestos } from "@/features/puestos/api";
+import { PRODUCTOS } from "@/features/sitio/productos";
 import { env } from "@/lib/env";
 
-// Páginas de contenido fijo del sitio (las de datos se suman abajo).
+// Páginas de contenido fijo del sitio, con una ficha por producto (las de datos se suman abajo).
 const FIJAS = [
   "/",
   "/sobre-nosotros",
   "/areas",
   "/como-trabajamos",
   "/productos",
-  "/productos/alcohol-etilico-neutro",
+  ...PRODUCTOS.filter((p) => p.ficha).map((p) => `/productos/${p.slug}`),
   "/certificaciones",
   "/rse",
   "/contacto",

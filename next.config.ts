@@ -23,12 +23,7 @@ const nextConfig: NextConfig = {
     serverActions: { bodySizeLimit: "11mb" },
   },
   images: {
-    remotePatterns: [
-      new URL(`${MEDIA_URL}/**`),
-      // Fotos del sitio actual de CATSA mientras llega la fotografía propia
-      // (src/features/sitio/imagenes.ts).
-      new URL("https://www.catsa.net/wp-content/uploads/**"),
-    ],
+    remotePatterns: [new URL(`${MEDIA_URL}/**`)],
     // En desarrollo las imágenes vienen de Django en localhost, que Next bloquea
     // por defecto (protección SSRF). En producción vienen de un dominio público.
     dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",

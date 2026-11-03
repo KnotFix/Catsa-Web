@@ -321,4 +321,51 @@
       transform: none !important;
     }
   }
+  /* Guanacastequidad: texto y tres fotos de la celebración de la Anexión. */
+  .gq {
+    padding: 96px 0;
+  }
+  .gq-text {
+    max-width: 760px;
+    margin-bottom: 40px;
+  }
+  .gq-text .eyebrow {
+    color: var(--catsa-brown);
+  }
+  .gq-text h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 40px);
+    color: var(--catsa-green);
+    margin: 10px 0 18px;
+    line-height: 1.15;
+  }
+  .gq-text p {
+    font-size: 17px;
+    color: var(--catsa-body);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .gq-fotos {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 16px;
+  }
+  .gq-foto {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .gq-foto img {
+    object-fit: cover;
+  }
+  @media (max-width: 900px) {
+    .gq {
+      padding: 64px 0;
+    }
+    .gq-fotos {
+      grid-template-columns: 1fr;
+    }
+  }
 }

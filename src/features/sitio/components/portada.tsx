@@ -6,8 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { fondo, fotos } from "../imagenes";
+import { PRODUCTOS } from "../productos";
 
-const FOTOS = [fotos.canales, fotos.planta, fotos.operacion];
+const FOTOS = [fotos.campo, fotos.planta, fotos.fiesta];
 
 /**
  * Portada del inicio: tres fotos que se turnan cada 5 s (sin turno si se
@@ -85,22 +86,9 @@ export function Portada({
   );
 }
 
-const DESTACADOS = [
-  {
-    nombre: "Azúcar Refinado Nacional",
-    categoria: "Azúcares",
-    foto: fotos.azucar.src,
-    ancla: "azucar-refinado-nacional",
-  },
-  {
-    nombre: "Alcohol Etílico Neutro",
-    categoria: "Alcoholes",
-    foto: fotos.alcohol.src,
-    ancla: "alcohol-etilico-neutro",
-  },
-  { nombre: "Azúcar Crudo", categoria: "Azúcares", foto: fotos.planta.src, ancla: "azucar-crudo" },
-  { nombre: "Miel de Caña", categoria: "Miel", foto: fotos.miel.src, ancla: "miel-de-cana" },
-];
+const DESTACADOS = ["azucar-refinado-nacional", "alcohol-etilico-neutro", "azucar-crudo", "miel"].map(
+  (slug) => PRODUCTOS.find((p) => p.slug === slug)!,
+);
 
 /**
  * "Productos seleccionados": cada foto se destapa al entrar en pantalla y se
@@ -126,10 +114,10 @@ export function Escaparate() {
         <Link
           key={p.nombre}
           className={cn("sc-item", i % 2 === 1 && "portrait")}
-          href={`/productos#${p.ancla}` as Route}
+          href={`/productos#${p.slug}` as Route}
         >
           <div className="reveal-img">
-            <div className="ri-bg" style={fondo(p.foto)} role="img" aria-label={p.nombre} />
+            <div className="ri-bg" style={fondo(p.foto.src)} role="img" aria-label={p.foto.alt} />
           </div>
           <div className="sc-cap">
             <span className="ci">{String(i + 1).padStart(2, "0")}</span>

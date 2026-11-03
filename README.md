@@ -83,9 +83,11 @@ no en Tailwind, para no perder detalle:
 - El movimiento lo pone `<Movimiento>` (`components/sitio`). Lo que entra al hacer scroll solo se esconde con
   `@media (scripting: enabled)`: sin JavaScript o con movimiento reducido, todo se ve. Los titulares por palabra
   se parten en el servidor (`<Titular>`), no en el navegador.
-- Las fotos son por ahora las del sitio actual de catsa.net (`features/sitio/imagenes.ts`). Si el sitio nuevo
-  reemplaza a ese dominio, hay que copiarlas antes de publicar.
-- Catálogo, certificaciones, áreas y RSE son contenido fijo (alcance): se cambian en código.
+- Las fotos viven en `public/sitio/` (WebP) y se registran en `features/sitio/imagenes.ts`. Son las de catsa.net,
+  copiadas en su mayor resolución; las de RSE y algunas de áreas son pequeñas (550 px). Cuando CATSA entregue
+  fotografía propia se cambian ahí.
+- Catálogo, certificaciones, áreas y RSE son contenido fijo (alcance): se cambian en código. Los datos salen de
+  catsa.net. El catálogo (`features/sitio/productos.ts`) genera una ficha por producto en `/productos/[slug]`.
 
 ### Datos y caché
 

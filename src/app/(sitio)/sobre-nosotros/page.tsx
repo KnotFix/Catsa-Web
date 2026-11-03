@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
 import { Titular } from "@/components/sitio/titular";
@@ -9,7 +10,7 @@ import "./estilos.css";
 export const metadata: Metadata = {
   title: "Sobre nosotros",
   description:
-    "CATSA, Central Azucarera Tempisque: 50 años cultivando y procesando caña en Guanacaste, con más de 450 colaboradores permanentes.",
+    "CATSA, Central Azucarera Tempisque: desde 1975 cultivando y procesando caña en Guardia de Liberia, Guanacaste, con más de 450 colaboradores permanentes.",
 };
 
 const CIFRAS = [
@@ -25,16 +26,16 @@ const HITOS: Hito[] = [
     antetitulo: "El origen",
     titulo: "Se funda CATSA en Guardia de Liberia",
     texto:
-      "Nace como subsidiaria de CODESA (fundada en 1972) bajo un esquema de capital mixto, con la visión de industrializar la caña en el corazón de Guanacaste.",
-    foto: fotos.comunidad.src,
+      "Nace como subsidiaria de CODESA, empresa gubernamental fundada en 1972 bajo un esquema de capital mixto con características de sociedad anónima.",
+    foto: fotos.rotulo.src,
   },
   {
     anio: "1984–89",
     antetitulo: "Transición",
     titulo: "Cambio de manos y consolidación",
     texto:
-      "La Ley 6955 permite la venta de las acciones de las subsidiarias de CODESA. CATSA pasa a FINTRA y luego, en 1989, al Sector Cooperativo Nacional.",
-    foto: fotos.planta.src,
+      "En 1984 la Ley 6955 permite vender las acciones de las subsidiarias de CODESA. En 1987 CATSA pasa a FINTRA y en 1989 sus acciones las adquiere el Sector Cooperativo Nacional.",
+    foto: fotos.plantaAerea.src,
   },
   {
     anio: "1997",
@@ -42,15 +43,15 @@ const HITOS: Hito[] = [
     titulo: "Inversión de capital privado centroamericano",
     texto:
       "CATSA pasa a ser parte de un grupo de capital privado centroamericano, con importante inversión en la empresa, sus colaboradores y las comunidades cercanas.",
-    foto: fotos.industrial.src,
+    foto: fotos.destileria.src,
   },
   {
     anio: "Hoy",
     antetitulo: "Presente",
-    titulo: "Calidad certificada internacionalmente",
+    titulo: "Más de 450 colaboradores y calidad certificada",
     texto:
-      "Operamos bajo ISO 9001, FSSC 22000, Kosher, ISCC y Esencial Costa Rica, exportando azúcares y alcoholes con estándares de clase mundial.",
-    foto: fotos.operacion.src,
+      "Procesamos la caña de 10.551 hectáreas propias y de unos 400 productores independientes, bajo ISO 9001, FSSC 22000, Kosher, ISCC y Esencial Costa Rica.",
+    foto: fotos.equipo.src,
   },
 ];
 
@@ -71,7 +72,7 @@ export default function SobreNosotrosPage() {
       <CabeceraPagina
         antetitulo="Quiénes somos"
         titulo="Una empresa con raíces en Guanacaste desde 1975."
-        bajada="Cultivamos, procesamos y transformamos la caña de azúcar en productos que llevan el nombre de Guanacaste al mundo."
+        bajada="Somos una empresa agroindustrial dedicada al cultivo y procesamiento de la caña de azúcar y a la producción de azúcares y alcoholes."
         icono={
           <>
             <path pathLength={1} d="M4 20h16" />
@@ -92,7 +93,9 @@ export default function SobreNosotrosPage() {
             </p>
             <p data-reveal>
               Somos una de las principales fuentes de empleo de la zona: más de 450 colaboradores permanentes
-              y, en zafra, más de 1.000 personas.
+              y, en zafra, más de 1.000 personas. Junto a instituciones públicas, empresas privadas y medios
+              de comunicación, llevamos un plan de responsabilidad social en educación, salud, ambiente y
+              desarrollo comunal.
             </p>
             <div className="metrics">
               {CIFRAS.map((c, i) => (
@@ -117,7 +120,7 @@ export default function SobreNosotrosPage() {
       </section>
 
       <section className="mv">
-        <div className="mbg" data-px="70" style={fondo(fotos.planta.src)} />
+        <div className="mbg" data-px="70" style={fondo(fotos.camposAereo.src)} />
         <div className="wrap">
           <div className="grid">
             <div className="card" data-reveal>
@@ -154,6 +157,32 @@ export default function SobreNosotrosPage() {
                 <div className="vn">{String(i + 1).padStart(2, "0")}</div>
                 <Titular como="h3" texto={v.nombre} retardo={60 * (i + 1)} />
                 <p>{v.texto}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="gq" id="guanacastequidad">
+        <div className="wrap">
+          <div className="gq-text" data-reveal>
+            <p className="eyebrow">Nuestra guanacastequidad</p>
+            <Titular texto="Lo mejor de Guanacaste es su gente y su cultura." />
+            <p>
+              Guanacaste es la tierra que nos vio nacer como empresa y que ha visto nacer a gran parte de
+              nuestra fuerza laboral. Por eso la guanacastequidad es parte esencial de nuestra cultura
+              empresarial: rescatamos y valoramos el ser guanacasteco, con sus comidas, lenguaje, canciones,
+              bailes, costumbres y tradiciones.
+            </p>
+            <p>
+              Cada año celebramos el Día de la Anexión de Guanacaste con la alegría y el folclor de la
+              provincia, y desarrollamos actividades de proyección comunal que dan valor a su cultura.
+            </p>
+          </div>
+          <div className="gq-fotos" data-reveal>
+            {[fotos.comida, fotos.baile, fotos.tope].map((f) => (
+              <div key={f.src} className="gq-foto">
+                <Image src={f.src} alt={f.alt} fill sizes="(max-width: 900px) 100vw, 33vw" />
               </div>
             ))}
           </div>

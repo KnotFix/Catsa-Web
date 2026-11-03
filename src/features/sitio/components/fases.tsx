@@ -111,7 +111,7 @@ const FASES = [
   {
     titulo: "Cosecha",
     texto:
-      "Todo empieza en el cañal. La caña se cosecha en su punto óptimo de madurez en los campos de Guanacaste y se transporta a la planta para su procesamiento.",
+      "Todo empieza en el cañal. De diciembre a principios de abril cosechamos la caña, el 95 % con máquinas que la cortan en trozos y la limpian. Al llegar al ingenio se pesa y se muestrea con un Core Sampler para medir su azúcar y sus impurezas.",
     ilustracion: (
       <>
         <path d="M50 92V34" />
@@ -132,7 +132,7 @@ const FASES = [
   {
     titulo: "Molienda",
     texto:
-      "En la planta, la caña pasa por los molinos que extraen su jugo, el cual se somete a control de calidad continuo en cada lote.",
+      "Picadoras y una desfibradora abren la caña y un tándem de seis molinos extrae su jugo: 7.500 toneladas de caña al día. El bagazo que queda alimenta las calderas que dan vapor y energía a toda la planta.",
     ilustracion: (
       <>
         <circle cx="50" cy="50" r="17" />
@@ -157,7 +157,7 @@ const FASES = [
   {
     titulo: "Clarificación y evaporación",
     texto:
-      "El jugo se purifica para eliminar impurezas y luego se evapora, concentrándose hasta obtener un jarabe rico en sacarosa.",
+      "El jugo se sulfita, se alcaliza con cal y se calienta para separar las impurezas en los clarificadores. Luego una línea de evaporadores de quíntuple efecto lo concentra de 15 a 60 °Brix: la meladura.",
     ilustracion: (
       <>
         <ellipse cx="50" cy="26" rx="20" ry="8" />
@@ -177,7 +177,7 @@ const FASES = [
   {
     titulo: "Cristalización",
     texto:
-      "El jarabe se cocina en tachos al vacío hasta formar los cristales de azúcar, que se separan de la miel mediante centrifugación.",
+      "La meladura se cocina en tachos hasta formar los cristales, con un esquema de doble magma y tres masas cocidas. Centrífugas a 1.200 rpm separan el azúcar de la miel, y la última miel agotada es la melaza.",
     ilustracion: (
       <>
         <path d="M50 18 66 40 50 82 34 40Z" />
@@ -196,7 +196,7 @@ const FASES = [
   {
     titulo: "Refinación",
     texto:
-      "Según su destino, el azúcar se refina para alcanzar distintos grados de pureza y color, desde el crudo hasta el refino de 35 UI.",
+      "En la refinería, el azúcar blanco se disuelve, se decolora con carbón activado y pasa por doble filtración antes de cristalizar de nuevo. Así se obtienen los refinos, hasta el de 35 UI de color.",
     ilustracion: (
       <>
         <path d="M26 26h48L55 52v20l-10 6V52Z" />
@@ -208,7 +208,7 @@ const FASES = [
   {
     titulo: "Destilería",
     texto:
-      "La miel resultante se aprovecha en nuestra destilería para producir alcohol etílico neutro y anhidro de alta calidad.",
+      "La melaza fermenta con levadura en 20 fermentadores de 250.000 litros y se destila en columnas. Un sistema con etilenglicol deshidrata el alcohol: así producimos alcohol etílico neutro y anhidro.",
     ilustracion: (
       <>
         <path d="M42 20h16M45 20v22L29 76a5 5 0 0 0 4 8h34a5 5 0 0 0 4-8L55 42V20" />
@@ -220,7 +220,7 @@ const FASES = [
   {
     titulo: "Envase y despacho",
     texto:
-      "Finalmente, los productos se envasan y se despachan al mercado nacional y de exportación, con trazabilidad de principio a fin.",
+      "El azúcar seco se empaca en sacos de 50 kg o big bags de 1.000 kg y se despacha a LAICA, que lo comercializa. El crudo sale a granel desde el silo; el alcohol y la miel, en cisternas.",
     ilustracion: (
       <>
         <path d="M34 42c0-6 6-10 16-10s16 4 16 10l4 38a5 5 0 0 1-5 5H35a5 5 0 0 1-5-5Z" />

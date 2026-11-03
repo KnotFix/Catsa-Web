@@ -2,21 +2,25 @@ import type { Metadata } from "next";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
 import { Titular } from "@/components/sitio/titular";
-import { sitio } from "@/config/sitio";
+import { sedes, sitio } from "@/config/sitio";
 import { obtenerAjustes } from "@/features/contenido/ajustes";
 import "./estilos.css";
 
 export const metadata: Metadata = {
   title: "Contáctenos",
   description:
-    "Escríbanos para consultas comerciales, de calidad o institucionales. Filadelfia, Carrillo, Guanacaste, Costa Rica.",
+    "Escríbanos para consultas comerciales, de calidad o institucionales. Planta en Guardia de Liberia, Guanacaste, y oficinas en San José.",
 };
 
-// Los datos salen de Ajustes del sitio, la misma fuente del pie. El
-// formulario con envío de correo espera la decisión de CATSA (pendiente 3).
+const telefono = (t: string) => `tel:${t.replace(/[^\d+]/g, "")}`;
+const mapa = (lugar: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lugar)}`;
+
+// Correo, WhatsApp y horario salen de Ajustes del sitio, la misma fuente del
+// pie; las dos sedes son fijas. El formulario con envío de correo espera la
+// decisión de CATSA (pendiente 3).
 export default async function ContactoPage() {
   const ajustes = await obtenerAjustes();
-  const direccion = ajustes.direccion || sitio.ubicacion;
 
   return (
     <div className="pg-contacto">
@@ -61,18 +65,17 @@ export default async function ContactoPage() {
             ) : (
               <p className="vacio">Pronto publicaremos aquí nuestros medios de contacto.</p>
             )}
+            <a className="mapa mt-7" href={sitio.sugerencias} target="_blank" rel="noopener noreferrer">
+              Buzón de sugerencias o quejas <span className="arw">→</span>
+            </a>
           </div>
 
           <div className="cx-info" data-reveal>
             <Titular texto="Información de contacto" />
-            <div className="info-item">
-              <div className="lbl">Dirección</div>
-              <div className="val">{direccion}</div>
-            </div>
             {ajustes.telefono && (
               <div className="info-item">
                 <div className="lbl">Teléfono</div>
-                <a className="val" href={`tel:${ajustes.telefono.replace(/[^\d+]/g, "")}`}>
+                <a className="val" href={telefono(ajustes.telefono)}>
                   {ajustes.telefono}
                 </a>
               </div>
@@ -91,14 +94,36 @@ export default async function ContactoPage() {
                 <div className="val">{ajustes.horario}</div>
               </div>
             )}
-            <a
-              className="mapa"
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`CATSA ${direccion}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Cómo llegar <span className="arw">→</span>
-            </a>
+            {ajustes.direccion && (
+              <div className="info-item">
+                <div className="lbl">Dirección</div>
+                <div className="val">{ajustes.direccion}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="sedes-sec">
+        <div className="wrap">
+          <div data-reveal>
+            <p className="lead-lab">Dónde estamos</p>
+            <Titular texto="Nuestras sedes" />
+          </div>
+          <div className="sedes">
+            {sedes.map((s) => (
+              <article key={s.nombre} className="sede" data-reveal>
+                <h3>{s.nombre}</h3>
+                <p>{s.direccion}</p>
+                <p className="apdo">{s.apartado}</p>
+                <a className="tel" href={telefono(s.telefono)}>
+                  {s.telefono}
+                </a>
+                <a className="mapa" href={mapa(s.mapa)} target="_blank" rel="noopener noreferrer">
+                  Cómo llegar <span className="arw">→</span>
+                </a>
+              </article>
+            ))}
           </div>
         </div>
       </section>

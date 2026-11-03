@@ -104,4 +104,105 @@
       transform: none !important;
     }
   }
+  /* Lo hecho en cada programa, bajo el texto. */
+  .logros {
+    display: grid;
+    gap: 8px;
+    margin-top: 18px;
+    max-width: 52ch;
+  }
+  .logros li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    color: var(--catsa-ink);
+    line-height: 1.5;
+  }
+  .logros li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--catsa-sprout);
+  }
+  /* Ambiente: texto, cuatro fotos de fauna y dos tarjetas. */
+  .ambiente {
+    background: var(--catsa-cream-2);
+    padding: 96px 0;
+  }
+  .amb-head {
+    max-width: 780px;
+    margin-bottom: 40px;
+  }
+  .amb-head h2 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 40px);
+    color: var(--catsa-green);
+    margin: 10px 0 18px;
+    line-height: 1.15;
+  }
+  .amb-head p {
+    font-size: 17px;
+    color: var(--catsa-body);
+    line-height: 1.7;
+  }
+  .fauna {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .fauna .ff {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .fauna .ff img {
+    object-fit: cover;
+  }
+  .fauna figcaption {
+    font-size: 13px;
+    color: var(--catsa-muted);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  .amb-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .amb-card {
+    background: var(--catsa-paper);
+    border: 1px solid var(--catsa-line);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .amb-card h3 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--catsa-green);
+    margin-bottom: 10px;
+  }
+  .amb-card p {
+    font-size: 16px;
+    color: var(--catsa-body);
+    line-height: 1.7;
+  }
+  @media (max-width: 900px) {
+    .ambiente {
+      padding: 64px 0;
+    }
+    .fauna {
+      grid-template-columns: 1fr 1fr;
+    }
+    .amb-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 }

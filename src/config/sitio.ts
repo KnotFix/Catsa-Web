@@ -5,9 +5,30 @@ export const sitio = {
   nombreLegal: "Central Azucarera Tempisque S.A.",
   descripcion:
     "Empresa agroindustrial guanacasteca dedicada al cultivo y procesamiento de caña de azúcar y a la producción de azúcares y alcoholes desde 1975.",
-  ubicacion: "Filadelfia, Carrillo, Guanacaste, Costa Rica",
+  ubicacion: "Guardia de Liberia, Guanacaste, Costa Rica",
   certificaciones: "ISO 9001 · FSSC 22000 · Kosher · ISCC · Esencial Costa Rica",
+  /** Formulario de sugerencias o quejas que CATSA ya publica en catsa.net. */
+  sugerencias:
+    "https://docs.google.com/forms/d/e/1FAIpQLSczcOhSYTT9ZRketIhdPWG9WmeeF4_nn0O1XqOG5M9Y0vdMwg/viewform",
 } as const;
+
+/** Las dos sedes que publica catsa.net. */
+export const sedes = [
+  {
+    nombre: "Planta",
+    direccion: "6,5 km al sureste de la Escuela de Guardia, Liberia, Guanacaste.",
+    apartado: "Apartado 56-5000, Liberia",
+    telefono: "+506 2690-2500",
+    mapa: "Central Azucarera Tempisque, Guardia, Liberia, Guanacaste",
+  },
+  {
+    nombre: "Oficinas en San José",
+    direccion: "125 m al sur de Teletica, Edificio Vista del Parque, 2.º piso.",
+    apartado: "Apartado 10315-1000, San José",
+    telefono: "+506 2291-2676",
+    mapa: "Edificio Vista del Parque, San José, Costa Rica",
+  },
+] as const;
 
 type Enlace = { titulo: string; href: Route; descripcion?: string; nuevo?: boolean };
 type Grupo = { titulo: string; enlaces: Enlace[] };
