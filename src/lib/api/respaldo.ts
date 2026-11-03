@@ -8,14 +8,23 @@ import { ApiError, esFalloDeRed } from "./errores";
  * página sale con el valor de respaldo en vez de romperse, y la entrada se
  * marca de vida corta para que Next la vuelva a pedir pronto en lugar de
  * guardar el respaldo por horas. Los errores de programación sí se propagan.
+ *
+ * `vida: "minutes"` es para lo que se lee fuera de Suspense (layout, metadatos):
+ * Next trata una entrada de segundos como dato dinámico y no podría prerenderizar
+ * la página. Con minutos, el respaldo se vuelve a pedir al minuto.
  */
-export async function conRespaldo<T>(leer: () => Promise<T>, respaldo: T): Promise<T> {
+export async function conRespaldo<T>(
+  leer: () => Promise<T>,
+  respaldo: T,
+  { vida = "seconds" }: { vida?: "seconds" | "minutes" } = {},
+): Promise<T> {
   try {
     return await leer();
   } catch (error) {
     if (!(error instanceof ApiError) && !esFalloDeRed(error)) throw error;
     console.error("[catsa-api] lectura con respaldo:", describir(error));
-    cacheLife("seconds");
+    if (vida === "minutes") cacheLife("minutes");
+    else cacheLife("seconds");
     return respaldo;
   }
 }

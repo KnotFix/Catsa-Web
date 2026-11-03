@@ -29,7 +29,8 @@ export async function obtenerAjustes(): Promise<Ajustes> {
   "use cache";
   cacheTag(etiquetas.ajustes);
   cacheLife("days");
-  return conRespaldo(() => apiFetch<Ajustes>("/api/contenido/ajustes/"), vacios);
+  // Se lee en el layout (pie y metadatos), fuera de Suspense.
+  return conRespaldo(() => apiFetch<Ajustes>("/api/contenido/ajustes/"), vacios, { vida: "minutes" });
 }
 
 type OpenGraph = NonNullable<Metadata["openGraph"]>;
