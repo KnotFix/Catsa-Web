@@ -7,7 +7,9 @@ import {
   cerrarSesionRemota,
   codigosDeRespaldo,
   login,
+  pedirRestablecer,
   reautenticar,
+  restablecerClave,
 } from "./server/allauth";
 import {
   borrarSesion,
@@ -16,7 +18,7 @@ import {
   leerTokenPendiente,
   leerTokenSesion,
 } from "./server/cookies";
-import { esquemaCodigo, esquemaCodigoApp, esquemaLogin } from "./schemas";
+import { esquemaCodigo, esquemaCodigoApp, esquemaLogin, esquemaNuevaClave, esquemaOlvide } from "./schemas";
 import type { EstadoActivacion, EstadoFormulario } from "./types";
 
 const SIN_CONEXION = "No pudimos conectar con el servidor. Intente de nuevo.";
@@ -83,4 +85,29 @@ export async function cerrarSesion() {
   if (token) await cerrarSesionRemota(token);
   await borrarSesion();
   redirect("/admin/login");
+}
+
+export async function solicitarRestablecer(_: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
+  const campos = esquemaOlvide.safeParse(Object.fromEntries(datos));
+  if (!campos.success) return { error: campos.error.issues[0].message };
+  const enviado = await pedirRestablecer(campos.data.email)
+    .then(() => true)
+    .catch(() => false);
+  if (!enviado) return { error: SIN_CONEXION };
+  redirect("/admin/olvide?enviado=1");
+}
+
+export async function crearContrasena(
+  clave: string,
+  _: EstadoFormulario,
+  datos: FormData,
+): Promise<EstadoFormulario> {
+  const campos = esquemaNuevaClave.safeParse(Object.fromEntries(datos));
+  if (!campos.success) return { error: campos.error.issues[0].message };
+
+  const resultado = await restablecerClave(clave, campos.data.password).catch(() => null);
+  if (!resultado) return { error: SIN_CONEXION };
+  if (resultado.tipo === "clave_invalida") redirect(`/admin/restablecer/${clave}`);
+  if (resultado.tipo === "error") return { error: resultado.mensaje };
+  redirect("/admin/login?motivo=clave-creada");
 }

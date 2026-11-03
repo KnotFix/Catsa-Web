@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FormularioLogin } from "@/features/auth/components/formulario-login";
 
@@ -7,6 +8,7 @@ export const metadata: Metadata = { title: "Iniciar sesión" };
 
 const AVISOS: Record<string, string> = {
   reingresar: "Por seguridad, vuelva a ingresar su contraseña para terminar de configurar la verificación.",
+  "clave-creada": "Listo, su contraseña quedó guardada. Ingrese con ella.",
 };
 
 export default function LoginPage({ searchParams }: PageProps<"/admin/login">) {
@@ -18,6 +20,11 @@ export default function LoginPage({ searchParams }: PageProps<"/admin/login">) {
         <Aviso searchParams={searchParams} />
       </Suspense>
       <FormularioLogin />
+      <p className="mt-6 text-center text-sm">
+        <Link href="/admin/olvide" className="text-catsa-green underline underline-offset-4">
+          ¿Olvidó su contraseña?
+        </Link>
+      </p>
     </>
   );
 }

@@ -26,3 +26,15 @@ export const navegacionPanel: EntradaPanel[] = [
   { titulo: "Biblioteca de medios", href: "/admin/medios", icono: Images, modulo: "medios" },
   { titulo: "Administración", href: "/admin/usuarios", icono: ShieldCheck, modulo: "administracion" },
 ];
+
+/** Nombre y para qué sirve cada módulo, como se muestra al asignarlos (bitácora, permisos por módulo). */
+export const descripcionModulos: Record<Modulo, { titulo: string; permite: string }> = {
+  contenido: { titulo: "Contenido del sitio", permite: "Editar textos e imágenes de las páginas" },
+  noticias: { titulo: "Noticias", permite: "Crear, editar, publicar y archivar noticias; categorías" },
+  puestos: { titulo: "Puestos", permite: "Crear, editar, abrir y cerrar puestos; áreas" },
+  medios: { titulo: "Biblioteca de medios", permite: "Subir y editar imágenes y PDF" },
+  administracion: {
+    titulo: "Administración",
+    permite: "Usuarios, módulos, registro de accesos y eliminar archivos",
+  },
+};

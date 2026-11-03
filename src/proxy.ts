@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 // La validación real está en features/auth/server/dal.ts.
 const COOKIE_SESION = "catsa_sesion";
 const COOKIE_PENDIENTE = "catsa_sesion_pendiente";
-const RUTAS_ACCESO = ["/admin/login", "/admin/verificar"];
+const RUTAS_ACCESO = ["/admin/login", "/admin/verificar", "/admin/olvide", "/admin/restablecer"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

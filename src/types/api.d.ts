@@ -92,6 +92,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/panel/accesos/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Registro de accesos al panel (módulo Administración). Solo lectura. */
+        get: operations["panel_accesos_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/panel/contenido/espacios/": {
         parameters: {
             query?: never;
@@ -381,6 +398,102 @@ export interface paths {
         patch: operations["panel_puestos_areas_partial_update"];
         trace?: never;
     };
+    "/api/panel/usuarios/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["panel_usuarios_list"];
+        put?: never;
+        post: operations["panel_usuarios_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/panel/usuarios/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["panel_usuarios_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["panel_usuarios_partial_update"];
+        trace?: never;
+    };
+    "/api/panel/usuarios/{id}/activar/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["panel_usuarios_activar_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/panel/usuarios/{id}/desactivar/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["panel_usuarios_desactivar_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/panel/usuarios/{id}/reenviar-invitacion/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["panel_usuarios_reenviar_invitacion_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/panel/usuarios/{id}/restablecer-2fa/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["panel_usuarios_restablecer_2fa_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/puestos/": {
         parameters: {
             query?: never;
@@ -453,6 +566,17 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        Acceso: {
+            readonly id: number;
+            readonly evento: components["schemas"]["EventoAcceso"];
+            /** Format: email */
+            readonly email: string;
+            readonly nombre: string | null;
+            readonly ip: string | null;
+            readonly agente: string;
+            /** Format: date-time */
+            readonly fecha: string;
+        };
         Area: {
             readonly id: number;
             nombre: string;
@@ -559,6 +683,13 @@ export interface components {
          * @enum {string}
          */
         EstadoPuesto: "borrador" | "abierto" | "cerrado";
+        /**
+         * @description * `entrada` - Inicio de sesión
+         *     * `salida` - Cierre de sesión
+         *     * `fallido` - Intento fallido
+         * @enum {string}
+         */
+        EventoAcceso: "entrada" | "salida" | "fallido";
         FiltrosDisponibles: {
             areas: components["schemas"]["AreaPublica"][];
             ubicaciones: string[];
@@ -575,6 +706,16 @@ export interface components {
             readonly alt: string;
             readonly ancho: number | null;
             readonly alto: number | null;
+        };
+        InvitarRequest: {
+            /** Format: email */
+            email: string;
+            first_name: string;
+            /** @default  */
+            last_name: string;
+            /** @default  */
+            departamento: string;
+            modulos: components["schemas"]["ModulosEnum"][];
         };
         Medio: {
             readonly id: number;
@@ -694,6 +835,12 @@ export interface components {
             /** @description Si se muestra como filtro en el sitio. */
             visible?: boolean;
             orden?: number;
+        };
+        PatchedEditarRequest: {
+            first_name?: string;
+            last_name?: string;
+            departamento?: string;
+            modulos?: components["schemas"]["ModulosEnum"][];
         };
         PatchedNoticiaEntradaRequest: {
             titulo?: string;
@@ -887,6 +1034,26 @@ export interface components {
             readonly modulos: components["schemas"]["ModulosEnum"][];
             readonly tiene_2fa: boolean;
         };
+        UsuarioPanel: {
+            readonly id: number;
+            /**
+             * Correo
+             * Format: email
+             */
+            readonly email: string;
+            readonly nombre: string;
+            /** Nombre */
+            readonly first_name: string;
+            /** Apellidos */
+            readonly last_name: string;
+            readonly departamento: string;
+            readonly modulos: components["schemas"]["ModulosEnum"][];
+            readonly activo: boolean;
+            readonly tiene_2fa: boolean;
+            readonly invitacion_pendiente: boolean;
+            /** Format: date-time */
+            readonly ultimo_ingreso: string | null;
+        };
     };
     responses: never;
     parameters: never;
@@ -993,6 +1160,33 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CategoriaPublica"][];
+                };
+            };
+        };
+    };
+    panel_accesos_list: {
+        parameters: {
+            query?: {
+                buscar?: string;
+                /**
+                 * @description * `entrada` - Inicio de sesión
+                 *     * `salida` - Cierre de sesión
+                 *     * `fallido` - Intento fallido
+                 */
+                evento?: "entrada" | "salida" | "fallido";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Acceso"][];
                 };
             };
         };
@@ -1727,6 +1921,185 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Area"];
+                };
+            };
+        };
+    };
+    panel_usuarios_list: {
+        parameters: {
+            query?: {
+                activo?: boolean | null;
+                buscar?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"][];
+                };
+            };
+        };
+    };
+    panel_usuarios_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InvitarRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["InvitarRequest"];
+                "multipart/form-data": components["schemas"]["InvitarRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
+                };
+            };
+        };
+    };
+    panel_usuarios_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
+                };
+            };
+        };
+    };
+    panel_usuarios_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedEditarRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedEditarRequest"];
+                "multipart/form-data": components["schemas"]["PatchedEditarRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
+                };
+            };
+        };
+    };
+    panel_usuarios_activar_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
+                };
+            };
+        };
+    };
+    panel_usuarios_desactivar_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
+                };
+            };
+        };
+    };
+    panel_usuarios_reenviar_invitacion_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
+                };
+            };
+        };
+    };
+    panel_usuarios_restablecer_2fa_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsuarioPanel"];
                 };
             };
         };

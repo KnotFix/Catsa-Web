@@ -1,4 +1,5 @@
 import "server-only";
+import { headers } from "next/headers";
 import { ApiError } from "@/lib/api/errores";
 import { apiFetch } from "@/lib/api/http";
 
@@ -31,9 +32,24 @@ function pide(r: RespuestaAllauth, flujo: string) {
   return r.data?.flows?.some((f) => f.id === flujo && (f.is_pending ?? true)) ?? false;
 }
 
-async function llamar(ruta: string, opciones: Parameters<typeof apiFetch>[1]) {
+/**
+ * Quién hace la petición de verdad. Django la recibe desde este servidor, así
+ * que sin esto el registro de accesos y el bloqueo por intentos fallidos
+ * (django-axes, por correo + IP) verían siempre la IP y el navegador de Next.
+ */
+async function datosDelVisitante(): Promise<Record<string, string>> {
+  const entrante = await headers();
+  const ip = entrante.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const agente = entrante.get("user-agent");
+  return { ...(ip && { "X-Forwarded-For": ip }), ...(agente && { "User-Agent": agente }) };
+}
+
+async function llamar(ruta: string, opciones: Parameters<typeof apiFetch>[1] = {}) {
   try {
-    return await apiFetch<RespuestaAllauth>(`${BASE}${ruta}`, opciones);
+    return await apiFetch<RespuestaAllauth>(`${BASE}${ruta}`, {
+      ...opciones,
+      headers: { ...(await datosDelVisitante()), ...opciones?.headers },
+    });
   } catch (error) {
     // allauth responde los 4xx con un cuerpo útil (errores, flujos pendientes,
     // o el secreto TOTP cuando todavía no hay uno activo).
@@ -99,4 +115,33 @@ export async function activarTotp(token: string, codigo: string): Promise<Result
 export async function codigosDeRespaldo(token: string): Promise<string[]> {
   const r = await llamar("/account/authenticators/recovery-codes", { token });
   return r.data?.unused_codes ?? [];
+}
+
+// --- Contraseña -------------------------------------------------------------
+// La invitación y "¿Olvidó su contraseña?" usan el mismo enlace de allauth:
+// /admin/restablecer/<clave>, de un solo uso y con vencimiento.
+
+/** Siempre responde igual, exista o no el correo: no revela qué cuentas hay. */
+export async function pedirRestablecer(email: string) {
+  await llamar("/auth/password/request", { method: "POST", body: { email } });
+}
+
+/** Correo de la cuenta si el enlace sirve; null si venció o ya se usó. */
+export async function validarClaveRestablecer(clave: string): Promise<string | null> {
+  const r = (await llamar("/auth/password/reset", {
+    headers: { "X-Password-Reset-Key": clave },
+  })) as RespuestaAllauth & { data?: { user?: { email?: string } } };
+  return r.status === 200 ? (r.data?.user?.email ?? "") : null;
+}
+
+export type ResultadoRestablecer =
+  { tipo: "listo" } | { tipo: "clave_invalida" } | { tipo: "error"; mensaje: string };
+
+export async function restablecerClave(clave: string, password: string): Promise<ResultadoRestablecer> {
+  const r = await llamar("/auth/password/reset", { method: "POST", body: { key: clave, password } });
+  // 401: la contraseña quedó guardada y allauth pide iniciar sesión (no entra solo, a propósito).
+  if (r.status === 200 || r.status === 401) return { tipo: "listo" };
+  const error = r.errors?.[0];
+  if (error?.param === "key") return { tipo: "clave_invalida" };
+  return { tipo: "error", mensaje: error?.message ?? "No se pudo guardar la contraseña." };
 }

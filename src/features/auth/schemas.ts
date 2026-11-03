@@ -17,3 +17,18 @@ export const esquemaCodigo = z.object({
 export const esquemaCodigoApp = z.object({
   codigo: z.string().regex(/^\d{6}$/, "El código tiene 6 dígitos."),
 });
+
+export const esquemaOlvide = z.object({
+  email: z.email("Escriba un correo válido."),
+});
+
+/** El mínimo de 12 y el resto de reglas los vuelve a revisar Django. */
+export const esquemaNuevaClave = z
+  .object({
+    password: z.string().min(12, "Use al menos 12 caracteres."),
+    confirmar: z.string(),
+  })
+  .refine((d) => d.password === d.confirmar, {
+    message: "Las contraseñas no coinciden.",
+    path: ["confirmar"],
+  });
