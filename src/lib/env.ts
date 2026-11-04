@@ -10,6 +10,8 @@ const esquema = z.object({
   SITE_URL: z.url().default("http://localhost:3000"),
   /** Secreto compartido con Django para el webhook de revalidación. */
   REVALIDATE_SECRET: z.string().min(32).optional(),
+  /** Solo producción lo pone en true. En cualquier otro ambiente el sitio pide no ser indexado. */
+  INDEXAR: z.stringbool().default(false),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 });
 

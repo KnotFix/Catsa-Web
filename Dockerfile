@@ -8,7 +8,14 @@ FROM node:22-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+# Se leen al construir, no al correr: next.config.ts arma con MEDIA_URL las imágenes
+# permitidas, y el sitemap y los metadatos salen con SITE_URL. En Dokploy van en
+# "Build-time arguments", además de en las variables de entorno.
+ARG MEDIA_URL=http://localhost:8000
+ARG SITE_URL=http://localhost:3000
+# Solo producción: true deja que los buscadores indexen el sitio.
+ARG INDEXAR=false
+ENV MEDIA_URL=$MEDIA_URL SITE_URL=$SITE_URL INDEXAR=$INDEXAR NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 FROM node:22-alpine AS runner

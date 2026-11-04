@@ -141,6 +141,10 @@ Navegador ──(cookie httpOnly)──▶ Next (Server Actions / RSC) ──(X-
 ## Producción
 
 ```bash
-docker build -t catsa-web .
+docker build -t catsa-web --build-arg SITE_URL=https://... --build-arg MEDIA_URL=https://... .
 docker run -p 3000:3000 --env-file .env catsa-web
 ```
+
+`SITE_URL`, `MEDIA_URL` e `INDEXAR` se leen al construir (imágenes permitidas, sitemap, robots), así que van como
+argumentos de build además de variables de entorno. `INDEXAR=true` solo en producción. Se despliega en Dokploy:
+pasos en `docs/despliegue-dokploy.md` de Catsa-Api.

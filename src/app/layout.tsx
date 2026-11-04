@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   },
   description: sitio.descripcion,
   openGraph: { siteName: sitio.nombre, locale: "es_CR", type: "website" },
+  // Fuera de producción, además de robots.txt, cada página pide no ser indexada.
+  robots: env.INDEXAR ? undefined : { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
