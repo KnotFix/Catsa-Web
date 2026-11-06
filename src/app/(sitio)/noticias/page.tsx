@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { leerPagina } from "@/components/shared/paginacion";
-import { SeccionSitio } from "@/components/shared/seccion-sitio";
+import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import { espacioNoticiasEncabezado } from "@/features/contenido/espacios";
 import { FiltroCategorias } from "@/features/noticias/components/filtro-categorias";
 import { CargandoNoticias, ListaNoticias } from "@/features/noticias/components/lista-noticias";
 
@@ -12,20 +14,28 @@ export const metadata: Metadata = {
 
 export default function NoticiasPage({ searchParams }: PageProps<"/noticias">) {
   return (
-    <SeccionSitio
-      antetitulo="Noticias"
-      titulo="Lo último de CATSA"
-      icono={
-        <>
-          <path pathLength={1} d="M4 5h16v14H4z" />
-          <path pathLength={1} d="M8 9h8M8 13h5" />
-        </>
-      }
-    >
-      <Suspense fallback={<CargandoNoticias />}>
-        <Listado searchParams={searchParams} />
-      </Suspense>
-    </SeccionSitio>
+    <>
+      <ConEspacio espacio={espacioNoticiasEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <>
+                <path pathLength={1} d="M4 5h16v14H4z" />
+                <path pathLength={1} d="M8 9h8M8 13h5" />
+              </>
+            }
+          />
+        )}
+      </ConEspacio>
+      <section className="pb-24">
+        <div className="wrap">
+          <Suspense fallback={<CargandoNoticias />}>
+            <Listado searchParams={searchParams} />
+          </Suspense>
+        </div>
+      </section>
+    </>
   );
 }
 

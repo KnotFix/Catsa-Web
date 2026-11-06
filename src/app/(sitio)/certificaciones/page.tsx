@@ -3,6 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import {
+  espacioCertificacionesEncabezado,
+  espacioCertificacionesCierre,
+} from "@/features/contenido/espacios";
 import { Titular } from "@/components/sitio/titular";
 import { sellos } from "@/features/sitio/imagenes";
 import "./estilos.css";
@@ -50,17 +55,19 @@ const TEXTOS: Record<(typeof sellos)[number]["clave"], { titulo: string; texto: 
 export default function CertificacionesPage() {
   return (
     <div className="pg-cert">
-      <CabeceraPagina
-        antetitulo="Calidad garantizada"
-        titulo="Certificaciones que respaldan cada grano"
-        bajada="Nuestros procesos son auditados por entes certificadores independientes que garantizan la calidad e inocuidad de cada producto."
-        icono={
-          <>
-            <circle pathLength={1} cx="12" cy="9" r="5.5" />
-            <path pathLength={1} d="M8.4 13.4L7 21l5-2.5 5 2.5-1.4-7.6" />
-          </>
-        }
-      />
+      <ConEspacio espacio={espacioCertificacionesEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <>
+                <circle pathLength={1} cx="12" cy="9" r="5.5" />
+                <path pathLength={1} d="M8.4 13.4L7 21l5-2.5 5 2.5-1.4-7.6" />
+              </>
+            }
+          />
+        )}
+      </ConEspacio>
 
       <section>
         <div className="wrap clist">
@@ -107,13 +114,15 @@ export default function CertificacionesPage() {
         </div>
       </section>
 
-      <Cierre
-        antetitulo="Respaldo internacional"
-        titulo="Calidad certificada en cada grano."
-        texto="Solicite los certificados vigentes o más información sobre nuestros procesos de calidad e inocuidad."
-        principal={{ titulo: "Solicitar certificados", href: "/contacto" }}
-        secundario={{ titulo: "Ver nuestro proceso", href: "/como-trabajamos" }}
-      />
+      <ConEspacio espacio={espacioCertificacionesCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Solicitar certificados", href: "/contacto" }}
+            secundario={{ titulo: "Ver nuestro proceso", href: "/como-trabajamos" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import { espacioRseEncabezado, espacioRseCierre } from "@/features/contenido/espacios";
 import { Titular } from "@/components/sitio/titular";
 import { fondo, fotos } from "@/features/sitio/imagenes";
 import { cn } from "@/lib/utils";
@@ -64,17 +66,19 @@ const FAUNA = [fotos.jabiru, fotos.ciguena, fotos.cocodrilo, fotos.pizote];
 export default function RsePage() {
   return (
     <div className="pg-rse">
-      <CabeceraPagina
-        antetitulo="Responsabilidad social empresarial"
-        titulo="Sembramos comunidad."
-        bajada="Somos un «puente de unión» con las comunidades vecinas, donde también viven nuestros colaboradores: Guardia, Palmira, El Paso Tempisque e Irigaray."
-        icono={
-          <path
-            pathLength={1}
-            d="M12 20s-6.6-4.1-6.6-9.1A3.6 3.6 0 0 1 12 8.4a3.6 3.6 0 0 1 6.6 2.5c0 5-6.6 9.1-6.6 9.1z"
+      <ConEspacio espacio={espacioRseEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <path
+                pathLength={1}
+                d="M12 20s-6.6-4.1-6.6-9.1A3.6 3.6 0 0 1 12 8.4a3.6 3.6 0 0 1 6.6 2.5c0 5-6.6 9.1-6.6 9.1z"
+              />
+            }
           />
-        }
-      />
+        )}
+      </ConEspacio>
 
       <section className="intro-line">
         <div className="wrap" data-reveal>
@@ -150,13 +154,15 @@ export default function RsePage() {
         </div>
       </section>
 
-      <Cierre
-        antetitulo="Nuestro compromiso"
-        titulo="Cada grano de azúcar deja algo en Guanacaste."
-        texto="Así retribuimos a la tierra y a la gente que hacen posible a CATSA. ¿Tiene una iniciativa para la comunidad?"
-        principal={{ titulo: "Escríbanos", href: "/contacto" }}
-        secundario={{ titulo: "Conozca CATSA", href: "/sobre-nosotros" }}
-      />
+      <ConEspacio espacio={espacioRseCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Escríbanos", href: "/contacto" }}
+            secundario={{ titulo: "Conozca CATSA", href: "/sobre-nosotros" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
 }

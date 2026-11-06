@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import { espacioComoEncabezado, espacioComoCierre } from "@/features/contenido/espacios";
 import { Divisor } from "@/components/sitio/costura";
 import { Titular } from "@/components/sitio/titular";
 import { Fases } from "@/features/sitio/components/fases";
@@ -15,19 +17,21 @@ export const metadata: Metadata = {
 export default function ComoTrabajamosPage() {
   return (
     <div className="pg-como">
-      <CabeceraPagina
-        antetitulo="Nuestro proceso"
-        titulo="De la caña al azúcar"
-        bajada="Siga el recorrido de la caña guanacasteca por cada fase de producción, hasta convertirse en azúcar y alcohol de clase mundial."
-        icono={
-          <>
-            <circle pathLength={1} cx="5" cy="12" r="2" />
-            <circle pathLength={1} cx="12" cy="12" r="2" />
-            <circle pathLength={1} cx="19" cy="12" r="2" />
-            <path pathLength={1} d="M7 12h3M14 12h3" />
-          </>
-        }
-      />
+      <ConEspacio espacio={espacioComoEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <>
+                <circle pathLength={1} cx="5" cy="12" r="2" />
+                <circle pathLength={1} cx="12" cy="12" r="2" />
+                <circle pathLength={1} cx="19" cy="12" r="2" />
+                <path pathLength={1} d="M7 12h3M14 12h3" />
+              </>
+            }
+          />
+        )}
+      </ConEspacio>
 
       <section className="cw-intro">
         <div className="wrap" data-reveal>
@@ -39,13 +43,15 @@ export default function ComoTrabajamosPage() {
       <Divisor />
       <Fases />
 
-      <Cierre
-        antetitulo="Calidad garantizada"
-        titulo="Siete fases, un mismo estándar de calidad."
-        texto="Todo el recorrido opera bajo certificaciones internacionales que respaldan cada grano que producimos."
-        principal={{ titulo: "Ver certificaciones", href: "/certificaciones" }}
-        secundario={{ titulo: "Ver productos", href: "/productos" }}
-      />
+      <ConEspacio espacio={espacioComoCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Ver certificaciones", href: "/certificaciones" }}
+            secundario={{ titulo: "Ver productos", href: "/productos" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
 }

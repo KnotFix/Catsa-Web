@@ -1,12 +1,10 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
-import type { z } from "zod";
 import { ApiError } from "@/lib/api/errores";
 import { etiquetas } from "@/lib/api/etiquetas";
 import { apiFetch } from "@/lib/api/http";
 import { conRespaldo } from "@/lib/api/respaldo";
-
-type Espacio<T> = { clave: string; esquema: z.ZodType<T>; porDefecto: T };
+import type { Espacio } from "./espacios";
 
 /**
  * Espacios editables (bitácora D-007): textos e imágenes en lugares fijos del

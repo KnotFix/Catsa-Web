@@ -3,8 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Cierre } from "@/components/sitio/cierre";
 import { Titular } from "@/components/sitio/titular";
-import { obtenerEspacio } from "@/features/contenido/api";
-import { espacioInicioHero } from "@/features/contenido/espacios";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import {
+  espacioInicioCierre,
+  espacioInicioGuanacastequidad,
+  espacioInicioHero,
+} from "@/features/contenido/espacios";
 import { CargandoNoticias, ListaNoticias } from "@/features/noticias/components/lista-noticias";
 import { Escaparate, Portada } from "@/features/sitio/components/portada";
 import { fondo, fotos, sellos } from "@/features/sitio/imagenes";
@@ -77,8 +81,8 @@ const PUENTES = [
 ];
 
 /**
- * Inicio, según el boceto aprobado. El titular de la portada es el espacio
- * editable "inicio.hero". El boceto traía un testimonio de colaborador con
+ * Inicio, según el boceto aprobado. La portada, la guanacastequidad y el cierre
+ * son espacios editables del panel. El boceto traía un testimonio de colaborador con
  * nombre inventado: en su lugar van las últimas noticias, hasta que CATSA
  * entregue un testimonio real.
  */
@@ -86,10 +90,7 @@ export default function InicioPage() {
   return (
     <div className="pg-inicio">
       <section className="hero">
-        {/* Con la API arriba, el texto está en caché y sale en el HTML estático. */}
-        <Suspense fallback={<Portada {...espacioInicioHero.porDefecto} />}>
-          <PortadaEditable />
-        </Suspense>
+        <ConEspacio espacio={espacioInicioHero}>{(datos) => <Portada {...datos} />}</ConEspacio>
       </section>
 
       <section className="certsec">
@@ -152,32 +153,43 @@ export default function InicioPage() {
         </div>
       </section>
 
-      <section className="split-sec">
-        <div data-reveal="foto" className="overflow-hidden rounded-[14px]">
-          <Image
-            src={fotos.comida.src}
-            alt={fotos.comida.alt}
-            width={fotos.comida.ancho}
-            height={fotos.comida.alto}
-            sizes="(max-width: 900px) 100vw, 560px"
-          />
-        </div>
-        <div data-reveal>
-          <p className="lead-lab">Nuestra guanacastequidad</p>
-          <Titular
-            className="h2 mb-4 max-w-[20ch]"
-            texto="Lo mejor de Guanacaste es su gente y su cultura."
-          />
-          <p className="mb-5 max-w-[60ch] text-[17px] leading-relaxed text-catsa-body">
-            Guanacaste nos vio nacer como empresa en 1975 y vio nacer a gran parte de quienes trabajan con
-            nosotros. Celebramos el Día de la Anexión con sus comidas, bailes y tradiciones, y damos trabajo a
-            más de 450 colaboradores permanentes y a más de 1.000 personas en zafra.
-          </p>
-          <Link href="/sobre-nosotros#guanacastequidad" className="text-[15px] font-bold text-catsa-green">
-            Conozca nuestra guanacastequidad →
-          </Link>
-        </div>
-      </section>
+      <ConEspacio espacio={espacioInicioGuanacastequidad}>
+        {({ antetitulo, titulo, texto, foto }) => {
+          // Sin foto en el panel, la del diseño.
+          const imagen = foto
+            ? { src: foto.url, alt: foto.alt, ancho: foto.ancho, alto: foto.alto }
+            : {
+                src: fotos.comida.src,
+                alt: fotos.comida.alt,
+                ancho: fotos.comida.ancho,
+                alto: fotos.comida.alto,
+              };
+          return (
+            <section className="split-sec">
+              <div data-reveal="foto" className="overflow-hidden rounded-[14px]">
+                <Image
+                  src={imagen.src}
+                  alt={imagen.alt}
+                  width={imagen.ancho}
+                  height={imagen.alto}
+                  sizes="(max-width: 900px) 100vw, 560px"
+                />
+              </div>
+              <div data-reveal>
+                <p className="lead-lab">{antetitulo}</p>
+                <Titular className="h2 mb-4 max-w-[20ch]" texto={titulo} />
+                <p className="mb-5 max-w-[60ch] text-[17px] leading-relaxed text-catsa-body">{texto}</p>
+                <Link
+                  href="/sobre-nosotros#guanacastequidad"
+                  className="text-[15px] font-bold text-catsa-green"
+                >
+                  Conozca nuestra guanacastequidad →
+                </Link>
+              </div>
+            </section>
+          );
+        }}
+      </ConEspacio>
 
       <section className="rse-inicio">
         <div className="wrap">
@@ -235,17 +247,15 @@ export default function InicioPage() {
         </div>
       </section>
 
-      <Cierre
-        antetitulo="Hablemos"
-        titulo="Hablemos de lo que produce Guanacaste."
-        texto="Solicite información sobre nuestros productos, certificaciones u oportunidades comerciales. Le respondemos con gusto."
-        principal={{ titulo: "Solicitar información", href: "/contacto" }}
-        secundario={{ titulo: "Ver catálogo", href: "/productos" }}
-      />
+      <ConEspacio espacio={espacioInicioCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Solicitar información", href: "/contacto" }}
+            secundario={{ titulo: "Ver catálogo", href: "/productos" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
-}
-
-async function PortadaEditable() {
-  return <Portada {...await obtenerEspacio(espacioInicioHero)} />;
 }

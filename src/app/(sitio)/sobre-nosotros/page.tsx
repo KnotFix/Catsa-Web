@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import {
+  espacioSobreCierre,
+  espacioSobreEncabezado,
+  espacioSobreMisionVision,
+} from "@/features/contenido/espacios";
 import { Titular } from "@/components/sitio/titular";
 import { LineaTiempo, type Hito } from "@/features/sitio/components/linea-tiempo";
 import { fondo, fotos } from "@/features/sitio/imagenes";
@@ -75,18 +81,20 @@ const VALORES = [
 export default function SobreNosotrosPage() {
   return (
     <div className="pg-sobre">
-      <CabeceraPagina
-        antetitulo="Quiénes somos"
-        titulo="Una empresa con raíces en Guanacaste desde 1975."
-        bajada="Somos una empresa agroindustrial dedicada al cultivo y procesamiento de la caña de azúcar y a la producción de azúcares y alcoholes."
-        icono={
-          <>
-            <path pathLength={1} d="M4 20h16" />
-            <path pathLength={1} d="M6 20V9l6-4 6 4v11" />
-            <path pathLength={1} d="M10 20v-5h4v5" />
-          </>
-        }
-      />
+      <ConEspacio espacio={espacioSobreEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <>
+                <path pathLength={1} d="M4 20h16" />
+                <path pathLength={1} d="M6 20V9l6-4 6 4v11" />
+                <path pathLength={1} d="M10 20v-5h4v5" />
+              </>
+            }
+          />
+        )}
+      </ConEspacio>
 
       <section className="sn-lead">
         <div className="wrap grid">
@@ -139,24 +147,20 @@ export default function SobreNosotrosPage() {
       <section className="mv">
         <div className="mbg" data-px="70" style={fondo(fotos.camposAereo.src)} />
         <div className="wrap">
-          <div className="grid">
-            <div className="card" data-reveal>
-              <div className="lab">Misión</div>
-              <Titular
-                como="p"
-                retardo={120}
-                texto="Somos una empresa agroindustrial que transforma la caña de azúcar de manera sostenible, en productos que generan bienestar a las partes interesadas."
-              />
-            </div>
-            <div className="card" data-reveal>
-              <div className="lab">Visión</div>
-              <Titular
-                como="p"
-                retardo={180}
-                texto="Seremos la empresa líder en productividad y rentabilidad de la agroindustria azucarera nacional."
-              />
-            </div>
-          </div>
+          <ConEspacio espacio={espacioSobreMisionVision}>
+            {({ mision, vision }) => (
+              <div className="grid">
+                <div className="card" data-reveal>
+                  <div className="lab">Misión</div>
+                  <Titular como="p" retardo={120} texto={mision} />
+                </div>
+                <div className="card" data-reveal>
+                  <div className="lab">Visión</div>
+                  <Titular como="p" retardo={180} texto={vision} />
+                </div>
+              </div>
+            )}
+          </ConEspacio>
         </div>
       </section>
 
@@ -206,13 +210,15 @@ export default function SobreNosotrosPage() {
         </div>
       </section>
 
-      <Cierre
-        antetitulo="Trabajá con nosotros"
-        titulo="Sé parte de la historia de CATSA."
-        texto="Somos una de las principales fuentes de empleo de Guanacaste. Conocé nuestras oportunidades laborales."
-        principal={{ titulo: "Ver puestos disponibles", href: "/puestos" }}
-        secundario={{ titulo: "Escribinos", href: "/contacto" }}
-      />
+      <ConEspacio espacio={espacioSobreCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Ver puestos disponibles", href: "/puestos" }}
+            secundario={{ titulo: "Escríbanos", href: "/contacto" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
 }

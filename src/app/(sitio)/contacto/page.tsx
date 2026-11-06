@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import { espacioContactoEncabezado, espacioContactoCierre } from "@/features/contenido/espacios";
 import { Titular } from "@/components/sitio/titular";
 import { sedes, sitio } from "@/config/sitio";
 import { obtenerAjustes } from "@/features/contenido/ajustes";
@@ -24,17 +26,19 @@ export default async function ContactoPage() {
 
   return (
     <div className="pg-contacto">
-      <CabeceraPagina
-        antetitulo="Hablemos"
-        titulo="Contáctenos"
-        bajada="Estamos a la orden para atender sus consultas comerciales, de calidad o institucionales."
-        icono={
-          <>
-            <path pathLength={1} d="M3 6h18v12H3z" />
-            <path pathLength={1} d="M3 7l9 6 9-6" />
-          </>
-        }
-      />
+      <ConEspacio espacio={espacioContactoEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <>
+                <path pathLength={1} d="M3 6h18v12H3z" />
+                <path pathLength={1} d="M3 7l9 6 9-6" />
+              </>
+            }
+          />
+        )}
+      </ConEspacio>
 
       <section className="band">
         <div className="wrap cx-grid">
@@ -128,13 +132,15 @@ export default async function ContactoPage() {
         </div>
       </section>
 
-      <Cierre
-        antetitulo="Trabaje con nosotros"
-        titulo="¿Busca sumarse al equipo?"
-        texto="Somos una de las principales fuentes de empleo de Guanacaste. Conozca las vacantes abiertas."
-        principal={{ titulo: "Ver puestos disponibles", href: "/puestos" }}
-        secundario={{ titulo: "Conozca CATSA", href: "/sobre-nosotros" }}
-      />
+      <ConEspacio espacio={espacioContactoCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Ver puestos disponibles", href: "/puestos" }}
+            secundario={{ titulo: "Conozca CATSA", href: "/sobre-nosotros" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
 }

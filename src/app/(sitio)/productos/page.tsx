@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
+import { ConEspacio } from "@/features/contenido/components/con-espacio";
+import { espacioProductosEncabezado, espacioProductosCierre } from "@/features/contenido/espacios";
 import { ExploradorProductos } from "@/features/sitio/components/explorador-productos";
 import { openGraphSitio } from "@/features/contenido/ajustes";
 import { fotos } from "@/features/sitio/imagenes";
@@ -20,18 +22,20 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function ProductosPage() {
   return (
     <div className="pg-productos">
-      <CabeceraPagina
-        antetitulo="Productos"
-        titulo="Azúcar, alcohol, miel y arroz para el mercado nacional e internacional."
-        bajada="El azúcar se comercializa por medio de LAICA. Explore cada producto con su código y su ficha técnica."
-        icono={
-          <>
-            <path pathLength={1} d="M3 8l9-5 9 5v8l-9 5-9-5V8z" />
-            <path pathLength={1} d="M3 8l9 5 9-5" />
-            <path pathLength={1} d="M12 13v8" />
-          </>
-        }
-      />
+      <ConEspacio espacio={espacioProductosEncabezado}>
+        {(datos) => (
+          <CabeceraPagina
+            {...datos}
+            icono={
+              <>
+                <path pathLength={1} d="M3 8l9-5 9 5v8l-9 5-9-5V8z" />
+                <path pathLength={1} d="M3 8l9 5 9-5" />
+                <path pathLength={1} d="M12 13v8" />
+              </>
+            }
+          />
+        )}
+      </ConEspacio>
 
       <section>
         <div className="wrap">
@@ -39,13 +43,15 @@ export default function ProductosPage() {
         </div>
       </section>
 
-      <Cierre
-        antetitulo="Cotizaciones"
-        titulo="¿Necesita alcohol, miel o información de nuestros azúcares?"
-        texto="Solicite la ficha técnica de cualquier producto o una cotización a la medida de su industria."
-        principal={{ titulo: "Solicitar cotización", href: "/contacto" }}
-        secundario={{ titulo: "Ver certificaciones", href: "/certificaciones" }}
-      />
+      <ConEspacio espacio={espacioProductosCierre}>
+        {(datos) => (
+          <Cierre
+            {...datos}
+            principal={{ titulo: "Solicitar cotización", href: "/contacto" }}
+            secundario={{ titulo: "Ver certificaciones", href: "/certificaciones" }}
+          />
+        )}
+      </ConEspacio>
     </div>
   );
 }
