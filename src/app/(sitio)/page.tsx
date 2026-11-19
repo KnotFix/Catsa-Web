@@ -10,7 +10,8 @@ import {
   espacioInicioHero,
 } from "@/features/contenido/espacios";
 import { CargandoNoticias, ListaNoticias } from "@/features/noticias/components/lista-noticias";
-import { Escaparate, Portada } from "@/features/sitio/components/portada";
+import { Escaparate } from "@/features/sitio/components/escaparate";
+import { Portada } from "@/features/sitio/components/portada";
 import { fondo, fotos, sellos } from "@/features/sitio/imagenes";
 import "./inicio.css";
 

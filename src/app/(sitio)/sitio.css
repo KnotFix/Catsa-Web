@@ -1688,3 +1688,211 @@
     animation-delay: 0s !important;
   }
 }
+
+/* --- Banda de cifras (<BandaCifras>) ---
+   Pensada para fondo claro, con los detalles en verde. Encabezado y números en una
+   cuadrícula con líneas finas arriba, abajo y entre columnas. Al entrar
+   ([data-reveal].on), cada cifra aparece una detrás de otra y su dibujo se
+   traza; al pasar el puntero o enfocar, el detalle cede su lugar al contexto
+   y el dibujo toma el verde claro. */
+.bc {
+  --bc-linea: var(--catsa-line);
+  --bc-suave: var(--catsa-muted);
+  --bc-paso: 90ms;
+  color: var(--catsa-ink);
+}
+.bc-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 32px;
+  margin-bottom: 28px;
+}
+.bc-titulo {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--catsa-green);
+}
+.bc-desc {
+  margin: 0;
+  font-size: 15px;
+  color: var(--bc-suave);
+  max-width: 52ch;
+}
+.bc-lista {
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--bc-linea);
+  border-bottom: 1px solid var(--bc-linea);
+}
+.bc-cifra {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 28px 24px;
+  outline: none;
+  transition: box-shadow 0.3s var(--catsa-ease);
+}
+.bc-cifra:first-child {
+  padding-left: 0;
+}
+.bc-cifra + .bc-cifra {
+  border-left: 1px solid var(--bc-linea);
+}
+.bc-cifra:hover,
+.bc-cifra:focus-visible {
+  box-shadow: inset 0 2px 0 var(--catsa-green);
+}
+.bc-cifra:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--catsa-green);
+}
+.bc-etiqueta {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bc-suave);
+}
+.bc-figura {
+  margin: 0;
+}
+.bc-numero {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-poppins);
+  font-weight: 700;
+  font-size: clamp(30px, 3.2vw, 46px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--catsa-green);
+}
+/* El valor final reserva el ancho; el que cuenta va encima. */
+.bc-digitos {
+  display: inline-grid;
+}
+.bc-medida,
+.bc-vivo {
+  grid-area: 1 / 1;
+  text-align: right;
+}
+.bc-medida {
+  visibility: hidden;
+}
+.bc-unidad {
+  font-size: 0.46em;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--catsa-green);
+  opacity: 0.7;
+}
+/* El detalle y el contexto ocupan la misma celda: al pasar el puntero (o tocar
+   la cifra en un teléfono) se cruzan. */
+.bc-pie {
+  display: grid;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--bc-suave);
+}
+.bc-detalle,
+.bc-contexto {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.24s var(--catsa-ease),
+    transform 0.24s var(--catsa-ease);
+}
+.bc-contexto {
+  opacity: 0;
+  transform: translateY(6px);
+  color: var(--catsa-ink);
+}
+.bc-cifra:hover .bc-contexto,
+.bc-cifra:focus .bc-contexto {
+  opacity: 1;
+  transform: none;
+}
+.bc-cifra:hover .bc-detalle,
+.bc-cifra:focus .bc-detalle {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.bc-dibujo {
+  margin: 14px 0 0;
+  color: color-mix(in srgb, var(--catsa-green) 45%, transparent);
+  transition: color 0.3s var(--catsa-ease);
+}
+.bc-cifra:hover .bc-dibujo,
+.bc-cifra:focus .bc-dibujo {
+  color: var(--catsa-green);
+}
+.bc-dibujo svg {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
+.bc-dibujo svg * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* La banda no sube como bloque: entran sus cifras, una detrás de otra. */
+  .bc[data-reveal]:not(.on) {
+    opacity: 1;
+    transform: none;
+  }
+  .bc-cifra > * {
+    transition:
+      opacity 0.6s var(--catsa-ease),
+      transform 0.6s var(--catsa-ease);
+    transition-delay: calc(var(--i) * var(--bc-paso));
+  }
+  .bc-dibujo svg * {
+    transition: stroke-dashoffset 1.2s var(--catsa-ease);
+    transition-delay: calc(var(--i) * var(--bc-paso) + 0.35s);
+  }
+  .bc:not(.on) .bc-cifra > * {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  .bc:not(.on) .bc-dibujo svg * {
+    stroke-dashoffset: 1;
+  }
+  /* Al salir por abajo se apaga rápido, listo para volver a entrar. */
+  .bc:not(.on) .bc-cifra > *,
+  .bc:not(.on) .bc-dibujo svg * {
+    transition-duration: 0.25s;
+    transition-delay: 0s;
+  }
+}
+@media (max-width: 900px) {
+  .bc-lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bc-cifra,
+  .bc-cifra:first-child {
+    padding: 22px 14px 20px;
+  }
+  .bc-cifra:nth-child(odd) {
+    padding-left: 0;
+    border-left: none;
+  }
+  .bc-cifra:nth-child(n + 3) {
+    border-top: 1px solid var(--bc-linea);
+  }
+  .bc-numero {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+  .bc-pie {
+    font-size: 14px;
+  }
+}

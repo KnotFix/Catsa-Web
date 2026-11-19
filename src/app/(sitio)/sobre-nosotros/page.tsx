@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { BandaCifras, type Cifra } from "@/components/sitio/banda-cifras";
 import { CabeceraPagina } from "@/components/sitio/cabecera-pagina";
 import { Cierre } from "@/components/sitio/cierre";
 import { ConEspacio } from "@/features/contenido/components/con-espacio";
@@ -19,15 +20,101 @@ export const metadata: Metadata = {
     "CATSA, Central Azucarera Tempisque: desde 1975 cultivando y procesando caña en Guardia de Liberia, Guanacaste, con más de 450 colaboradores permanentes.",
 };
 
-// Las cifras que antes iban en la portada: aquí cuentan la historia de la empresa.
-// Suben desde cero al aparecer ([data-count], en <Movimiento>).
-const CIFRAS = [
-  { valor: 450, sufijo: "+", texto: "Colaboradores permanentes" },
-  { valor: 1000, sufijo: "+", texto: "Personas más en época de zafra" },
-  { valor: 10551, sufijo: " ha", texto: "De caña propia, más la de unos 400 productores" },
-  { valor: 7500, sufijo: " t", texto: "De caña molida cada día" },
-  { valor: 14500, texto: "Bultos de 50 kg de azúcar al día" },
-  { valor: 250000, sufijo: " L", texto: "De alcohol al día en la destilería" },
+// CATSA en cifras, en dos partes: la gente y el recorrido de la caña en un
+// día de zafra, en orden. Suben desde cero al aparecer
+// ([data-count], en <Movimiento>).
+const GENTE = [
+  { valor: 450, sufijo: "+", texto: "colaboradores permanentes" },
+  { valor: 1000, sufijo: "+", texto: "personas más se suman en zafra" },
+];
+
+// Un día de zafra, del campo a la destilería. Cada cifra lleva un dibujo de
+// trazo (120×48) que se traza al entrar; el contexto sale de lo publicado en
+// catsa.net y reemplaza al detalle al pasar el puntero.
+const caña = (x: number, alto: number) => (
+  <g key={x}>
+    <path pathLength={1} d={`M${x} 44V${44 - alto}`} />
+    <path pathLength={1} d={`M${x - 3} ${44 - alto * 0.35}h6M${x - 3} ${44 - alto * 0.7}h6`} />
+    <path pathLength={1} d={`M${x} ${44 - alto * 0.85}c5-1 9-4 11-9`} />
+  </g>
+);
+
+const RECORRIDO: Cifra[] = [
+  {
+    etiqueta: "Campo",
+    valor: 10551,
+    unidad: "ha",
+    detalle: "de caña propia",
+    contexto: "Más la caña de unos 400 productores independientes.",
+    dibujo: (
+      <>
+        <path pathLength={1} d="M4 44h112" />
+        {[
+          [12, 26],
+          [28, 34],
+          [44, 22],
+          [60, 36],
+          [76, 28],
+          [92, 32],
+          [106, 20],
+        ].map(([x, alto]) => caña(x, alto))}
+      </>
+    ),
+  },
+  {
+    etiqueta: "Molienda",
+    valor: 7500,
+    unidad: "t",
+    detalle: "de caña molida cada día",
+    contexto: "Molino, refinería y destilería en Guardia de Liberia.",
+    dibujo: (
+      <>
+        <path pathLength={1} d="M4 22h40" />
+        <path pathLength={1} d="M10 22l4-6M22 22l4-6M34 22l4-6" />
+        <circle pathLength={1} cx="58" cy="16" r="9" />
+        <circle pathLength={1} cx="78" cy="16" r="9" />
+        <circle pathLength={1} cx="68" cy="34" r="9" />
+        <path pathLength={1} d="M88 34h28" />
+        <path pathLength={1} d="M98 40v4M108 40v4" />
+      </>
+    ),
+  },
+  {
+    etiqueta: "Azúcar",
+    valor: 14500,
+    unidad: "bultos",
+    detalle: "de 50 kg al día",
+    contexto: "El azúcar se comercializa por medio de LAICA.",
+    dibujo: (
+      <>
+        <path pathLength={1} d="M4 44h112" />
+        <path pathLength={1} d="M30 44l2-14h18l2 14" />
+        <path pathLength={1} d="M52 44l2-14h18l2 14" />
+        <path pathLength={1} d="M74 44l2-14h18l2 14" />
+        <path pathLength={1} d="M41 30l2-14h18l2 14" />
+        <path pathLength={1} d="M63 30l2-14h18l2 14" />
+        <path pathLength={1} d="M52 16l2-12h18l2 12" />
+      </>
+    ),
+  },
+  {
+    etiqueta: "Destilería",
+    valor: 250000,
+    unidad: "L",
+    detalle: "de alcohol al día",
+    contexto: "Alcohol etílico neutro y anhidro, despachado a granel.",
+    dibujo: (
+      <>
+        <path pathLength={1} d="M4 44h112" />
+        <path pathLength={1} d="M20 44V8h14v36" />
+        <path pathLength={1} d="M20 18h14M20 28h14" />
+        <path pathLength={1} d="M34 12h30v10" />
+        <path pathLength={1} d="M64 28c-2 3-3 5-3 6.5a3 3 0 0 0 6 0c0-1.5-1-3.5-3-6.5z" />
+        <path pathLength={1} d="M56 44V38h52v6" />
+        <path pathLength={1} d="M80 38v-6h28v6" />
+      </>
+    ),
+  },
 ];
 
 const miles = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -116,21 +203,42 @@ export default function SobreNosotrosPage() {
       </section>
 
       <section className="cifras" aria-labelledby="cifras-titulo">
-        <div className="wrap">
-          <p className="eyebrow" id="cifras-titulo" data-reveal>
-            CATSA en cifras
-          </p>
-          <dl className="cgrid">
-            {CIFRAS.map((c) => (
-              <div key={c.texto} className="cifra" data-reveal>
-                <dt className="l">{c.texto}</dt>
-                <dd className="n">
+        <svg className="cf-fondo" viewBox="0 0 200 400" fill="none" aria-hidden>
+          <path d="M70 400V30" />
+          <path d="M58 90h24M58 170h24M58 250h24M58 330h24" />
+          <path d="M70 70c30-8 52-30 64-62" />
+          <path d="M70 150c-28-6-50-26-60-54" />
+          <path d="M70 230c34-6 62-30 80-66" />
+          <path d="M130 400V140" />
+          <path d="M118 210h24M118 290h24M118 370h24" />
+          <path d="M130 190c22-5 40-20 50-44" />
+          <path d="M130 270c-20-4-36-18-44-38" />
+        </svg>
+        <div className="wrap cf">
+          <div className="cf-cabeza">
+            <p className="eyebrow" id="cifras-titulo" data-reveal>
+              CATSA en cifras
+            </p>
+            <Titular className="cf-titulo" texto="Hecho por gente de Guanacaste." />
+          </div>
+
+          <dl className="cf-gente">
+            {GENTE.map((c) => (
+              <div key={c.texto} className="cf-persona" data-reveal>
+                <dt>{c.texto}</dt>
+                <dd className="cf-n">
                   <span data-count={c.valor}>{miles(c.valor)}</span>
-                  {c.sufijo && <i>{c.sufijo}</i>}
+                  <i>{c.sufijo}</i>
                 </dd>
               </div>
             ))}
           </dl>
+
+          <BandaCifras
+            titulo="Un día de zafra, del campo a la destilería"
+            descripcion="Cuatro etapas de una misma caña guanacasteca, en una jornada de zafra."
+            cifras={RECORRIDO}
+          />
         </div>
       </section>
 

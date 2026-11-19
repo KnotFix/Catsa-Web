@@ -406,8 +406,9 @@
   }
   .showcase {
     position: relative;
-    background: #fff;
-    overflow: hidden;
+    background: var(--catsa-paper);
+    /* clip y no hidden: hidden rompe el sticky del escenario. */
+    overflow: clip;
     padding: 60px 0 16px;
   }
   .sc-head {
@@ -415,7 +416,7 @@
     z-index: 1;
     text-align: center;
     padding: 0 24px;
-    margin-bottom: 10vh;
+    margin-bottom: 4vh;
   }
   .sc-head .eyebrow {
     color: var(--catsa-brown);
@@ -430,88 +431,267 @@
     color: var(--catsa-green);
     letter-spacing: -0.01em;
   }
-  .sc-stream {
+  /* Escaparate: lista a la izquierda, foto fija a la derecha (escritorio).
+     La foto del producto activo se destapa desde abajo; la que se va sale
+     hacia arriba y se oscurece un poco. Todo con la misma curva del sitio. */
+  .esc {
+    --esc-dur: 0.9s;
     position: relative;
     z-index: 1;
     max-width: 1160px;
     margin: 0 auto;
     padding: 0 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 64px;
   }
-  .sc-item {
-    width: min(520px, 84%);
-    margin-bottom: 12vh;
-    text-decoration: none;
-    display: block;
+  .esc-lista {
+    list-style: none;
+    margin: 0;
+    padding: 18vh 0;
   }
-  .sc-item:first-child {
-    margin-top: 0;
-  }
-  .sc-item:last-child {
-    margin-bottom: 0;
-  }
-  .sc-item:nth-child(odd) {
-    margin-left: auto;
-  }
-  .sc-item:nth-child(even) {
-    margin-right: auto;
-  }
-  .reveal-img {
-    overflow: hidden;
-    transition: clip-path 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 10px;
-    box-shadow: 0 34px 66px rgba(138, 90, 43, 0.22);
-  }
-  .ri-bg {
-    aspect-ratio: 4/3;
-    background-size: cover;
-    background-position: center;
-    transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .sc-item.portrait .ri-bg {
-    aspect-ratio: 3/4;
-  }
-  .sc-cap {
+  .esc-item {
+    min-height: 64vh;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    border-top: 1px solid var(--catsa-line);
+    opacity: 0.32;
+    transition: opacity 0.5s var(--catsa-ease);
+  }
+  .esc-item:last-child {
+    border-bottom: 1px solid var(--catsa-line);
+  }
+  .esc-item.activo {
+    opacity: 1;
+  }
+  .esc-meta {
+    display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
-    gap: 16px;
-    margin-top: 18px;
-    transition:
-      opacity 0.8s ease 0.3s,
-      transform 0.8s ease 0.3s;
-  }
-  /* La foto se destapa de abajo arriba al entrar en pantalla y se vuelve a
-     tapar al salir. Sin JavaScript o con movimiento reducido, se ve fija. */
-  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-    .sc-item:not(.on) .reveal-img {
-      clip-path: inset(100% 0 0 0);
-    }
-    .sc-item:not(.on) .ri-bg {
-      transform: scale(1.32);
-    }
-    .sc-item:not(.on) .sc-cap {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-  }
-  .sc-cap .ci {
-    font-family: var(--font-poppins);
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--catsa-brown);
-  }
-  .sc-cap .cn {
-    font-family: var(--font-poppins);
-    font-weight: 600;
-    font-size: clamp(18px, 2vw, 24px);
-    color: var(--catsa-green);
-    flex: 1;
-  }
-  .sc-cap .cc {
+    gap: 6px 16px;
+    margin: 0;
     font-size: 12px;
-    letter-spacing: 0.1em;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--catsa-muted);
+  }
+  .esc-n {
+    font-family: var(--font-poppins);
+    color: var(--catsa-brown);
+    letter-spacing: 0.04em;
+  }
+  .esc-cod {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+  .esc-nombre {
+    margin: 0;
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: clamp(30px, 3.6vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--catsa-green);
+    transform: translateX(-12px);
+    transition: transform 0.7s var(--catsa-ease);
+  }
+  .esc-item.activo .esc-nombre {
+    transform: none;
+  }
+  .esc-desc {
+    margin: 0;
+    max-width: 46ch;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--catsa-body);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .esc-ir {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--catsa-green);
+    text-decoration: none;
+  }
+  .esc-ir span {
+    transition: transform 0.25s var(--catsa-ease);
+  }
+  .esc-ir:hover span,
+  .esc-ir:focus-visible span {
+    transform: translateX(4px);
+  }
+  .esc-ir:focus-visible {
+    outline: 2px solid var(--catsa-green);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* Escenario fijo */
+  .esc-escenario {
+    position: relative;
+  }
+  .esc-marco {
+    position: sticky;
+    top: calc(50vh - min(34vh, 300px));
+    height: min(68vh, 600px);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--catsa-cream);
+    box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--catsa-brown) 40%, transparent);
+  }
+  .esc-capa {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path var(--esc-dur) var(--catsa-ease);
+  }
+  .esc-capa img {
+    object-fit: cover;
+    transform: scale(1.18) translateY(6%);
+    transition:
+      transform var(--esc-dur) var(--catsa-ease),
+      filter var(--esc-dur) var(--catsa-ease);
+  }
+  .esc-capa.activa {
+    clip-path: inset(0 0 0 0);
+    z-index: 2;
+  }
+  .esc-capa.activa img {
+    transform: none;
+  }
+  /* La que se va: queda debajo de la nueva, sube un poco y se oscurece. */
+  .esc-capa.salio {
+    clip-path: inset(0 0 0 0);
+    z-index: 1;
+  }
+  .esc-capa.salio img {
+    transform: scale(1.06) translateY(-8%);
+    filter: brightness(0.55);
+  }
+  .esc-contador {
+    position: absolute;
+    z-index: 3;
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--catsa-ink) 55%, transparent);
+    color: var(--catsa-cream);
+    font-family: var(--font-poppins);
+    font-size: 13px;
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .esc-barra {
+    flex: 1;
+    height: 2px;
+    background: color-mix(in srgb, var(--catsa-cream) 30%, transparent);
+    overflow: hidden;
+  }
+  .esc-barra span {
+    display: block;
+    height: 100%;
+    background: var(--catsa-sprout);
+    transform-origin: left;
+    transition: transform var(--esc-dur) var(--catsa-ease);
+  }
+  .esc-foto-movil {
+    display: none;
+    position: relative;
+  }
+
+  /* Movimiento reducido: el escenario sigue, pero las fotos solo se cruzan. */
+  @media (prefers-reduced-motion: reduce) {
+    .esc-capa,
+    .esc-capa.activa,
+    .esc-capa.salio {
+      clip-path: none;
+      opacity: 0;
+      transition: opacity 0.2s linear;
+    }
+    .esc-capa.activa {
+      opacity: 1;
+    }
+    .esc-capa img,
+    .esc-capa.salio img {
+      transform: none;
+      filter: none;
+    }
+    .esc-nombre {
+      transform: none;
+    }
+  }
+
+  /* Móvil o sin JavaScript: cada producto con su foto, sin escenario. */
+  @media (max-width: 900px) {
+    .esc {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .esc-escenario {
+      display: none;
+    }
+    .esc-lista {
+      padding: 0;
+    }
+    .esc-item {
+      min-height: 0;
+      padding: 36px 0;
+      opacity: 1;
+      border-top: none;
+    }
+    .esc-item:last-child {
+      border-bottom: none;
+    }
+    .esc-nombre {
+      transform: none;
+    }
+    .esc-foto-movil {
+      display: block;
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .esc-foto-movil img {
+      object-fit: cover;
+    }
+  }
+  @media (scripting: none) {
+    .esc {
+      grid-template-columns: 1fr;
+    }
+    .esc-escenario {
+      display: none;
+    }
+    .esc-item {
+      opacity: 1;
+      min-height: 0;
+      padding: 36px 0;
+    }
+    .esc-foto-movil {
+      display: block;
+      position: relative;
+      aspect-ratio: 4 / 3;
+      max-width: 560px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
   }
   .sc-end {
     position: relative;
@@ -525,10 +705,6 @@
     margin-bottom: 20px;
   }
   @media (max-width: 900px) {
-    .sc-item {
-      width: 100%;
-      margin-bottom: 9vh;
-    }
     .sc-head {
       margin-bottom: 7vh;
     }
