@@ -38,3 +38,21 @@ export const descripcionModulos: Record<Modulo, { titulo: string; permite: strin
     permite: "Usuarios, módulos, registro de accesos y eliminar archivos",
   },
 };
+
+/** Accesos directos del inicio del panel: lo que más se hace en cada módulo. */
+export const accesosPanel: Record<Modulo, { titulo: string; href: Route }[]> = {
+  contenido: [{ titulo: "Editar textos de las páginas", href: "/admin/contenido" }],
+  noticias: [
+    { titulo: "Nueva noticia", href: "/admin/noticias/nueva" },
+    { titulo: "Ver noticias y borradores", href: "/admin/noticias" },
+  ],
+  puestos: [
+    { titulo: "Nuevo puesto", href: "/admin/puestos/nuevo" },
+    { titulo: "Ver puestos", href: "/admin/puestos" },
+  ],
+  medios: [{ titulo: "Subir imágenes o PDF", href: "/admin/medios" }],
+  administracion: [
+    { titulo: "Invitar a un usuario", href: "/admin/usuarios/invitar" },
+    { titulo: "Ajustes del sitio", href: "/admin/usuarios/ajustes" },
+  ],
+};

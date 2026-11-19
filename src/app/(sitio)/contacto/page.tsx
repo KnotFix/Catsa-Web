@@ -23,6 +23,8 @@ const mapa = (lugar: string) =>
 // decisión de CATSA (pendiente 3).
 export default async function ContactoPage() {
   const ajustes = await obtenerAjustes();
+  // Sin ningún dato cargado, la columna derecha quedaría con el título solo.
+  const hayInfo = Boolean(ajustes.telefono || ajustes.correo || ajustes.horario || ajustes.direccion);
 
   return (
     <div className="pg-contacto">
@@ -41,7 +43,7 @@ export default async function ContactoPage() {
       </ConEspacio>
 
       <section className="band">
-        <div className="wrap cx-grid">
+        <div className={hayInfo ? "wrap cx-grid" : "wrap cx-grid solo"}>
           <div className="cx-card" data-reveal>
             <Titular texto="Escríbanos" />
             <p>
@@ -74,37 +76,39 @@ export default async function ContactoPage() {
             </a>
           </div>
 
-          <div className="cx-info" data-reveal>
-            <Titular texto="Información de contacto" />
-            {ajustes.telefono && (
-              <div className="info-item">
-                <div className="lbl">Teléfono</div>
-                <a className="val" href={telefono(ajustes.telefono)}>
-                  {ajustes.telefono}
-                </a>
-              </div>
-            )}
-            {ajustes.correo && (
-              <div className="info-item">
-                <div className="lbl">Correo</div>
-                <a className="val break-all" href={`mailto:${ajustes.correo}`}>
-                  {ajustes.correo}
-                </a>
-              </div>
-            )}
-            {ajustes.horario && (
-              <div className="info-item">
-                <div className="lbl">Horario</div>
-                <div className="val">{ajustes.horario}</div>
-              </div>
-            )}
-            {ajustes.direccion && (
-              <div className="info-item">
-                <div className="lbl">Dirección</div>
-                <div className="val">{ajustes.direccion}</div>
-              </div>
-            )}
-          </div>
+          {hayInfo && (
+            <div className="cx-info" data-reveal>
+              <Titular texto="Información de contacto" />
+              {ajustes.telefono && (
+                <div className="info-item">
+                  <div className="lbl">Teléfono</div>
+                  <a className="val" href={telefono(ajustes.telefono)}>
+                    {ajustes.telefono}
+                  </a>
+                </div>
+              )}
+              {ajustes.correo && (
+                <div className="info-item">
+                  <div className="lbl">Correo</div>
+                  <a className="val break-all" href={`mailto:${ajustes.correo}`}>
+                    {ajustes.correo}
+                  </a>
+                </div>
+              )}
+              {ajustes.horario && (
+                <div className="info-item">
+                  <div className="lbl">Horario</div>
+                  <div className="val">{ajustes.horario}</div>
+                </div>
+              )}
+              {ajustes.direccion && (
+                <div className="info-item">
+                  <div className="lbl">Dirección</div>
+                  <div className="val">{ajustes.direccion}</div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

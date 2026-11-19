@@ -191,7 +191,8 @@
     font-family: var(--font-poppins);
     font-weight: 600;
     font-size: 12px;
-    background: rgba(15, 22, 17, 0.72);
+    /* 0.88 y no menos: sobre una foto clara el verde brote bajaba de 4.5:1. */
+    background: rgba(15, 22, 17, 0.88);
     color: var(--catsa-sprout);
     padding: 6px 12px;
     border-radius: 8px;

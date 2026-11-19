@@ -145,6 +145,7 @@ export function FormularioPuesto({
         iniciar(async () => void (await guardar()));
       }}
     >
+      <h1 className="sr-only">{puesto ? `Editar puesto: ${puesto.titulo}` : "Nuevo puesto"}</h1>
       <div className="sticky top-0 z-10 -mx-8 -mt-8 flex flex-wrap items-center justify-between gap-3 border-b bg-catsa-field/95 px-8 py-3 backdrop-blur">
         <div className="flex items-center gap-3">
           <Button asChild variant="ghost" size="sm">

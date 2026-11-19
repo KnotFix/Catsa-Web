@@ -38,6 +38,8 @@ export default function PuestosPage({ searchParams }: PageProps<"/puestos">) {
       </ConEspacio>
       <section className="pb-24">
         <div className="wrap">
+          {/* Las tarjetas son h3: sin este h2 el lector de pantalla salta del h1 al h3. */}
+          <h2 className="sr-only">Puestos disponibles</h2>
           <Suspense fallback={<Skeleton className="h-64 rounded-xl" />}>
             <Listado searchParams={searchParams} />
           </Suspense>

@@ -773,6 +773,14 @@
     padding-top: 48px;
   }
 }
+/* En el teléfono el disco bajaba debajo del título y empujaba ~250px el
+   contenido (filtros incluidos) fuera de la primera pantalla. Es decorativo:
+   se queda solo la retícula. */
+@media (max-width: 600px) {
+  .ph-art {
+    display: none;
+  }
+}
 
 /* ============================================================
    SISTEMA DE MOVIMIENTO

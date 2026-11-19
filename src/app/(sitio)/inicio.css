@@ -77,23 +77,38 @@
     justify-content: center;
     margin-bottom: 36px;
   }
+  /* La barrita se ve de 32×4, pero el botón mide 44×44 para que se pueda
+     tocar con el dedo: la barra la dibuja el ::before. */
   .dots {
     display: flex;
-    gap: 10px;
     justify-content: center;
+    margin: -20px 0;
   }
   .dots button {
-    width: 32px;
-    height: 4px;
+    width: 44px;
+    height: 44px;
     padding: 0;
     border: none;
-    border-radius: 2px;
+    background: none;
     cursor: pointer;
-    background: rgba(247, 243, 234, 0.4);
-    transition: background 0.3s;
+    display: grid;
+    place-items: center;
   }
-  .dots button.on {
-    background: #f7f3ea;
+  .dots button::before {
+    content: "";
+    width: 32px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(247, 243, 234, 0.4);
+    transition: background 0.3s var(--catsa-ease);
+  }
+  .dots button.on::before {
+    background: var(--catsa-cream);
+  }
+  .dots button:focus-visible {
+    outline: 2px solid var(--catsa-cream);
+    outline-offset: -8px;
+    border-radius: 6px;
   }
   /* Áreas · mosaico bento */
   .bento {
@@ -198,7 +213,7 @@
     padding: 88px 28px;
   }
   .rse-inicio {
-    background: var(--catsa-paper);
+    background: var(--catsa-cream);
     padding: 80px 0;
   }
   .noticias-inicio {
@@ -227,7 +242,7 @@
   .rcol {
     position: relative;
     overflow: hidden;
-    background: var(--catsa-paper);
+    background: var(--catsa-cream);
     border: 1px solid var(--catsa-line);
     border-radius: 18px;
     padding: 24px;
@@ -406,7 +421,7 @@
   }
   .showcase {
     position: relative;
-    background: var(--catsa-paper);
+    background: var(--catsa-cream);
     /* clip y no hidden: hidden rompe el sticky del escenario. */
     overflow: clip;
     padding: 60px 0 16px;
