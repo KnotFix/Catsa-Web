@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { Contenedor } from "@/components/shared/contenedor";
 import { Skeleton } from "@/components/ui/skeleton";
 import { openGraphSitio } from "@/features/contenido/ajustes";
@@ -27,9 +29,11 @@ export async function generateMetadata({ params }: PageProps<"/noticias/[slug]">
 export default function NoticiaPage({ params }: PageProps<"/noticias/[slug]">) {
   return (
     <Contenedor className="max-w-3xl pt-32 pb-16 tablet:pt-36 tablet:pb-24">
+      <VolverANoticias className="mb-6" />
       <Suspense fallback={<Skeleton className="h-96 w-full" />}>
         <Articulo params={params} />
       </Suspense>
+      <VolverANoticias className="mt-12" texto="Ver todas las noticias" />
     </Contenedor>
   );
 }
@@ -39,4 +43,16 @@ async function Articulo({ params }: Pick<PageProps<"/noticias/[slug]">, "params"
   if (!noticia) notFound();
 
   return <ArticuloNoticia noticia={noticia} />;
+}
+
+function VolverANoticias({ className, texto = "Noticias" }: { className: string; texto?: string }) {
+  return (
+    <Link
+      href="/noticias"
+      className={`inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-catsa-brown transition-colors ease-catsa hover:text-catsa-green ${className}`}
+    >
+      <ArrowLeft className="size-4" aria-hidden />
+      {texto}
+    </Link>
+  );
 }

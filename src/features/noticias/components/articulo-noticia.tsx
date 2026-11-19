@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { Etiqueta } from "@/components/shared/etiqueta";
 import { formatearFecha } from "@/lib/formato";
 import type { Noticia } from "../types";
 import { BloquesNoticia } from "./bloques-noticia";
+import { ImagenSubida } from "@/features/medios/components/imagen-subida";
 
 /** La noticia tal como se ve en el sitio. La usa también la vista previa del panel. */
 export function ArticuloNoticia({ noticia }: { noticia: Noticia }) {
@@ -23,7 +23,7 @@ export function ArticuloNoticia({ noticia }: { noticia: Noticia }) {
       {noticia.resumen && <p className="mt-4 text-xl text-catsa-body">{noticia.resumen}</p>}
       {noticia.autor && <p className="mt-4 text-sm text-catsa-muted">Por {noticia.autor}</p>}
       {noticia.portada && (
-        <Image
+        <ImagenSubida
           src={noticia.portada.url}
           alt={noticia.portada.alt}
           width={noticia.portada.ancho ?? 1200}

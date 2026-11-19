@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Etiqueta } from "@/components/shared/etiqueta";
 import { formatearFecha } from "@/lib/formato";
 import type { NoticiaResumen } from "../types";
+import { ImagenSubida } from "@/features/medios/components/imagen-subida";
 
 export function TarjetaNoticia({ noticia }: { noticia: NoticiaResumen }) {
   return (
@@ -10,7 +10,7 @@ export function TarjetaNoticia({ noticia }: { noticia: NoticiaResumen }) {
       <Link href={`/noticias/${noticia.slug}`} className="block">
         <div className="relative aspect-[16/10] bg-catsa-cream-2">
           {noticia.portada && (
-            <Image
+            <ImagenSubida
               src={noticia.portada.url}
               alt={noticia.portada.alt}
               fill

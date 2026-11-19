@@ -81,10 +81,13 @@ export function EditorNoticia({
   const [categoria, setCategoria] = useState<number | null>(inicial.categoria?.id ?? null);
   const [portada, setPortada] = useState<Medio | null>(inicial.portada);
   const [bloques, setBloques] = useState<BloqueEnEdicion[]>(() =>
-    inicial.bloques.map((b) =>
+    // Clave fija y no aleatoria: este estado se calcula en el servidor y otra vez
+    // en el navegador, y los id de los campos salen de ella (si no, no calzan al
+    // hidratar). Los bloques que se agregan después sí usan randomUUID.
+    inicial.bloques.map((b, i) =>
       b.tipo === "imagen"
-        ? { ...b, clave: crypto.randomUUID(), medio: imagenes[b.medio] ?? null }
-        : { ...b, clave: crypto.randomUUID() },
+        ? { ...b, clave: `inicial-${i}`, medio: imagenes[b.medio] ?? null }
+        : { ...b, clave: `inicial-${i}` },
     ),
   );
   const [errores, setErrores] = useState<Record<string, string>>({});

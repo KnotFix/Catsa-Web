@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { Bloque } from "../types";
+import { ImagenSubida } from "@/features/medios/components/imagen-subida";
 
 /** Cuerpo de la noticia: un componente por tipo de bloque, con el mismo diseño en todas. */
 export function BloquesNoticia({ bloques }: { bloques: Bloque[] }) {
@@ -46,7 +46,7 @@ function BloqueNoticia({ bloque }: { bloque: Bloque }) {
     case "imagen":
       return (
         <figure className="my-10">
-          <Image
+          <ImagenSubida
             src={bloque.imagen.url}
             alt={bloque.imagen.alt}
             width={bloque.imagen.ancho ?? 1200}
