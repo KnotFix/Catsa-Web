@@ -23,3 +23,8 @@ La escribe el agente `registro`. Las decisiones que CATSA aprueba van a la bitá
 - **WEB-09 · Cifras, entradas y salidas**: Se movieron las cifras a Sobre nosotros y se agregaron las entradas y salidas de página (`4b10774`).
 - **WEB-10 · Datos por confirmar con CATSA**: Se detectaron inconsistencias al pasar el contenido real. Bloqueada: depende de que CATSA confirme los datos.
 - Se creó `registro/` con el tablero, esta bitácora y una card por cada parte del trabajo hecho hasta hoy, reconstruidas desde el historial de commits.
+
+## 2026-11-19
+
+- **WEB-11 · Revisión de diseño de toda la aplicación** → en curso. Se rediseñó el Inicio con escaparate de productos y las cifras de Sobre nosotros en blanco con detalles en verde y dibujos de caña de azúcar (`a326f31`, ya en `dev`). Falta revisar el resto del sitio y el panel.
+- Se actualizó Next.js a 16.4.6 para corregir dos fallas de seguridad de la caché del sitio (`2657dfc`)
