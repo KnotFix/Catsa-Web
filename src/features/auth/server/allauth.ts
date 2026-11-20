@@ -36,10 +36,14 @@ function pide(r: RespuestaAllauth, flujo: string) {
  * Quién hace la petición de verdad. Django la recibe desde este servidor, así
  * que sin esto el registro de accesos y el bloqueo por intentos fallidos
  * (django-axes, por correo + IP) verían siempre la IP y el navegador de Next.
+ *
+ * La IP es la que anota el proxy (Traefik): X-Real-IP o el último valor de
+ * X-Forwarded-For. El primero lo puede escribir el visitante, y con una IP
+ * inventada en cada intento nunca quedaría bloqueado.
  */
 async function datosDelVisitante(): Promise<Record<string, string>> {
   const entrante = await headers();
-  const ip = entrante.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const ip = entrante.get("x-real-ip")?.trim() || entrante.get("x-forwarded-for")?.split(",").at(-1)?.trim();
   const agente = entrante.get("user-agent");
   return { ...(ip && { "X-Forwarded-For": ip }), ...(agente && { "User-Agent": agente }) };
 }
