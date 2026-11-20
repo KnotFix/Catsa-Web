@@ -233,6 +233,19 @@
   visibility: visible;
   transform: none;
 }
+/* Plegado con Escape o con Enter sobre el botón: gana al hover y al foco hasta
+   que el foco sale del grupo. Solo en escritorio; en el menú móvil la lista va
+   siempre abierta. */
+@media (min-width: 1041px) {
+  .dropdown.cerrado .dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+  }
+  .dropdown.cerrado > button .caret {
+    transform: none;
+  }
+}
 .dropdown-menu .inner {
   background: #fdfcfa;
   border: 1px solid rgba(28, 27, 24, 0.09);

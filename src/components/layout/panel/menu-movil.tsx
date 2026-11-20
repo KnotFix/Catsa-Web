@@ -29,6 +29,14 @@ export function MenuMovil({ children }: { children: ReactNode }) {
         <SheetContent
           side="left"
           className="w-72 border-sidebar-border bg-sidebar px-4 py-6 text-sidebar-foreground"
+          onOpenAutoFocus={(e) => {
+            // Radix enfocaba "Cerrar sesión"; el foco va a la página actual.
+            const actual = e.currentTarget as HTMLElement | null;
+            const destino = actual?.querySelector<HTMLElement>('[aria-current="page"], nav a');
+            if (!destino) return;
+            e.preventDefault();
+            destino.focus();
+          }}
         >
           <SheetTitle className="sr-only">Menú del panel</SheetTitle>
           {children}

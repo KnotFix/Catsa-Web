@@ -36,6 +36,18 @@ export function ExploradorProductos() {
   const [elegido, setElegido] = useState<number | null>(null);
   const [pestana, setPestana] = useState<Pestana>("resumen");
 
+  // Pestañas como las de Áreas: Tab entra a la activa y las flechas cambian
+  // (patrón de pestañas de WAI-ARIA).
+  function moverPestana(e: React.KeyboardEvent<HTMLButtonElement>) {
+    const paso = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (!paso) return;
+    e.preventDefault();
+    const actual = PESTANAS.findIndex((t) => t.clave === pestana);
+    const siguiente = PESTANAS[(actual + paso + PESTANAS.length) % PESTANAS.length].clave;
+    setPestana(siguiente);
+    document.getElementById(`pestana-${siguiente}`)?.focus();
+  }
+
   // Si cambia el ancla (un enlace del pie), manda ella sobre lo elegido a mano.
   const [anclaPrevia, setAnclaPrevia] = useState(ancla);
   if (ancla !== anclaPrevia) {
@@ -143,8 +155,10 @@ export function ExploradorProductos() {
             id={`pestana-${t.clave}`}
             aria-controls="detalle-producto"
             aria-selected={pestana === t.clave}
+            tabIndex={pestana === t.clave ? 0 : -1}
             className="tab"
             onClick={() => setPestana(t.clave)}
+            onKeyDown={moverPestana}
           >
             {t.titulo}
           </button>

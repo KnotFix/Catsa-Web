@@ -32,6 +32,10 @@ function Barra({ ruta }: { ruta: string | null }) {
   const esInicio = ruta === "/";
   const [bajo, setBajo] = useState(false);
   const [abierto, setAbierto] = useState(false);
+  // Desplegables de escritorio: se abren con hover o foco (CSS). Aquí solo se
+  // sabe cuál tiene el foco (para aria-expanded) y cuál se plegó con Escape.
+  const [grupoEnFoco, setGrupoEnFoco] = useState<string | null>(null);
+  const [grupoCerrado, setGrupoCerrado] = useState<string | null>(null);
   const barra = useRef<HTMLElement>(null);
   const boton = useRef<HTMLButtonElement>(null);
 
@@ -101,8 +105,33 @@ function Barra({ ruta }: { ruta: string | null }) {
         <nav id="navegacion-principal" className="navlinks" aria-label="Principal">
           {navegacionSitio.map((entrada) =>
             esGrupo(entrada) ? (
-              <div key={entrada.titulo} className="dropdown">
-                <button type="button" className={cn(entrada.enlaces.some((e) => activo(e.href)) && "active")}>
+              <div
+                key={entrada.titulo}
+                className={cn("dropdown", grupoCerrado === entrada.titulo && "cerrado")}
+                onFocus={() => setGrupoEnFoco(entrada.titulo)}
+                onBlur={(e) => {
+                  if (e.currentTarget.contains(e.relatedTarget)) return;
+                  setGrupoEnFoco(null);
+                  setGrupoCerrado(null);
+                }}
+                onKeyDown={(e) => {
+                  // En escritorio Escape pliega el desplegable y deja el foco en
+                  // su botón. Con el menú móvil abierto, Escape cierra el menú entero.
+                  if (e.key !== "Escape" || abierto) return;
+                  setGrupoCerrado(entrada.titulo);
+                  e.currentTarget.querySelector("button")?.focus();
+                }}
+              >
+                <button
+                  type="button"
+                  className={cn(entrada.enlaces.some((e) => activo(e.href)) && "active")}
+                  aria-expanded={grupoEnFoco === entrada.titulo && grupoCerrado !== entrada.titulo}
+                  onClick={(e) => {
+                    // Enter o espacio (detail 0) abren y pliegan; con el ratón lo hace el hover.
+                    if (e.detail !== 0) return setGrupoCerrado(null);
+                    setGrupoCerrado((c) => (c === entrada.titulo ? null : entrada.titulo));
+                  }}
+                >
                   {entrada.titulo}
                   <span className="caret" aria-hidden>
                     ▾
