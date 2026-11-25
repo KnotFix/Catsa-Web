@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: PageProps<"/productos/[slug]"
   return {
     title: `${producto.nombre} · Ficha técnica`,
     description: `Ficha técnica del ${producto.nombre} de CATSA (${producto.codigo}): ${producto.descripcion}`,
+    alternates: { canonical: `/productos/${producto.slug}` },
     openGraph: await openGraphSitio({
       type: "article",
       images: [{ url: producto.foto.src, alt: producto.foto.alt }],

@@ -36,22 +36,33 @@ export async function obtenerAjustes(): Promise<Ajustes> {
 type OpenGraph = NonNullable<Metadata["openGraph"]>;
 
 /**
+ * Si nadie eligió una imagen en Ajustes, el enlace igual sale con foto en
+ * Facebook, LinkedIn y WhatsApp. JPG de 1200 × 630, la medida que piden.
+ */
+const IMAGEN_RESPALDO = {
+  url: "/sitio/compartir.jpg",
+  alt: "La planta de CATSA en Guardia de Liberia al atardecer",
+  width: 1200,
+  height: 630,
+};
+
+/**
  * Next reemplaza `openGraph` entero cuando una página define el suyo, así que
  * cada página parte de aquí: nombre del sitio, idioma y la imagen por defecto
  * si la página no trae una propia.
  */
 export async function openGraphSitio(propio: OpenGraph = {}): Promise<OpenGraph> {
   const { imagen_compartir: imagen } = await obtenerAjustes();
-  const porDefecto = imagen
-    ? [
-        {
+  const porDefecto = [
+    imagen
+      ? {
           url: imagen.url,
           alt: imagen.alt,
           width: imagen.ancho ?? undefined,
           height: imagen.alto ?? undefined,
-        },
-      ]
-    : undefined;
+        }
+      : IMAGEN_RESPALDO,
+  ];
   return {
     siteName: sitio.nombre,
     locale: "es_CR",

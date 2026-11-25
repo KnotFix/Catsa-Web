@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Contáctenos",
   description:
     "Escríbanos para consultas comerciales, de calidad o institucionales. Planta en Guardia de Liberia, Guanacaste, y oficinas en San José.",
+  alternates: { canonical: "/contacto" },
 };
 
 const telefono = (t: string) => `tel:${t.replace(/[^\d+]/g, "")}`;

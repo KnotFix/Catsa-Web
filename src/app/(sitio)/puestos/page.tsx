@@ -9,7 +9,9 @@ import { ListaPuestos } from "@/features/puestos/components/lista-puestos";
 
 export const metadata: Metadata = {
   title: "Trabaje con nosotros",
-  description: "Puestos abiertos en CATSA y los beneficios de trabajar con nosotros en Guanacaste.",
+  description:
+    "Puestos abiertos en CATSA, en Guardia de Liberia, Guanacaste: requisitos, cómo postularse y los beneficios de trabajar con nosotros.",
+  alternates: { canonical: "/puestos" },
 };
 
 // Los que publica Recursos Humanos en catsa.net (Nuestro Departamento).

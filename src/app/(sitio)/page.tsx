@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +15,10 @@ import { Escaparate } from "@/features/sitio/components/escaparate";
 import { Portada } from "@/features/sitio/components/portada";
 import { fondo, fotos, sellos } from "@/features/sitio/imagenes";
 import "./inicio.css";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const AREAS = [
   {

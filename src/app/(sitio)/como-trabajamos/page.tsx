@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Cómo trabajamos",
   description:
     "Las siete fases de producción de CATSA, de la cosecha de la caña al envase y despacho, con trazabilidad de principio a fin.",
+  alternates: { canonical: "/como-trabajamos" },
 };
 
 export default function ComoTrabajamosPage() {

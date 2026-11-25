@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Nuestras áreas",
   description:
     "Administración, Agrícola, Industrial y Taller: las cuatro áreas que convierten la caña guanacasteca en azúcares y alcoholes.",
+  alternates: { canonical: "/areas" },
 };
 
 export default function AreasPage() {

@@ -13,6 +13,7 @@ export async function generateMetadata({ params }: PageProps<"/puestos/[slug]">)
   return {
     title: puesto.titulo,
     description: puesto.resumen,
+    alternates: { canonical: `/puestos/${puesto.slug}` },
     openGraph: await openGraphSitio({ title: `${puesto.titulo} · CATSA`, description: puesto.resumen }),
   };
 }

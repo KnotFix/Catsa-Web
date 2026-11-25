@@ -46,7 +46,9 @@ export function Portada({
             alt={i === actual ? f.alt : ""}
             fill
             sizes="100vw"
-            priority={i === 0}
+            // La primera foto es lo más grande que se ve al entrar (LCP): se pide de primera.
+            // `priority` quedó obsoleto en Next 16 y ya no lo hacía.
+            {...(i === 0 && { loading: "eager", fetchPriority: "high" })}
             className={cn(i === actual && "on")}
           />
         ))}

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "Certificaciones",
   description:
     "ISO 9001, FSSC 22000, Kosher, ISCC y Esencial Costa Rica: los sellos que auditan la calidad e inocuidad de cada producto de CATSA.",
+  alternates: { canonical: "/certificaciones" },
 };
 
 // Textos y alcances tomados de Gestión de Calidad, en catsa.net.

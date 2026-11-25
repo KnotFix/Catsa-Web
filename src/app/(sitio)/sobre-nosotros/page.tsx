@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "Sobre nosotros",
   description:
     "CATSA, Central Azucarera Tempisque: desde 1975 cultivando y procesando caña en Guardia de Liberia, Guanacaste, con más de 450 colaboradores permanentes.",
+  alternates: { canonical: "/sobre-nosotros" },
 };
 
 // CATSA en cifras, en dos partes: la gente y el recorrido de la caña en un

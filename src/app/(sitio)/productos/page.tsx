@@ -13,6 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Productos",
     description:
       "Catálogo de CATSA: azúcar crudo, blanco, especial y refino, alcohol etílico neutro y anhidro, miel y arroz, con la ficha técnica de cada producto.",
+    alternates: { canonical: "/productos" },
     openGraph: await openGraphSitio({
       images: [{ url: fotos.refinadoNacional.src, alt: fotos.refinadoNacional.alt }],
     }),

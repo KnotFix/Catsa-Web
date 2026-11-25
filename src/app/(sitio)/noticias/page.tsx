@@ -9,7 +9,9 @@ import { CargandoNoticias, ListaNoticias } from "@/features/noticias/components/
 
 export const metadata: Metadata = {
   title: "Noticias",
-  description: "Noticias y comunicados de CATSA.",
+  description:
+    "Noticias y comunicados de CATSA: la zafra, la planta, las certificaciones y el trabajo con las comunidades de Guanacaste.",
+  alternates: { canonical: "/noticias" },
 };
 
 export default function NoticiasPage({ searchParams }: PageProps<"/noticias">) {

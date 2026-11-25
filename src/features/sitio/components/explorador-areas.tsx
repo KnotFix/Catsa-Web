@@ -106,7 +106,7 @@ export function ExploradorAreas() {
             alt={a.foto.alt}
             fill
             sizes="(max-width: 900px) 100vw, 560px"
-            priority={i === 0}
+            loading={i === 0 ? "eager" : undefined}
             className={cn(i === activa && "on")}
           />
         ))}

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
-// Origen desde donde se sirven las imágenes subidas (Django en desarrollo,
-// el almacenamiento de objetos en producción).
+// Origen desde donde se sirven las imágenes subidas: Django, en localhost en
+// desarrollo y en /media del mismo dominio en producción (Traefik lo enruta).
 const MEDIA_URL = process.env.MEDIA_URL ?? "http://localhost:8000";
 
 const cabecerasSeguridad = [

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "RSE",
   description:
     "Salud, educación, desarrollo comunal, reforestación y ambiente: los programas con los que CATSA trabaja junto a Guardia, Palmira, El Paso Tempisque e Irigaray.",
+  alternates: { canonical: "/rse" },
 };
 
 const PUENTES = [

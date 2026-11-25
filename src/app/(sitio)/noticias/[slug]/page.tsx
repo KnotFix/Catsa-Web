@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: PageProps<"/noticias/[slug]">
   return {
     title: noticia.titulo,
     description: noticia.resumen,
+    alternates: { canonical: `/noticias/${noticia.slug}` },
     openGraph: await openGraphSitio({
       type: "article",
       publishedTime: noticia.publicada_en,
