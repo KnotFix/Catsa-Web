@@ -2,11 +2,11 @@
 
 |             |                                  |
 | ----------- | -------------------------------- |
-| Estado      | pendiente                        |
+| Estado      | en curso                         |
 | Repo        | Catsa-Web                        |
 | Entregable  | Control de calidad y publicación |
 | Responsable | KnotFix                          |
-| Actualizada | 2026-11-03                       |
+| Actualizada | 2026-11-22                       |
 | Depende de  | WEB-10, WEB-11, WEB-12           |
 
 ## Qué es
@@ -19,11 +19,11 @@ Verificación de salida: todas las páginas, panel, accesibilidad, rendimiento, 
 
 ## Avance
 
-Sin avance todavía.
+- 2026-11-04 · Se preparó el build para Dokploy: `SITE_URL`, `MEDIA_URL` e `INDEXAR` como argumentos de build; el sitio queda fuera de buscadores salvo en producción (`INDEXAR=true`) (`11a35a3`). Falta el control de calidad final y la publicación.
 
 ## Artefactos
 
-Ninguno todavía.
+- `Dockerfile` y configuración de build (commit `11a35a3`)
 
 ## Notas
 

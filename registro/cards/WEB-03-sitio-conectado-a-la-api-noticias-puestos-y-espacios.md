@@ -6,7 +6,7 @@
 | Repo        | Catsa-Web          |
 | Entregable  | Módulo de noticias |
 | Responsable | KnotFix            |
-| Actualizada | 2026-11-02         |
+| Actualizada | 2026-11-05         |
 | Depende de  | WEB-01             |
 
 ## Qué es
@@ -20,6 +20,7 @@ Lecturas públicas en caché con tipos generados del OpenAPI: noticias por bloqu
 ## Avance
 
 - 2026-11-02 · Se conectaron noticias, puestos y espacios con `src/types/api.d.ts` generado (`6961b0b`).
+- 2026-11-05 · Los encabezados de página, los cierres, misión y visión y guanacastequidad salen de Contenido del sitio, con su texto por defecto si nunca se editaron (`a35958e`).
 
 ## Artefactos
 
