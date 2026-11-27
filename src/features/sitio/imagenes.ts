@@ -110,12 +110,61 @@ export const fotos = {
   tradicion: foto("guanacastequidad/tradicion", "Colaborador rajando leña en la celebración", 1200, 700),
 } as const;
 
+/**
+ * Video de la portada ("Inicio época invierno", de CATSA). El original de 51 MB
+ * se cortó antes del logo final y se recomprimió sin sonido, a 24 cuadros:
+ * AV1 1920 px (4,9 MB), H.264 1920 px (6,5 MB) y H.264 1280 px para móvil (3,4 MB).
+ */
+export const video = {
+  av1: "/sitio/video/portada-1920.av1.mp4",
+  grande: "/sitio/video/portada-1920.mp4",
+  movil: "/sitio/video/portada-1280.mp4",
+  poster: foto("video/portada", "", 1920, 1080),
+} as const;
+
+// ancho y alto: los del archivo. Sin ellos, Next pedía todos a 120 px de ancho y
+// los apaisados (FSSC, ISCC) se veían borrosos.
 export const sellos = [
-  { clave: "iso-9001", nombre: "ISO 9001", src: "/sitio/sellos/iso-9001.png" },
-  { clave: "fssc-22000", nombre: "FSSC 22000", src: "/sitio/sellos/fssc-22000.png" },
-  { clave: "kosher", nombre: "Kosher", src: "/sitio/sellos/kosher.png" },
-  { clave: "iscc", nombre: "ISCC", src: "/sitio/sellos/iscc.png" },
-  { clave: "esencial", nombre: "Esencial Costa Rica", src: "/sitio/sellos/esencial.png" },
+  {
+    clave: "iso-9001",
+    nombre: "ISO 9001",
+    tema: "Gestión de la calidad",
+    src: "/sitio/sellos/iso-9001.png",
+    ancho: 681,
+    alto: 1000,
+  },
+  {
+    clave: "fssc-22000",
+    nombre: "FSSC 22000",
+    tema: "Inocuidad alimentaria",
+    src: "/sitio/sellos/fssc-22000.png",
+    ancho: 900,
+    alto: 175,
+  },
+  {
+    clave: "kosher",
+    nombre: "Kosher",
+    tema: "Azúcares aptos kosher",
+    src: "/sitio/sellos/kosher.png",
+    ancho: 250,
+    alto: 250,
+  },
+  {
+    clave: "iscc",
+    nombre: "ISCC",
+    tema: "Sostenibilidad",
+    src: "/sitio/sellos/iscc.png",
+    ancho: 900,
+    alto: 500,
+  },
+  {
+    clave: "esencial",
+    nombre: "Esencial Costa Rica",
+    tema: "Marca país",
+    src: "/sitio/sellos/esencial.png",
+    ancho: 255,
+    alto: 119,
+  },
 ] as const;
 
 /** Para fondos con CSS (tarjetas, mosaicos, parallax). */

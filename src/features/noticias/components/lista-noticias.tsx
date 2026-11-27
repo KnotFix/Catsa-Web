@@ -8,21 +8,44 @@ import { TarjetaNoticia } from "./tarjeta-noticia";
 /**
  * Usar dentro de <Suspense fallback={<CargandoNoticias />}>. `limite` corta la
  * lista sin paginación (portada); sin él, se pagina con `pagina`.
+ * `destacar`: la primera va grande a la izquierda y las demás en fila a la derecha.
  */
 export async function ListaNoticias({
   pagina = 1,
   categoria,
   limite,
+  destacar,
 }: {
   pagina?: number;
   categoria?: string;
   limite?: number;
+  destacar?: boolean;
 }) {
   const { count, results } = await listarNoticias({ pagina, categoria });
   const noticias = limite ? results.slice(0, limite) : results;
 
   if (noticias.length === 0) {
     return <EstadoVacio titulo="Aún no hay noticias publicadas" />;
+  }
+
+  if (destacar) {
+    const [primera, ...resto] = noticias;
+    return (
+      <div className="grid gap-6 tablet:grid-cols-12">
+        <div className={resto.length ? "tablet:col-span-7" : "tablet:col-span-12"}>
+          <TarjetaNoticia noticia={primera} forma="destacada" />
+        </div>
+        {resto.length > 0 && (
+          <div className="flex flex-col gap-6 tablet:col-span-5">
+            {resto.map((noticia) => (
+              <div key={noticia.slug} className="flex-1">
+                <TarjetaNoticia noticia={noticia} forma="fila" />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
   }
 
   return (

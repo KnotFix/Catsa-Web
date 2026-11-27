@@ -8,6 +8,7 @@ import {
   espacioCertificacionesEncabezado,
   espacioCertificacionesCierre,
 } from "@/features/contenido/espacios";
+import { Foco } from "@/components/sitio/foco";
 import { Titular } from "@/components/sitio/titular";
 import { sellos } from "@/features/sitio/imagenes";
 import "./estilos.css";
@@ -71,9 +72,9 @@ export default function CertificacionesPage() {
       </ConEspacio>
 
       <section>
-        <div className="wrap clist">
+        <Foco className="wrap clist">
           {sellos.map((s, i) => (
-            <article key={s.clave} className="crow" data-reveal>
+            <article key={s.clave} id={s.clave} className="crow foco" data-reveal>
               <div className="logo">
                 <Image src={s.src} alt={s.nombre} width={200} height={120} />
               </div>
@@ -92,7 +93,7 @@ export default function CertificacionesPage() {
               </div>
             </article>
           ))}
-        </div>
+        </Foco>
       </section>
 
       <section className="politica">

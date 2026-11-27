@@ -9,17 +9,12 @@
     gap: 22px;
     padding: 0 0 80px;
   }
+  /* Fondo, borde, sombra y luz al pasar: .foco (sitio.css). */
   .crow {
-    position: relative;
     display: grid;
     grid-template-columns: 300px 1fr;
-    background: var(--catsa-paper);
-    border: 1px solid var(--catsa-line);
     border-radius: 20px;
-    overflow: hidden;
-    transition:
-      transform 0.22s,
-      box-shadow 0.22s;
+    scroll-margin-top: 110px;
   }
   .crow::before {
     content: "";
@@ -32,10 +27,6 @@
     transform: scaleY(0);
     transform-origin: top;
     transition: transform 0.3s;
-  }
-  .crow:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 50px rgba(28, 27, 24, 0.12);
   }
   .crow:hover::before {
     transform: scaleY(1);

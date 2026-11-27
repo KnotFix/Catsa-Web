@@ -1484,11 +1484,69 @@
   margin-bottom: 6px;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Pie ----------
+   Tierra verde oscura en la que termina la pradera del cierre. Las flores de
+   línea van al fondo, casi invisibles. */
 .pie-sitio {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--catsa-foot);
-  color: #dce8de;
-  padding: 56px 0 28px;
+  color: color-mix(in srgb, var(--catsa-cream) 88%, var(--catsa-sprout));
+  padding: 40px 0 28px;
+}
+.pie-sitio .wrap {
+  position: relative;
+  z-index: 1;
+}
+.flores {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 0;
+  width: max(100%, 1100px);
+  height: 92%;
+  transform: translateX(-50%);
+  color: var(--catsa-cream);
+  opacity: 0.09;
+  pointer-events: none;
+}
+.flores path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.4s var(--catsa-ease);
+  transition-delay: var(--d, 0ms);
+}
+.flores.on path {
+  stroke-dashoffset: 0;
+}
+.flor {
+  transform-box: view-box;
+  animation: florMece 9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--sd, 0) * -1s);
+}
+@keyframes florMece {
+  from {
+    transform: rotate(-0.9deg);
+  }
+  to {
+    transform: rotate(1.1deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flores path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  .flor {
+    animation: none;
+  }
 }
 .fgrid {
   display: grid;
@@ -1522,18 +1580,45 @@
   font-size: 14px;
   line-height: 2;
 }
+/* Al pasar, el enlace se corre y le sale una hojita a la izquierda. */
 .pie-sitio ul a {
+  position: relative;
+  display: inline-block;
   opacity: 0.82;
-  transition: 0.2s;
+  transition:
+    opacity 0.3s var(--catsa-ease),
+    transform 0.45s var(--catsa-ease);
 }
-.pie-sitio ul a:hover {
+.pie-sitio ul a::before {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 6px 0;
+  background: var(--catsa-sprout);
+  opacity: 0;
+  transform: scale(0.2) rotate(-45deg);
+  transition:
+    opacity 0.3s var(--catsa-ease),
+    transform 0.45s var(--catsa-ease);
+}
+.pie-sitio ul a:hover,
+.pie-sitio ul a:focus-visible {
   opacity: 1;
-  padding-left: 3px;
+  transform: translateX(8px);
+}
+.pie-sitio ul a:hover::before,
+.pie-sitio ul a:focus-visible::before {
+  opacity: 1;
+  transform: none;
 }
 .fbottom {
-  margin-top: 34px;
+  margin-top: 56px;
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid color-mix(in srgb, var(--catsa-cream) 16%, transparent);
   font-size: 12.5px;
   opacity: 0.7;
   display: flex;
@@ -1542,59 +1627,36 @@
   gap: 8px;
 }
 
-/* ---------- CTA final unificado · franja con ola ---------- */
+/* ---------- Cierre de página · pradera ----------
+   El lienzo cubre la sección; el texto va arriba, en el cielo, y las colinas
+   ocupan la parte de abajo hasta fundirse con el pie. */
 .cta-final {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   width: 100%;
-  background: var(--catsa-sprout-bg);
+  min-height: clamp(700px, 96svh, 880px);
+  background: var(--catsa-foot);
   color: var(--catsa-ink);
-  padding: clamp(96px, 11vw, 140px) 0 clamp(64px, 8vw, 96px);
-  margin-top: -2px;
 }
-/* Ola superior: se rellena con el fondo de la sección anterior, para que lea
-   como el borde de esa sección cayendo sobre el CTA. Por defecto --paper;
-   usar .on-cream cuando la sección de arriba sea crema (ej. .testi en index). */
-.cta-final .wave {
+.cta-final .pradera {
   position: absolute;
-  top: -1px;
-  left: 0;
-  width: 100%;
-  height: clamp(60px, 8vw, 110px);
-  z-index: 1;
+  inset: 0;
+  z-index: 0;
   display: block;
-}
-.cta-final .wave path {
-  fill: var(--catsa-paper);
-}
-.cta-final.on-cream .wave path {
-  fill: var(--catsa-cream);
-}
-/* halo suave verde */
-.cta-final::after {
-  content: "";
-  position: absolute;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  top: -200px;
-  right: -180px;
-  background: radial-gradient(circle, rgba(30, 86, 49, 0.07), transparent 72%);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
 }
 .cta-final .cin {
   position: relative;
-  z-index: 2;
-  max-width: 1160px;
+  z-index: 1;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 0 28px;
-  display: grid;
-  grid-template-columns: 1.35fr auto;
-  gap: 44px;
+  padding: clamp(64px, 9vw, 112px) 24px 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-}
-.cta-final .cbody {
-  max-width: 640px;
+  text-align: center;
 }
 .cta-final .eyebrow {
   display: block;
@@ -1602,54 +1664,126 @@
   font-size: 12px;
   letter-spacing: 0.18em;
   font-weight: 700;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .cta-final h2 {
   font-family: var(--font-poppins);
-  font-weight: 700;
-  font-size: clamp(27px, 3.7vw, 44px);
-  color: var(--catsa-green);
-  margin-bottom: 14px;
-  line-height: 1.06;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-size: clamp(32px, 5.2vw, 64px);
+  color: var(--catsa-ink);
+  margin-bottom: 18px;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  max-width: 17ch;
+  text-wrap: balance;
 }
 .cta-final p {
-  font-size: 17px;
-  color: var(--catsa-muted);
-  max-width: 52ch;
+  font-size: clamp(15px, 1.3vw, 17px);
+  color: var(--catsa-body);
+  max-width: 50ch;
   margin: 0;
-  line-height: 1.65;
+  line-height: 1.6;
 }
 .cta-final .cta-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-top: clamp(22px, 2.6vw, 32px);
 }
-.cta-final .btn-primary {
+/* Píldora principal: al pasar, el verde la llena de izquierda a derecha y la flecha gira. */
+.cta-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 8px 0 22px;
+  border-radius: 999px;
+  background: var(--catsa-paper);
+  color: var(--catsa-ink);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    0 12px 30px -12px color-mix(in srgb, var(--catsa-foot) 45%, transparent),
+    0 2px 6px -2px color-mix(in srgb, var(--catsa-foot) 25%, transparent);
+  transition: color 0.45s var(--catsa-ease);
+}
+.cta-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--catsa-green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--catsa-ease);
+}
+.cta-flecha {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   background: var(--catsa-green);
   color: var(--catsa-cream);
+  transition:
+    background 0.45s var(--catsa-ease),
+    color 0.45s var(--catsa-ease),
+    transform 0.45s var(--catsa-ease);
 }
-.cta-final .btn-primary:hover {
-  background: var(--catsa-green-d);
+.cta-flecha path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cta-pill:hover,
+.cta-pill:focus-visible {
   color: var(--catsa-cream);
-  box-shadow: 0 12px 28px rgba(30, 86, 49, 0.28);
 }
-/* Dentro del CTA el fondo es claro, así que el secundario es de línea verde. */
-.cta-final .btn-ondark {
-  border: 1.5px solid var(--catsa-green);
+.cta-pill:hover::before,
+.cta-pill:focus-visible::before {
+  transform: none;
+}
+.cta-pill:hover .cta-flecha,
+.cta-pill:focus-visible .cta-flecha {
+  background: var(--catsa-paper);
   color: var(--catsa-green);
-  background: transparent;
+  transform: rotate(45deg);
 }
-.cta-final .btn-ondark:hover {
-  background: var(--catsa-green);
-  color: var(--catsa-cream);
+.cta-linea {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1.5px solid color-mix(in srgb, var(--catsa-ink) 25%, transparent);
+  border-radius: 999px;
+  color: var(--catsa-ink);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    border-color 0.3s var(--catsa-ease),
+    background 0.3s var(--catsa-ease);
+}
+.cta-linea:hover,
+.cta-linea:focus-visible {
+  border-color: var(--catsa-ink);
+  background: color-mix(in srgb, var(--catsa-paper) 55%, transparent);
+}
+.cta-pill:focus-visible,
+.cta-linea:focus-visible {
+  outline: 2px solid var(--catsa-ink);
+  outline-offset: 3px;
 }
 
 @media (max-width: 900px) {
-  .cta-final .cin {
-    grid-template-columns: 1fr;
-    gap: 26px;
-  }
   .fgrid {
     grid-template-columns: 1fr 1fr;
   }
@@ -1658,6 +1792,9 @@
   .fgrid {
     grid-template-columns: 1fr;
     gap: 26px;
+  }
+  .cta-final {
+    min-height: 680px;
   }
 }
 
@@ -1915,5 +2052,69 @@
   }
   .bc-pie {
     font-size: 14px;
+  }
+}
+
+/* Tarjetas con sombreado (certificaciones), a la manera de knotfix.com: sombra
+   en capas, un brillo verde arriba (::before) y una luz que sigue al puntero
+   (::after, con --fx/--fy que escribe <Foco>). Sin puntero fino queda la sombra. */
+.foco {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--catsa-paper);
+  border: 1px solid var(--catsa-line);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--catsa-ink) 5%, transparent),
+    0 8px 24px -12px color-mix(in srgb, var(--catsa-ink) 18%, transparent);
+  /* opacity: si la tarjeta también entra con [data-reveal], esta lista reemplaza la suya. */
+  transition:
+    opacity 0.6s var(--catsa-ease),
+    transform 0.35s var(--catsa-ease),
+    box-shadow 0.35s var(--catsa-ease),
+    border-color 0.35s var(--catsa-ease);
+}
+.foco::before,
+.foco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.foco::before {
+  background: radial-gradient(
+    80% 70% at 50% -20%,
+    color-mix(in srgb, var(--catsa-sprout) 35%, transparent),
+    transparent 70%
+  );
+}
+.foco::after {
+  background: radial-gradient(
+    260px circle at var(--fx, 50%) var(--fy, -200px),
+    color-mix(in srgb, var(--catsa-green) 14%, transparent),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s var(--catsa-ease);
+}
+@media (hover: hover) {
+  .foco:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--catsa-green) 30%, var(--catsa-line));
+    box-shadow:
+      0 2px 4px color-mix(in srgb, var(--catsa-ink) 6%, transparent),
+      0 28px 48px -20px color-mix(in srgb, var(--catsa-green) 35%, transparent);
+  }
+  /* La luz se enciende en todo el grupo: así se ve pasar de una tarjeta a otra. */
+  :hover > .foco::after,
+  .foco:hover::after {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .foco,
+  .foco:hover {
+    transform: none;
   }
 }

@@ -12,32 +12,14 @@ import {
 } from "@/features/contenido/espacios";
 import { CargandoNoticias, ListaNoticias } from "@/features/noticias/components/lista-noticias";
 import { Escaparate } from "@/features/sitio/components/escaparate";
+import { PanelesAreas } from "@/features/sitio/components/paneles-areas";
 import { Portada } from "@/features/sitio/components/portada";
-import { fondo, fotos, sellos } from "@/features/sitio/imagenes";
+import { fotos, sellos } from "@/features/sitio/imagenes";
 import "./inicio.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
-
-const AREAS = [
-  {
-    clase: "b-big",
-    nombre: "Industrial",
-    etiqueta: "Producción",
-    foto: fotos.refineria.src,
-    texto: "7.500 toneladas de caña al día, refinería y destilería de alcohol.",
-  },
-  {
-    clase: "b-wide",
-    nombre: "Agrícola",
-    etiqueta: "Campo",
-    foto: fotos.maquinaria.src,
-    texto: "Siembra y cosecha de la caña, coordinada con cerca de 400 productores independientes.",
-  },
-  { clase: "b-s1", nombre: "Administración", foto: fotos.rotulo.src },
-  { clase: "b-s2", nombre: "Taller", foto: fotos.camion.src },
-];
 
 const PUENTES = [
   {
@@ -104,19 +86,35 @@ export default function InicioPage() {
           <p className="lab">Nuestras certificaciones</p>
           <Link href="/certificaciones">Ver todas las certificaciones →</Link>
         </div>
+        {/* Cinta a todo lo ancho. Cuatro vueltas para que no tenga corte ni en pantallas
+            muy anchas; solo la primera se anuncia. */}
         <div className="marquee">
-          {/* Dos vueltas de sellos para que la cinta no tenga corte; la copia no se anuncia. */}
           <div className="track">
-            {[...sellos, ...sellos].map((s, i) => (
-              <Image
-                key={`${s.clave}-${i}`}
-                src={s.src}
-                alt={i < sellos.length ? s.nombre : ""}
-                aria-hidden={i >= sellos.length || undefined}
-                width={120}
-                height={60}
-              />
-            ))}
+            {[0, 1, 2, 3].flatMap((vuelta) =>
+              sellos.map((s) => (
+                <Link
+                  key={`${s.clave}-${vuelta}`}
+                  href={`/certificaciones#${s.clave}`}
+                  className="sello"
+                  aria-hidden={vuelta > 0 || undefined}
+                  tabIndex={vuelta > 0 ? -1 : undefined}
+                >
+                  <span className="sello-logo">
+                    <Image
+                      src={s.src}
+                      alt=""
+                      width={s.ancho}
+                      height={s.alto}
+                      sizes={`${Math.ceil((56 * s.ancho) / s.alto)}px`}
+                    />
+                  </span>
+                  <span className="sello-txt">
+                    <span className="sello-nombre">{s.nombre}</span>
+                    <span className="sello-tema">{s.tema}</span>
+                  </span>
+                </Link>
+              )),
+            )}
           </div>
         </div>
       </section>
@@ -126,18 +124,8 @@ export default function InicioPage() {
           <p className="lead-lab">Nuestras áreas</p>
           <h2 className="h2 max-w-[24ch]">Cuatro áreas, un mismo compromiso con la caña.</h2>
         </div>
-        <div className="bento" data-reveal>
-          {AREAS.map((a) => (
-            <Link key={a.nombre} className={`bcell ${a.clase}`} href="/areas">
-              <div className="bimg" style={fondo(a.foto)} />
-              <div className="bveil" />
-              <div className="bc">
-                {a.etiqueta && <div className="bt">{a.etiqueta}</div>}
-                <h3>{a.nombre}</h3>
-                {a.texto && <p>{a.texto}</p>}
-              </div>
-            </Link>
-          ))}
+        <div data-reveal>
+          <PanelesAreas />
         </div>
       </section>
 
@@ -248,7 +236,7 @@ export default function InicioPage() {
             </Link>
           </div>
           <Suspense fallback={<CargandoNoticias />}>
-            <ListaNoticias limite={3} />
+            <ListaNoticias limite={3} destacar />
           </Suspense>
         </div>
       </section>

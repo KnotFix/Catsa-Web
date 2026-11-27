@@ -1,12 +1,13 @@
 import type { Route } from "next";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { CieloPradera } from "./pradera/cielo-pradera";
 import { Titular } from "./titular";
 
 /**
- * Cierre de página (.cta-final del boceto): franja verde claro con una ola
- * arriba que continúa el fondo de la sección anterior. `sobreCrema` cuando
- * esa sección es crema y no papel.
+ * Cierre de página: el titular y las acciones sobre un cielo crema con colinas
+ * de caña (<CieloPradera>, adaptado de "Meadow Rise Footer"). La colina más
+ * cercana se oscurece en el verde del pie, que sigue debajo sin corte. El cielo
+ * arranca del fondo de la sección anterior: `sobreCrema` cuando es crema.
  */
 export function Cierre({
   antetitulo,
@@ -24,22 +25,23 @@ export function Cierre({
   sobreCrema?: boolean;
 }) {
   return (
-    <section className={cn("cta-final", sobreCrema && "on-cream")}>
-      <svg className="wave" viewBox="0 0 1200 110" preserveAspectRatio="none" aria-hidden>
-        <path d="M0,48 C220,104 420,4 660,36 C840,60 1020,72 1200,40 L1200,0 L0,0 Z" />
-      </svg>
+    <section className="cta-final">
+      <CieloPradera arriba={sobreCrema ? "cream" : "paper"} />
       <div className="cin" data-reveal>
-        <div className="cbody">
-          <span className="eyebrow">{antetitulo}</span>
-          <Titular texto={titulo} />
-          <p>{texto}</p>
-        </div>
+        <span className="eyebrow">{antetitulo}</span>
+        <Titular texto={titulo} />
+        <p>{texto}</p>
         <div className="cta-actions">
-          <Link className="btn btn-primary" href={principal.href}>
-            {principal.titulo}
+          <Link className="cta-pill" href={principal.href}>
+            <span>{principal.titulo}</span>
+            <span className="cta-flecha" aria-hidden>
+              <svg viewBox="0 0 16 16" width="12" height="12">
+                <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
+              </svg>
+            </span>
           </Link>
           {secundario && (
-            <Link className="btn btn-ondark" href={secundario.href}>
+            <Link className="cta-linea" href={secundario.href}>
               {secundario.titulo}
             </Link>
           )}

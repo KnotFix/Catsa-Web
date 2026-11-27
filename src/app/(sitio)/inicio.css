@@ -12,16 +12,20 @@
     inset: 0;
     z-index: 0;
   }
-  .hero .bg img {
+  .hero .bg img,
+  .hero .bg video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 1.2s ease;
-    opacity: 0;
   }
-  .hero .bg img.on {
+  /* El video entra sobre el póster cuando ya corre: sin salto ni cuadro negro. */
+  .hero .bg video {
+    opacity: 0;
+    transition: opacity 1.2s var(--catsa-ease);
+  }
+  .hero .bg video.on {
     opacity: 1;
   }
   .hero .bg .veil {
@@ -77,133 +81,231 @@
     justify-content: center;
     margin-bottom: 36px;
   }
-  /* La barrita se ve de 32×4, pero el botón mide 44×44 para que se pueda
-     tocar con el dedo: la barra la dibuja el ::before. */
-  .dots {
-    display: flex;
-    justify-content: center;
-    margin: -20px 0;
-  }
-  .dots button {
+  /* Pausa del video: 44×44 para el dedo, abajo a la derecha. */
+  .hero .pausa {
+    position: absolute;
+    z-index: 3;
+    right: 24px;
+    bottom: 24px;
     width: 44px;
     height: 44px;
-    padding: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
     display: grid;
     place-items: center;
+    border: 1px solid color-mix(in srgb, var(--catsa-cream) 45%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--catsa-ink) 35%, transparent);
+    color: var(--catsa-cream);
+    cursor: pointer;
+    transition: background 0.25s var(--catsa-ease);
   }
-  .dots button::before {
-    content: "";
-    width: 32px;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(247, 243, 234, 0.4);
-    transition: background 0.3s var(--catsa-ease);
+  .hero .pausa svg {
+    width: 16px;
+    height: 16px;
   }
-  .dots button.on::before {
-    background: var(--catsa-cream);
+  .hero .pausa:hover {
+    background: color-mix(in srgb, var(--catsa-ink) 60%, transparent);
   }
-  .dots button:focus-visible {
+  .hero .pausa:focus-visible {
     outline: 2px solid var(--catsa-cream);
-    outline-offset: -8px;
-    border-radius: 6px;
+    outline-offset: 3px;
   }
-  /* Áreas · mosaico bento */
-  .bento {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 210px;
-    gap: 16px;
-  }
-  .bcell {
-    position: relative;
-    border-radius: 18px;
-    overflow: hidden;
+  /* Áreas · paneles que se expanden. El abierto crece (flex) y los demás se
+     angostan hasta dejar ver solo el nombre en vertical. */
+  .paneles {
     display: flex;
-    align-items: flex-end;
-    text-decoration: none;
+    gap: 12px;
+    height: clamp(460px, 62vh, 560px);
   }
-  .bcell .bimg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-color: #1e5631;
-    transition: transform 0.55s ease;
-  }
-  .bcell:hover .bimg {
-    transform: scale(1.06);
-  }
-  .bcell .bveil {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(15, 22, 17, 0.05) 30%, rgba(15, 22, 17, 0.82));
-  }
-  .bcell .bc {
+  .panel {
     position: relative;
-    z-index: 2;
-    padding: 22px 24px;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: var(--catsa-green-d);
+    color: var(--catsa-cream);
+    text-decoration: none;
+    isolation: isolate;
+    transition: flex-grow 0.8s var(--catsa-ease);
   }
-  .bcell .bt {
-    font-size: 11px;
+  .panel.abierto {
+    flex-grow: 4.2;
+  }
+  .panel-foto {
+    z-index: -2;
+    object-fit: cover;
+    transform: scale(1.08);
+    filter: saturate(0.85) brightness(0.8);
+    transition:
+      transform 1.2s var(--catsa-ease),
+      filter 0.8s var(--catsa-ease);
+  }
+  .panel.abierto .panel-foto {
+    transform: none;
+    filter: none;
+  }
+  .panel-velo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--catsa-ink) 15%, transparent) 0%,
+      transparent 25%,
+      color-mix(in srgb, var(--catsa-ink) 55%, transparent) 55%,
+      color-mix(in srgb, var(--catsa-ink) 88%, transparent) 100%
+    );
+  }
+  .panel-n {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-family: var(--font-poppins);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--catsa-sprout);
+  }
+  /* Cerrado: el nombre de abajo hacia arriba. */
+  .panel-nombre-vertical {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    writing-mode: vertical-rl;
+    transform: translateX(-50%) rotate(180deg);
+    font-family: var(--font-poppins);
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: opacity 0.35s var(--catsa-ease);
+  }
+  .panel.abierto .panel-nombre-vertical {
+    opacity: 0;
+  }
+  /* Abierto: el detalle entra un poco después de que el panel crece. */
+  .panel-cuerpo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 28px 30px;
+    min-width: 360px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.3s var(--catsa-ease),
+      transform 0.3s var(--catsa-ease);
+  }
+  .panel.abierto .panel-cuerpo {
+    opacity: 1;
+    transform: none;
+    transition-duration: 0.6s;
+    transition-delay: 0.25s;
+  }
+  .panel-etiqueta {
+    font-size: 12px;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--catsa-sprout);
-    font-weight: 700;
-    margin-bottom: 6px;
   }
-  .bcell h3 {
+  .panel-nombre {
     font-family: var(--font-poppins);
-    font-weight: 600;
-    font-size: clamp(20px, 2vw, 26px);
-    color: #f7f3ea;
-    margin-bottom: 6px;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
   }
-  .bcell p {
+  .panel-texto {
+    max-width: 46ch;
+    font-size: 15.5px;
+    line-height: 1.55;
+    opacity: 0.92;
+  }
+  .panel-cifra {
     font-size: 14px;
-    color: rgba(247, 243, 234, 0.85);
-    line-height: 1.5;
-    max-width: 40ch;
+    opacity: 0.92;
   }
-  .b-big {
-    grid-column: 1/3;
-    grid-row: 1/3;
+  .panel-cifra b {
+    font-family: var(--font-poppins);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--catsa-sprout);
+    margin-right: 4px;
   }
-  .b-wide {
-    grid-column: 3/5;
-    grid-row: 1/2;
+  .panel-temas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
   }
-  .b-s1 {
-    grid-column: 3/4;
-    grid-row: 2/3;
+  .panel-temas span {
+    padding: 5px 11px;
+    border: 1px solid color-mix(in srgb, var(--catsa-cream) 35%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--catsa-ink) 25%, transparent);
+    font-size: 12.5px;
   }
-  .b-s2 {
-    grid-column: 4/5;
-    grid-row: 2/3;
+  .panel-ir {
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 700;
   }
-  .b-s1 p,
-  .b-s2 p {
-    display: none;
+  .panel-ir span {
+    display: inline-block;
+    transition: transform 0.25s var(--catsa-ease);
   }
+  .panel:hover .panel-ir span {
+    transform: translateX(4px);
+  }
+  .panel:focus-visible {
+    outline: 3px solid var(--catsa-green);
+    outline-offset: 3px;
+  }
+
+  /* Móvil: uno debajo del otro; el abierto se alarga hacia abajo. */
   @media (max-width: 900px) {
-    .bento {
-      grid-template-columns: 1fr 1fr;
-      grid-auto-rows: 170px;
+    .paneles {
+      flex-direction: column;
+      height: auto;
     }
-    .b-big,
-    .b-wide,
-    .b-s1,
-    .b-s2 {
-      grid-column: auto;
-      grid-row: auto;
+    .panel {
+      flex: none;
+      height: 84px;
+      transition: height 0.7s var(--catsa-ease);
     }
-    .b-big {
-      grid-column: 1/3;
+    .panel.abierto {
+      height: 440px;
     }
-    .b-wide {
-      grid-column: 1/3;
+    .panel-nombre-vertical {
+      left: 62px;
+      top: 50%;
+      bottom: auto;
+      writing-mode: horizontal-tb;
+      transform: translateY(-50%);
+    }
+    .panel-n {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .panel.abierto .panel-n {
+      top: 18px;
+      transform: none;
+    }
+    .panel-cuerpo {
+      min-width: 0;
+      padding: 22px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel,
+    .panel-foto,
+    .panel-cuerpo,
+    .panel.abierto .panel-cuerpo {
+      transition: none;
     }
   }
   /* Secciones que en el boceto llevaban el estilo en línea. */
@@ -217,7 +319,13 @@
     padding: 80px 0;
   }
   .noticias-inicio {
-    padding: 8px 0 88px;
+    padding: 96px 0 104px;
+    border-top: 1px solid var(--catsa-line);
+  }
+  @media (max-width: 900px) {
+    .noticias-inicio {
+      padding: 64px 0 72px;
+    }
   }
   .noticias-inicio .h2 {
     margin: 0;
@@ -373,25 +481,94 @@
     font-size: 14px;
     color: var(--catsa-green);
   }
+  /* Cinta de sellos a todo lo ancho, como la de knotfix.com: se pierde a los
+     lados en un degradado y no se nota dónde empieza ni dónde termina. */
   .marquee {
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    padding: 14px 0 22px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
   }
   .marquee .track {
     display: flex;
-    gap: 96px;
-    align-items: center;
+    gap: 20px;
     width: max-content;
-    animation: certScroll 24s linear infinite;
+    animation: certScroll 60s linear infinite;
   }
-  .certsec:hover .track {
+  .marquee:hover .track,
+  .marquee:focus-within .track {
     animation-play-state: paused;
   }
-  .marquee img {
-    height: 60px;
+  .sello {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 26px 14px 16px;
+    border: 1px solid var(--catsa-line);
+    border-radius: 999px;
+    background: var(--catsa-paper);
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--catsa-ink) 5%, transparent),
+      0 10px 24px -14px color-mix(in srgb, var(--catsa-ink) 22%, transparent);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      border-color 0.3s var(--catsa-ease),
+      box-shadow 0.3s var(--catsa-ease);
+  }
+  .sello:hover {
+    border-color: color-mix(in srgb, var(--catsa-green) 35%, var(--catsa-line));
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--catsa-ink) 6%, transparent),
+      0 16px 30px -14px color-mix(in srgb, var(--catsa-green) 40%, transparent);
+  }
+  .sello:focus-visible {
+    outline: 2px solid var(--catsa-green);
+    outline-offset: 3px;
+  }
+  .sello-logo {
+    display: grid;
+    place-items: center;
+    height: 56px;
+  }
+  .sello-logo img {
+    height: 56px;
     width: auto;
-    display: block;
+    max-width: 200px;
+    object-fit: contain;
+  }
+  .sello-txt {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .sello-nombre {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--catsa-ink);
+  }
+  .sello-tema {
+    font-size: 13px;
+    color: var(--catsa-muted);
+  }
+  @media (max-width: 600px) {
+    .sello {
+      padding: 10px 20px 10px 12px;
+    }
+    .sello-logo,
+    .sello-logo img {
+      height: 44px;
+    }
+  }
+  /* Movimiento reducido: la cinta queda quieta y se recorre con el dedo o la rueda. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+    }
+    .marquee .track {
+      animation: none;
+    }
   }
   .split-sec {
     max-width: 1160px;
@@ -555,14 +732,44 @@
   .esc-escenario {
     position: relative;
   }
-  .esc-marco {
+  .esc-fijo {
     position: sticky;
     top: calc(50vh - min(34vh, 300px));
     height: min(68vh, 600px);
+  }
+  /* Halo: el producto activo, muy desenfocado, sale por detrás del marco. */
+  .esc-halo {
+    position: absolute;
+    inset: 6% -6% -10%;
+    z-index: 0;
+    filter: blur(48px) saturate(1.3);
+    pointer-events: none;
+  }
+  .esc-halo img {
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity var(--esc-dur) var(--catsa-ease);
+  }
+  .esc-halo img.on {
+    opacity: 0.55;
+  }
+  .esc-marco {
+    position: relative;
+    z-index: 1;
+    height: 100%;
     border-radius: 14px;
     overflow: hidden;
     background: var(--catsa-cream);
-    box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--catsa-brown) 40%, transparent);
+    box-shadow:
+      0 2px 4px color-mix(in srgb, var(--catsa-ink) 6%, transparent),
+      0 30px 60px -24px color-mix(in srgb, var(--catsa-brown) 45%, transparent);
+  }
+  /* Parallax dentro del marco: la foto es 16 % más alta y se desliza con el avance. */
+  .esc-px {
+    position: absolute;
+    inset: -8% 0;
+    transform: translate3d(0, calc((var(--avance, 0.5) - 0.5) * -12%), 0);
+    will-change: transform;
   }
   .esc-capa {
     position: absolute;
@@ -647,6 +854,9 @@
       filter: none;
     }
     .esc-nombre {
+      transform: none;
+    }
+    .esc-px {
       transform: none;
     }
   }
@@ -734,6 +944,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    /* Una de las cuatro vueltas, más su espacio. */
+    transform: translateX(calc(-25% - 5px));
   }
 }

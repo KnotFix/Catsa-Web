@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { pieSitio, sitio } from "@/config/sitio";
+import { Flores } from "@/components/sitio/pradera/flores";
 import { obtenerAjustes } from "@/features/contenido/ajustes";
 
 const REDES = [
@@ -17,6 +18,7 @@ export async function PieSitio() {
 
   return (
     <footer className="pie-sitio">
+      <Flores />
       <div className="wrap">
         <div className="fgrid">
           <div>
