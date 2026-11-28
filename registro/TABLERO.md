@@ -1,6 +1,6 @@
 # Tablero · Catsa-Web
 
-**Avance: 10/13 cards terminadas (77 %).** Actualizado: 2026-11-22.
+**Avance: 9/13 cards terminadas (69 %).** Actualizado: 2026-11-27.
 
 Lo mantiene el agente `registro`; no se edita a mano. Las cards del otro repo están en `../Catsa-Api/registro/TABLERO.md`.
 
@@ -18,7 +18,7 @@ Estados: `pendiente` · `en curso` · `bloqueada` · `en revisión` · `terminad
 | [WEB-08](cards/WEB-08-fotos-propias-y-datos-reales-de-catsa.md)                | Fotos propias y datos reales de CATSA                  | terminada | KnotFix     | 2026-11-03  |
 | [WEB-09](cards/WEB-09-cifras-entradas-y-salidas.md)                            | Cifras, entradas y salidas                             | terminada | KnotFix     | 2026-11-03  |
 | [WEB-10](cards/WEB-10-datos-por-confirmar-con-catsa.md)                        | Datos por confirmar con CATSA                          | bloqueada | KnotFix     | 2026-11-03  |
-| [WEB-11](cards/WEB-11-revision-de-diseno-de-toda-la-aplicacion.md)             | Revisión de diseño de toda la aplicación               | terminada | KnotFix     | 2026-11-19  |
+| [WEB-11](cards/WEB-11-revision-de-diseno-de-toda-la-aplicacion.md)             | Revisión de diseño de toda la aplicación               | en curso  | KnotFix     | 2026-11-27  |
 | [WEB-12](cards/WEB-12-correccion-de-errores-del-sitio-actual.md)               | Corrección de errores del sitio actual                 | pendiente | KnotFix     | 2026-11-03  |
 | [WEB-13](cards/WEB-13-control-de-calidad-y-publicacion.md)                     | Control de calidad y publicación                       | en curso  | KnotFix     | 2026-11-22  |
 
